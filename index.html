@@ -90,8 +90,11 @@
     .comparison { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
     .comparison th { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-dim); font-weight: 500; }
     .comparison td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
-    .comparison .yes { color: var(--accent); }
-    .comparison .no { color: #555570; }
+    .comparison .yes { color: var(--accent); font-weight: 600; }
+    .comparison .no { color: #3a3a50; }
+    .comparison .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+    .comparison .dot.green { background: var(--accent); }
+    .comparison .dot.red { background: #3a3a50; }
 
     /* CTA */
     .cta-btn { display: inline-block; text-align: center; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: opacity 0.2s; }
@@ -312,10 +315,10 @@ Total CPU: <span class="ok">0.03s</span>
         <tbody>
           <tr>
             <td><span class="en">No signatures needed</span><span class="fr">Sans signatures</span></td>
-            <td class="yes">&#10003;</td>
-            <td class="no">&#10007;</td>
-            <td class="yes">&#10003;</td>
-            <td class="yes">&#10003;</td>
+            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
+            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
+            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
+            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
           </tr>
           <tr>
             <td><span class="en">Readable output</span><span class="fr">Sortie lisible</span></td>
@@ -326,31 +329,31 @@ Total CPU: <span class="ok">0.03s</span>
           </tr>
           <tr>
             <td><span class="en">Wireshark export</span><span class="fr">Export Wireshark</span></td>
-            <td class="yes">&#10003;</td>
-            <td class="no">&#10007;</td>
-            <td class="no">&#10007;</td>
-            <td class="no">&#10007;</td>
+            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
+            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
+            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
+            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
           </tr>
           <tr>
             <td><span class="en">Built-in fuzzing</span><span class="fr">Fuzzing integre</span></td>
-            <td class="yes">&#10003;</td>
-            <td class="no">&#10007;</td>
-            <td class="no">&#10007;</td>
-            <td class="yes">&#10003;</td>
+            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
+            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
+            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
+            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
           </tr>
           <tr>
             <td>GPU</td>
-            <td class="yes">&#10007;</td>
-            <td class="yes">&#10007;</td>
+            <td class="yes"><span class="en">No</span><span class="fr">Non</span></td>
+            <td class="yes"><span class="en">No</span><span class="fr">Non</span></td>
             <td class="no"><span class="en">Required</span><span class="fr">Requis</span></td>
-            <td class="yes">&#10007;</td>
+            <td class="yes"><span class="en">No</span><span class="fr">Non</span></td>
           </tr>
           <tr>
             <td><span class="en">Real-time</span><span class="fr">Temps reel</span></td>
-            <td class="yes">&#10003;</td>
-            <td class="yes">&#10003;</td>
-            <td class="yes">&#10003;</td>
-            <td class="no">&#10007;</td>
+            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
+            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
+            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
+            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
           </tr>
         </tbody>
       </table>
