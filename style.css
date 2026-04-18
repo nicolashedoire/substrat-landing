@@ -5,6 +5,17 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .hl{color:var(--text);font-weight:500}
 .container{max-width:860px;margin:0 auto;padding:0 24px}
 
+/* --- Brand lockup (logo + wordmark + version) --- */
+.brand-lockup{margin-bottom:36px;line-height:1;white-space:nowrap}
+.brand-mark{height:110px;width:auto;vertical-align:baseline;margin-right:18px;margin-bottom:-49px}
+.brand-name{font-size:2.6rem;font-weight:700;color:var(--accent);letter-spacing:-.02em;vertical-align:baseline}
+.brand-version{font-size:.85rem;color:var(--text-dim);margin-left:12px;vertical-align:baseline}
+@media(max-width:520px){
+  .brand-mark{height:82px;margin-bottom:-36px;margin-right:14px}
+  .brand-name{font-size:2rem}
+  .brand-version{font-size:.75rem;margin-left:8px}
+}
+
 /* --- Toggle bar --- */
 .toggles{position:fixed;top:16px;right:24px;z-index:100;display:flex;gap:12px}
 .tg{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
