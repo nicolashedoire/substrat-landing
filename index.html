@@ -154,11 +154,15 @@
 
     <!-- Hero -->
     <section class="hero">
-      <h1 class="en">Your traffic has a grammar.<br><span>Substrat finds it.</span></h1>
-      <h1 class="fr">Votre trafic a une grammaire.<br><span>Substrat la trouve.</span></h1>
+      <h1 class="en expert">Your traffic has a grammar.<br><span>Substrat finds it.</span></h1>
+      <h1 class="fr expert">Votre trafic a une grammaire.<br><span>Substrat la trouve.</span></h1>
+      <h1 class="en simple">Your machines talk.<br><span>Substrat understands them.</span></h1>
+      <h1 class="fr simple">Vos machines communiquent.<br><span>Substrat les comprend.</span></h1>
 
-      <p class="tagline en">Protocol reverse-engineering, anomaly detection, Wireshark export and fuzzing. In seconds. No AI, no GPU.</p>
-      <p class="tagline fr">Reverse-engineering de protocoles, detection d'anomalies, export Wireshark et fuzzing. En quelques secondes. Sans IA, sans GPU.</p>
+      <p class="tagline en expert">Protocol reverse-engineering, anomaly detection, Wireshark export and fuzzing. In seconds. No AI, no GPU.</p>
+      <p class="tagline fr expert">Reverse-engineering de protocoles, detection d'anomalies, export Wireshark et fuzzing. En quelques secondes. Sans IA, sans GPU.</p>
+      <p class="tagline en simple">A tool that automatically learns how your devices communicate, spots anything abnormal, and helps you test their security. No special hardware needed.</p>
+      <p class="tagline fr simple">Un outil qui apprend automatiquement comment vos equipements communiquent, repere tout ce qui est anormal, et vous aide a tester leur securite. Aucun materiel special necessaire.</p>
 
       <div style="display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;">
         <a href="#download" class="cta-btn primary" style="font-size:1.1rem;">
@@ -171,11 +175,17 @@
         </a>
       </div>
 
-      <div class="hero-badges">
+      <div class="hero-badges expert">
         <span>macOS / Linux</span>
         <span>Zero GPU</span>
         <span>Rust backend</span>
         <span>21 MB</span>
+      </div>
+      <div class="hero-badges simple">
+        <span>Mac & Linux</span>
+        <span class="en">No expensive hardware</span><span class="fr">Pas de materiel couteux</span>
+        <span class="en">Fast</span><span class="fr">Rapide</span>
+        <span class="en">Lightweight</span><span class="fr">Leger</span>
       </div>
     </section>
 
@@ -495,12 +505,19 @@ Total CPU: <span class="ok">0.03s</span>
           <span class="en">Free</span>
           <span class="fr">Gratuit</span>
         </div>
-        <ul>
+        <ul class="expert">
           <li class="en">substrat learn — unlimited</li><li class="fr">substrat learn — illimite</li>
           <li class="en">substrat anomaly — unlimited</li><li class="fr">substrat anomaly — illimite</li>
           <li class="en">substrat re — grammar + anomalies</li><li class="fr">substrat re — grammaire + anomalies</li>
           <li>Wireshark .lua export</li>
           <li class="en">Fuzz corpus generation</li><li class="fr">Generation de corpus de fuzz</li>
+        </ul>
+        <ul class="simple">
+          <li class="en">Understand any communication format</li><li class="fr">Comprendre n'importe quel format de communication</li>
+          <li class="en">Detect abnormal messages automatically</li><li class="fr">Detecter les messages anormaux automatiquement</li>
+          <li class="en">Analyze network capture files</li><li class="fr">Analyser les fichiers de capture reseau</li>
+          <li class="en">Generate a plugin for Wireshark</li><li class="fr">Generer un plugin pour Wireshark</li>
+          <li class="en">Create security test packets</li><li class="fr">Creer des paquets de test de securite</li>
         </ul>
         <a href="#download" class="cta-btn primary" style="width:100%;">
           <span class="en">Download now</span>
@@ -534,28 +551,44 @@ Total CPU: <span class="ok">0.03s</span>
 
       <div class="features">
         <div class="feature">
-          <h3 class="en">Real-time dashboard</h3>
-          <h3 class="fr">Dashboard temps reel</h3>
-          <p class="en">Web interface to visualize traffic, grammars and anomalies live. Monitor your infrastructure from a browser.</p>
-          <p class="fr">Interface web pour visualiser le trafic, les grammaires et les anomalies en direct. Surveillez votre infrastructure depuis un navigateur.</p>
+          <h3 class="en expert">Real-time dashboard</h3>
+          <h3 class="fr expert">Dashboard temps reel</h3>
+          <h3 class="en simple">Live monitoring screen</h3>
+          <h3 class="fr simple">Ecran de surveillance en direct</h3>
+          <p class="en expert">Web interface to visualize traffic, grammars and anomalies live. Monitor your infrastructure from a browser.</p>
+          <p class="fr expert">Interface web pour visualiser le trafic, les grammaires et les anomalies en direct. Surveillez votre infrastructure depuis un navigateur.</p>
+          <p class="en simple">A visual dashboard to monitor your network in real time from any web browser. See alerts the moment they happen.</p>
+          <p class="fr simple">Un tableau de bord visuel pour surveiller votre reseau en temps reel depuis n'importe quel navigateur. Voyez les alertes au moment ou elles arrivent.</p>
         </div>
         <div class="feature">
-          <h3 class="en">REST API</h3>
-          <h3 class="fr">API REST</h3>
-          <p class="en">Integrate Substrat into your pipeline. POST a pcap, GET the grammar. Plug it into your SIEM, your CI, your SOC toolchain.</p>
-          <p class="fr">Integrez Substrat dans votre pipeline. POST un pcap, GET la grammaire. Branchez-le sur votre SIEM, votre CI, votre SOC.</p>
+          <h3 class="en expert">REST API</h3>
+          <h3 class="fr expert">API REST</h3>
+          <h3 class="en simple">Connect to your other tools</h3>
+          <h3 class="fr simple">Connexion a vos autres outils</h3>
+          <p class="en expert">Integrate Substrat into your pipeline. POST a pcap, GET the grammar. Plug it into your SIEM, your CI, your SOC toolchain.</p>
+          <p class="fr expert">Integrez Substrat dans votre pipeline. POST un pcap, GET la grammaire. Branchez-le sur votre SIEM, votre CI, votre SOC.</p>
+          <p class="en simple">Let Substrat work automatically with your existing software. Send it a file, get back the analysis — no human intervention needed.</p>
+          <p class="fr simple">Laissez Substrat travailler automatiquement avec vos logiciels existants. Envoyez-lui un fichier, recevez l'analyse — aucune intervention humaine necessaire.</p>
         </div>
         <div class="feature">
-          <h3 class="en">Burp Suite plugin</h3>
-          <h3 class="fr">Plugin Burp Suite</h3>
-          <p class="en">Automatic protocol analysis directly inside Burp. Discover structure, generate fuzz payloads, detect anomalies during a pentest.</p>
-          <p class="fr">Analyse automatique de protocoles directement dans Burp. Decouvrez la structure, generez des payloads de fuzz, detectez les anomalies pendant un pentest.</p>
+          <h3 class="en expert">Burp Suite plugin</h3>
+          <h3 class="fr expert">Plugin Burp Suite</h3>
+          <h3 class="en simple">Built into security testing tools</h3>
+          <h3 class="fr simple">Integre aux outils de test de securite</h3>
+          <p class="en expert">Automatic protocol analysis directly inside Burp. Discover structure, generate fuzz payloads, detect anomalies during a pentest.</p>
+          <p class="fr expert">Analyse automatique de protocoles directement dans Burp. Decouvrez la structure, generez des payloads de fuzz, detectez les anomalies pendant un pentest.</p>
+          <p class="en simple">Substrat will plug directly into the tools that security professionals already use every day.</p>
+          <p class="fr simple">Substrat s'integrera directement dans les outils que les professionnels de la securite utilisent au quotidien.</p>
         </div>
         <div class="feature">
-          <h3 class="en">Team & enterprise</h3>
-          <h3 class="fr">Equipes & entreprises</h3>
-          <p class="en">Multi-user licenses, on-premise deployment, SCADA/IoT monitoring at scale, custom protocol support, SLA.</p>
-          <p class="fr">Licences multi-utilisateurs, deploiement on-premise, monitoring SCADA/IoT a grande echelle, support de protocoles custom, SLA.</p>
+          <h3 class="en expert">Team & enterprise</h3>
+          <h3 class="fr expert">Equipes & entreprises</h3>
+          <h3 class="en simple">For companies and teams</h3>
+          <h3 class="fr simple">Pour les entreprises et les equipes</h3>
+          <p class="en expert">Multi-user licenses, on-premise deployment, SCADA/IoT monitoring at scale, custom protocol support, SLA.</p>
+          <p class="fr expert">Licences multi-utilisateurs, deploiement on-premise, monitoring SCADA/IoT a grande echelle, support de protocoles custom, SLA.</p>
+          <p class="en simple">Licenses for entire teams, installation on your own servers, large-scale monitoring, dedicated support and service guarantees.</p>
+          <p class="fr simple">Licences pour des equipes entieres, installation sur vos propres serveurs, surveillance a grande echelle, support dedie et garanties de service.</p>
         </div>
       </div>
 
