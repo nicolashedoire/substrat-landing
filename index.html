@@ -610,8 +610,11 @@ Total CPU: <span class="ok">0.03s</span>
           <div class="terminal-dot g"></div>
         </div>
         <pre>
+<span class="dim"># macOS: remove quarantine flag (unsigned binary)</span>
+<span class="cmd">$ xattr -d com.apple.quarantine substrat-macos-arm64</span>
+
 <span class="dim"># Make it executable</span>
-<span class="cmd">$ chmod +x substrat</span>
+<span class="cmd">$ chmod +x substrat-macos-arm64</span>
 
 <span class="dim"># Reverse-engineer a protocol from a pcap</span>
 <span class="cmd">$ ./substrat re your_capture.pcap --wireshark ./dissectors</span>
