@@ -83,13 +83,14 @@
     html { scroll-behavior: smooth }
     body { line-height: 1.7 }
 
-    .brand-mark  { height: 72px; width: auto; vertical-align: baseline; margin-right: 14px; margin-bottom: -32px }
-    .brand-name  { font-size: 2rem; font-weight: 700; color: #00d4aa; letter-spacing: -.02em; vertical-align: baseline }
-    .brand-version { font-size: .8rem; color: #8888a0; margin-left: 10px; vertical-align: baseline }
+    .brand-lockup { display: inline-flex; align-items: center; gap: 14px }
+    .brand-mark  { height: 56px; width: auto; display: block }
+    .brand-name  { font-size: 2rem; font-weight: 700; color: #00d4aa; letter-spacing: -.02em; line-height: 1 }
+    .brand-version { font-size: .8rem; color: #8888a0 }
     @media (max-width: 520px) {
-      .brand-mark  { height: 56px; margin-bottom: -25px; margin-right: 10px }
-      .brand-name  { font-size: 1.7rem }
-      .brand-version { font-size: .7rem; margin-left: 6px }
+      .brand-mark  { height: 44px }
+      .brand-name  { font-size: 1.6rem }
+      .brand-version { font-size: .7rem }
     }
 
     [data-lang="fr"] { display: none !important }
@@ -135,7 +136,7 @@
 <div class="max-w-shell mx-auto px-6">
 
   <section class="pt-20 pb-10 text-center">
-    <div class="mb-8 leading-none whitespace-nowrap">
+    <div class="brand-lockup mb-8">
       <img src="images/substrat-logo.png" alt="Substrat logo" class="brand-mark">
       <span class="brand-name">substrat</span>
       <span class="brand-version">v1.2.0</span>
@@ -269,34 +270,38 @@ Total CPU: <span class="term-o">0.03s</span>
 
   <div class="flex justify-around py-8 border-y border-line my-10 flex-wrap gap-5">
     <div class="text-center">
-      <div class="stat-n">3s</div>
-      <div class="stat-l" data-lang="en" data-mode="tech">to reverse-engineer a protocol</div>
-      <div class="stat-l" data-lang="fr" data-mode="tech">pour analyser un protocole</div>
-      <div class="stat-l" data-lang="en" data-mode="simple">to understand an unknown format</div>
-      <div class="stat-l" data-lang="fr" data-mode="simple">pour comprendre un format inconnu</div>
+      <div class="stat-n">0.19s</div>
+      <div class="stat-l" data-lang="en" data-mode="tech">on MODBUS/TCP (85 packets)</div>
+      <div class="stat-l" data-lang="fr" data-mode="tech">sur MODBUS/TCP (85 paquets)</div>
+      <div class="stat-l" data-lang="en" data-mode="simple">to analyze an industrial capture</div>
+      <div class="stat-l" data-lang="fr" data-mode="simple">pour analyser une capture industrielle</div>
     </div>
     <div class="text-center">
-      <div class="stat-n">0%</div>
-      <div class="stat-l" data-lang="en" data-mode="tech">false positives</div>
-      <div class="stat-l" data-lang="fr" data-mode="tech">faux positifs</div>
-      <div class="stat-l" data-lang="en" data-mode="simple">false alarms</div>
-      <div class="stat-l" data-lang="fr" data-mode="simple">fausses alertes</div>
+      <div class="stat-n">94%</div>
+      <div class="stat-l" data-lang="en" data-mode="tech">grammar coverage (MODBUS)</div>
+      <div class="stat-l" data-lang="fr" data-mode="tech">couverture grammaire (MODBUS)</div>
+      <div class="stat-l" data-lang="en" data-mode="simple">of messages understood</div>
+      <div class="stat-l" data-lang="fr" data-mode="simple">des messages compris</div>
     </div>
     <div class="text-center">
-      <div class="stat-n">100%</div>
-      <div class="stat-l" data-lang="en" data-mode="tech">attacks detected</div>
-      <div class="stat-l" data-lang="fr" data-mode="tech">attaques détectées</div>
-      <div class="stat-l" data-lang="en" data-mode="simple">anomalies caught</div>
-      <div class="stat-l" data-lang="fr" data-mode="simple">anomalies trouvées</div>
+      <div class="stat-n">5/5</div>
+      <div class="stat-l" data-lang="en" data-mode="tech">injected anomalies detected</div>
+      <div class="stat-l" data-lang="fr" data-mode="tech">anomalies injectées détectées</div>
+      <div class="stat-l" data-lang="en" data-mode="simple">simulated attacks caught</div>
+      <div class="stat-l" data-lang="fr" data-mode="simple">attaques simulées détectées</div>
     </div>
     <div class="text-center">
-      <div class="stat-n">0</div>
-      <div class="stat-l" data-lang="en" data-mode="tech">GPU needed</div>
-      <div class="stat-l" data-lang="fr" data-mode="tech">GPU nécessaire</div>
-      <div class="stat-l" data-lang="en" data-mode="simple">expensive hardware needed</div>
-      <div class="stat-l" data-lang="fr" data-mode="simple">matériel coûteux nécessaire</div>
+      <div class="stat-n">7</div>
+      <div class="stat-l max-w-[160px]" data-lang="en" data-mode="tech">protocols tested (MODBUS, DNS, HTTP…)</div>
+      <div class="stat-l max-w-[160px]" data-lang="fr" data-mode="tech">protocoles testés (MODBUS, DNS, HTTP…)</div>
+      <div class="stat-l" data-lang="en" data-mode="simple">protocols tested so far</div>
+      <div class="stat-l" data-lang="fr" data-mode="simple">protocoles testés à ce jour</div>
     </div>
   </div>
+  <p class="text-center text-[0.8rem] text-text-dim -mt-4 mb-10">
+    <span data-lang="en">Measured on MacBook (Apple Silicon) against pcaps in the public repo. <a href="https://github.com/nicolashedoire" class="text-accent">Reproduce yourself</a>.</span>
+    <span data-lang="fr">Mesuré sur MacBook (Apple Silicon) contre les pcaps du repo public. <a href="https://github.com/nicolashedoire" class="text-accent">Reproduisez vous-même</a>.</span>
+  </p>
 
   <section class="py-12">
     <h2 class="text-[1.7rem] font-bold mb-3" data-lang="en" data-mode="tech">What you get from <em>one command</em></h2>
@@ -355,33 +360,37 @@ Total CPU: <span class="term-o">0.03s</span>
     <div class="grid grid-cols-2 max-[640px]:grid-cols-1 gap-5">
       <div class="card">
         <div class="font-mono text-[1.6rem] font-bold text-accent mb-2">MODBUS/TCP</div>
-        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">SCADA industrial protocol. Proto ID, Unit ID, Length discovered. 5/5 injected anomalies detected.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Protocole industriel SCADA. Proto ID, Unit ID, Length découverts. 5/5 anomalies détectées.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="simple">The language used by industrial machines in factories. Substrat understood it automatically and detected all 5 simulated attacks.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="simple">Le langage utilisé par les machines industrielles. Substrat l'a compris automatiquement et a détecté les 5 attaques simulées.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">SCADA industrial protocol. 94% grammar coverage on 85 packets. 5/5 injected anomalies detected. 0.19s end-to-end.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Protocole industriel SCADA. 94% de couverture grammaire sur 85 paquets. 5/5 anomalies injectées détectées. 0.19s bout-en-bout.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="simple">The language used by industrial machines in factories. Substrat understood 94% of it automatically and caught all 5 simulated attacks in a fifth of a second.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="simple">Le langage utilisé par les machines industrielles. Substrat en a compris 94% automatiquement et a détecté les 5 attaques simulées en un cinquième de seconde.</p>
       </div>
       <div class="card">
         <div class="font-mono text-[1.6rem] font-bold text-accent mb-2">DNS</div>
-        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">Transaction ID, Flags, Questions count, Authority. Structural anomalies found in real captures.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Transaction ID, Flags, nombre de questions, Authority. Anomalies trouvées sur des captures réelles.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="simple">The internet's phone book. Substrat identified its structure and found anomalies in real traffic.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="simple">L'annuaire d'internet. Substrat a identifié sa structure et trouvé des anomalies dans du vrai trafic.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">Real capture, 38 packets, 3 flows auto-separated. 94–100% coverage per flow. Transaction ID, Flags, Questions count identified. 0.14s.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Capture réelle, 38 paquets, 3 flux séparés automatiquement. 94–100% de couverture par flux. Transaction ID, Flags, nombre de questions identifiés. 0.14s.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="simple">The internet's phone book. Substrat identified its structure on a real capture and found anomalies in 0.14 seconds.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="simple">L'annuaire d'internet. Substrat a identifié sa structure sur une capture réelle et trouvé des anomalies en 0.14 seconde.</p>
       </div>
       <div class="card">
         <div class="font-mono text-[1.6rem] font-bold text-accent mb-2">Telnet</div>
-        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">Auto-split: IAC binary commands separated from text data in the same flow.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Séparation automatique : commandes binaires IAC séparées des données texte.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">136 packets auto-split: IAC binary commands separated from text data in the same TCP flow. 0.56s.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">136 paquets séparés automatiquement : commandes binaires IAC séparées des données texte dans le même flux TCP. 0.56s.</p>
         <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="simple">A remote control protocol that mixes commands and text. Substrat separated them automatically.</p>
         <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="simple">Un protocole de contrôle à distance qui mélange commandes et texte. Substrat les a séparés automatiquement.</p>
       </div>
       <div class="card">
         <div class="font-mono text-[1.6rem] font-bold text-accent mb-2">HTTP / FTP</div>
-        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">Text mode: tokens discovered, requests and responses separated.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Mode texte : tokens découverts, requêtes et réponses séparées.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">Text mode: tokens discovered (CRLF, HTTP/1.1, status codes), requests and responses separated. 0.23–0.45s.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Mode texte : tokens découverts (CRLF, HTTP/1.1, codes status), requêtes et réponses séparées. 0.23–0.45s.</p>
         <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="simple">The protocols behind web pages and file transfers. Substrat identified the keywords and separated requests from responses.</p>
         <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="simple">Les protocoles derrière les pages web et les transferts de fichiers. Substrat a identifié les mots-clés et séparé requêtes et réponses.</p>
       </div>
     </div>
+    <p class="text-center mt-5 text-[0.85rem] text-text-dim">
+      <span data-lang="en">All benchmarks above are reproducible from the pcaps in the <a href="https://github.com/nicolashedoire" class="text-accent">public repo</a>. No GPU, no training data, no cloud API.</span>
+      <span data-lang="fr">Tous les benchmarks ci-dessus sont reproductibles à partir des pcaps du <a href="https://github.com/nicolashedoire" class="text-accent">repo public</a>. Pas de GPU, pas de données d'entraînement, pas d'API cloud.</span>
+    </p>
   </section>
 
   <section class="py-12">
@@ -392,22 +401,26 @@ Total CPU: <span class="term-o">0.03s</span>
 
     <div data-mode="simple" class="max-w-[640px] mx-auto">
       <div class="card">
-        <p class="text-text-dim text-[1rem] leading-[1.8]" data-lang="en">Most security tools need you to <span class="hl">describe each attack in advance</span>. Substrat works the other way around: it learns what's normal, and <span class="hl">anything abnormal is caught automatically</span>, even attacks never seen before.<br><br>Other tools that do this require <span class="hl">expensive GPU hardware</span> and produce opaque scores. Substrat runs on a <span class="hl">regular laptop</span> and produces <span class="hl">readable rules</span> your team can audit.</p>
-        <p class="text-text-dim text-[1rem] leading-[1.8]" data-lang="fr">La plupart des outils de sécurité demandent de <span class="hl">décrire chaque attaque à l'avance</span>. Substrat fonctionne à l'envers : il apprend ce qui est normal, et <span class="hl">tout ce qui est anormal est détecté automatiquement</span>, même les attaques jamais vues.<br><br>D'autres outils font ça mais nécessitent du <span class="hl">matériel GPU coûteux</span> et produisent des scores opaques. Substrat tourne sur un <span class="hl">ordinateur portable ordinaire</span> et produit des <span class="hl">règles lisibles</span> que votre équipe peut auditer.</p>
+        <p class="text-text-dim text-[1rem] leading-[1.8]" data-lang="en">Most security tools need you to <span class="hl">describe each attack in advance</span>. Substrat works the other way around: it learns what's normal, and anything abnormal is flagged — even attacks never seen before.<br><br>Tools that do similar things either require <span class="hl">GPU hardware</span> and produce opaque scores, or stop at an anomaly score without telling you <em>why</em>. Substrat runs on a regular laptop and gives you <span class="hl">a readable grammar</span> your team can audit.</p>
+        <p class="text-text-dim text-[1rem] leading-[1.8]" data-lang="fr">La plupart des outils de sécurité demandent de <span class="hl">décrire chaque attaque à l'avance</span>. Substrat fonctionne à l'envers : il apprend ce qui est normal, et tout ce qui est anormal est signalé — même les attaques jamais vues.<br><br>Les outils qui font des choses similaires nécessitent soit du <span class="hl">matériel GPU</span> et produisent des scores opaques, soit s'arrêtent à un score d'anomalie sans expliquer <em>pourquoi</em>. Substrat tourne sur un laptop ordinaire et produit <span class="hl">une grammaire lisible</span> auditable.</p>
       </div>
     </div>
 
     <table class="cmp w-full border-collapse my-5 text-[0.9rem]">
       <thead><tr><th></th><th>Substrat</th><th>Snort/Suricata</th><th>Darktrace</th><th>Netzob</th></tr></thead>
       <tbody>
-        <tr><td data-lang="en">No signatures needed</td><td data-lang="fr">Sans signatures</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td></tr>
-        <tr><td data-lang="en">Readable output</td><td data-lang="fr">Sortie lisible</td><td class="y"><span data-lang="en">Formal grammar</span><span data-lang="fr">Grammaire formelle</span></td><td class="n"><span data-lang="en">Binary alert</span><span data-lang="fr">Alerte binaire</span></td><td class="n"><span data-lang="en">Opaque score</span><span data-lang="fr">Score opaque</span></td><td class="n"><span data-lang="en">Partial</span><span data-lang="fr">Partiel</span></td></tr>
-        <tr><td data-lang="en">Wireshark export</td><td data-lang="fr">Export Wireshark</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
-        <tr><td data-lang="en">Built-in fuzzing</td><td data-lang="fr">Fuzzing intégré</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td></tr>
-        <tr><td data-lang="en">GPU required</td><td data-lang="fr">GPU requis</td><td class="y"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="y"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">Required</span><span data-lang="fr">Requis</span></td><td class="y"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
-        <tr><td data-lang="en">Real-time</td><td data-lang="fr">Temps réel</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
+        <tr><td data-lang="en">Signature-free detection</td><td data-lang="fr">Détection sans signatures</td><td class="y"><span data-lang="en">Yes (grammar-based)</span><span data-lang="fr">Oui (grammaire)</span></td><td class="n"><span data-lang="en">Signature-based</span><span data-lang="fr">À base de signatures</span></td><td class="y"><span data-lang="en">Yes (ML)</span><span data-lang="fr">Oui (ML)</span></td><td class="y"><span data-lang="en">Yes (inference)</span><span data-lang="fr">Oui (inférence)</span></td></tr>
+        <tr><td data-lang="en">Output format</td><td data-lang="fr">Format de sortie</td><td class="y"><span data-lang="en">Human-readable grammar</span><span data-lang="fr">Grammaire lisible</span></td><td class="n"><span data-lang="en">Rule hit / miss</span><span data-lang="fr">Règle touchée / ratée</span></td><td class="n"><span data-lang="en">Anomaly score</span><span data-lang="fr">Score d'anomalie</span></td><td class="y"><span data-lang="en">Grammar (partial)</span><span data-lang="fr">Grammaire (partielle)</span></td></tr>
+        <tr><td data-lang="en">Wireshark dissector export</td><td data-lang="fr">Export dissecteur Wireshark</td><td class="y"><span data-lang="en">Built-in</span><span data-lang="fr">Intégré</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
+        <tr><td data-lang="en">Built-in fuzz corpus</td><td data-lang="fr">Corpus de fuzz intégré</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td></tr>
+        <tr><td data-lang="en">Hardware footprint</td><td data-lang="fr">Empreinte matérielle</td><td class="y"><span data-lang="en">Laptop / RPi</span><span data-lang="fr">Laptop / RPi</span></td><td class="y"><span data-lang="en">Laptop / server</span><span data-lang="fr">Laptop / serveur</span></td><td class="n"><span data-lang="en">Appliance + GPU</span><span data-lang="fr">Appliance + GPU</span></td><td class="y"><span data-lang="en">Laptop (Python)</span><span data-lang="fr">Laptop (Python)</span></td></tr>
+        <tr><td data-lang="en">Real-time capture</td><td data-lang="fr">Capture temps réel</td><td class="n"><span data-lang="en">Pcap only (v1.2)</span><span data-lang="fr">Pcap seul (v1.2)</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
       </tbody>
     </table>
+    <p class="text-center text-[0.8rem] text-text-dim mt-3">
+      <span data-lang="en">Comparison based on public documentation of each tool as of 2026. Substrat is complementary — not a replacement — for signature-based IDS.</span>
+      <span data-lang="fr">Comparaison basée sur la documentation publique de chaque outil en 2026. Substrat est complémentaire — pas un remplaçant — des IDS à signatures.</span>
+    </p>
   </section>
 
   <section class="py-12">
@@ -555,20 +568,6 @@ Total CPU: <span class="term-o">0.03s</span>
 
 </div>
 
-<section class="py-12">
-  <div class="max-w-shell mx-auto px-6">
-    <div class="card max-w-[680px] mx-auto text-center !border-accent">
-      <i data-lucide="users" class="ico !w-8 !h-8 mx-auto mb-3.5 block"></i>
-      <h2 class="text-[1.5rem] font-bold mb-3" data-lang="en">Looking for <em>co-founders</em></h2>
-      <h2 class="text-[1.5rem] font-bold mb-3" data-lang="fr">Recherche d'<em>associés</em></h2>
-      <p class="text-text-dim text-[1rem] leading-[1.8] mb-5" data-lang="en">Substrat is a solo project today, but the vision is bigger than one person. I'm looking for one or two co-founders to grow the business, sharpen the product, and bring it to market. If you have experience in <span class="hl">cybersecurity, sales, or product development</span> and want to build something from scratch — let's talk.</p>
-      <p class="text-text-dim text-[1rem] leading-[1.8] mb-5" data-lang="fr">Substrat est un projet solo aujourd'hui, mais la vision est plus grande qu'une seule personne. Je recherche un ou deux associés pour développer le business, affiner le produit et le commercialiser. Si vous avez de l'expérience en <span class="hl">cybersécurité, commercial ou développement produit</span> et que vous voulez construire quelque chose de zéro — parlons-en.</p>
-      <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20co-founder%20interest&amp;body=Hi%20Nicolas%2C%0A%0AI%27m%20interested%20in%20joining%20Substrat%20as%20a%20co-founder.%0A%0ABackground%3A%20%0AWhat%20I%20bring%3A%20%0ALinkedIn%3A%20%0A%0AThanks" class="btn btn-p self-center" data-lang="en">Get in touch</a>
-      <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20interet%20associe&amp;body=Bonjour%20Nicolas%2C%0A%0AJe%20suis%20interesse%20pour%20rejoindre%20Substrat%20comme%20associe.%0A%0AParcours%3A%20%0ACe%20que%20j%27apporte%3A%20%0ALinkedIn%3A%20%0A%0AMerci" class="btn btn-p self-center" data-lang="fr">Prendre contact</a>
-    </div>
-  </div>
-</section>
-
 <footer class="py-10 text-center text-text-dim text-[0.85rem] border-t border-line">
   <div class="max-w-shell mx-auto px-6">
     <p data-lang="en">Substrat — built by Nicolas Hedoire</p>
@@ -577,7 +576,8 @@ Total CPU: <span class="term-o">0.03s</span>
       <a href="docs.html" class="text-accent no-underline hover:underline">Documentation</a> &middot;
       <a href="https://github.com/nicolashedoire" class="text-accent no-underline hover:underline">GitHub</a> &middot;
       <a href="https://www.linkedin.com/in/nicolas-hedoire-1734775b/" class="text-accent no-underline hover:underline">LinkedIn</a> &middot;
-      <a href="mailto:nicolashedoire@hotmail.com" class="text-accent no-underline hover:underline">Contact</a>
+      <a href="mailto:nicolashedoire@hotmail.com" class="text-accent no-underline hover:underline">Contact</a> &middot;
+      <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20co-founder%20interest" class="text-accent no-underline hover:underline" data-lang="en">Co-founder enquiries</a><a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20interet%20associe" class="text-accent no-underline hover:underline" data-lang="fr">Rejoindre comme associé</a>
     </p>
     <p class="mt-4 text-[0.75rem]">
       <span data-lang="en">Proprietary software. Free during early access.</span>
