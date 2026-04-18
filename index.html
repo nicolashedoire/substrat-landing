@@ -3,8 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Substrat — Reverse-engineer any protocol in seconds</title>
-  <meta name="description" content="Substrat discovers the hidden grammar of your network traffic. Protocol reverse-engineering, anomaly detection, Wireshark export, fuzzing. No AI, no GPU.">
+  <title>Substrat — Reverse-engineer any protocol in seconds | Automatic protocol analysis tool</title>
+  <meta name="description" content="Free tool to reverse-engineer network protocols from pcap files. Automatic grammar discovery, anomaly detection, Wireshark dissector export and fuzz corpus generation. No AI, no GPU. Works on MODBUS, DNS, Telnet, HTTP, FTP and any binary or text protocol.">
+  <meta name="keywords" content="protocol reverse engineering, pcap analysis, wireshark dissector, network protocol analyzer, anomaly detection, IDS, SCADA security, MODBUS, IoT security, pentest tool, fuzz testing, grammar induction, binary protocol, packet analysis, network forensics">
+  <meta property="og:title" content="Substrat — Reverse-engineer any protocol in seconds">
+  <meta property="og:description" content="Give it a pcap, get the protocol grammar, anomalies, a Wireshark dissector and a fuzz corpus. In 3 seconds. No AI, no GPU.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nicolashedoire.github.io/substrat-landing/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Substrat — Reverse-engineer any protocol in seconds">
+  <meta name="twitter:description" content="Automatic protocol analysis from pcap. Grammar discovery, anomaly detection, Wireshark export, fuzzing. Free tool.">
+  <link rel="canonical" href="https://nicolashedoire.github.io/substrat-landing/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -361,8 +370,8 @@ Total CPU: <span class="ok">0.03s</span>
 
     <!-- Early Access -->
     <section>
-      <h2 class="en"><span>Early access</span> — free, full features</h2>
-      <h2 class="fr"><span>Acces anticipee</span> — gratuit, toutes les fonctionnalites</h2>
+      <h2 class="en" style="text-align:center;"><span>Early access</span> — free, full features</h2>
+      <h2 class="fr" style="text-align:center;"><span>Acces anticipe</span> — gratuit, toutes les fonctionnalites</h2>
       <div class="early-access">
         <h3>Early Access</h3>
         <div style="font-family:'JetBrains Mono',monospace;font-size:2.4rem;font-weight:700;margin:12px 0;">
@@ -388,11 +397,15 @@ Total CPU: <span class="ok">0.03s</span>
     </section>
 
     <!-- Bug report -->
-    <section style="text-align:center;padding:30px 0 50px;">
-      <p class="en" style="color:var(--text-dim);font-size:0.95rem;max-width:550px;margin:0 auto;">Found a bug or an unsupported protocol? Send us the pcap and a short description — it helps us improve Substrat for everyone.</p>
-      <p class="fr" style="color:var(--text-dim);font-size:0.95rem;max-width:550px;margin:0 auto;">Vous avez trouve un bug ou un protocole non supporte ? Envoyez-nous le pcap et une courte description — ca nous aide a ameliorer Substrat pour tout le monde.</p>
-      <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20bug%20report&amp;body=%0ADescribe%20the%20issue%3A%0A%0A%0APlease%20attach%20the%20pcap%20file%20that%20caused%20the%20problem." class="cta-btn secondary en" style="margin-top:16px;width:auto;padding:10px 24px;">Report a bug</a>
-      <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20rapport%20de%20bug&amp;body=%0ADecrivez%20le%20probleme%20%3A%0A%0A%0AMerci%20de%20joindre%20le%20fichier%20pcap%20qui%20a%20cause%20le%20probleme." class="cta-btn secondary fr" style="margin-top:16px;width:auto;padding:10px 24px;">Signaler un bug</a>
+    <section style="padding:40px 0 50px;">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:36px;text-align:center;max-width:640px;margin:0 auto;">
+        <h3 class="en" style="font-size:1.2rem;margin-bottom:12px;">Help us improve Substrat</h3>
+        <h3 class="fr" style="font-size:1.2rem;margin-bottom:12px;">Aidez-nous a ameliorer Substrat</h3>
+        <p class="en" style="color:var(--text-dim);font-size:0.95rem;margin-bottom:20px;">Found a bug or a protocol that Substrat doesn't handle well? <span style="color:var(--text);">Send us the pcap file</span> and a short description. Every report makes the tool better for everyone.</p>
+        <p class="fr" style="color:var(--text-dim);font-size:0.95rem;margin-bottom:20px;">Vous avez trouve un bug ou un protocole mal gere ? <span style="color:var(--text);">Envoyez-nous le fichier pcap</span> et une courte description. Chaque retour ameliore l'outil pour tout le monde.</p>
+        <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20bug%20report&amp;body=%0ADescribe%20the%20issue%3A%0A%0A%0APlease%20attach%20the%20pcap%20file%20that%20caused%20the%20problem." class="cta-btn primary en" style="width:auto;padding:12px 28px;">Send a report with your pcap</a>
+        <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20rapport%20de%20bug&amp;body=%0ADecrivez%20le%20probleme%20%3A%0A%0A%0AMerci%20de%20joindre%20le%20fichier%20pcap%20qui%20a%20cause%20le%20probleme." class="cta-btn primary fr" style="width:auto;padding:12px 28px;">Envoyer un rapport avec votre pcap</a>
+      </div>
     </section>
 
     <!-- Download -->
