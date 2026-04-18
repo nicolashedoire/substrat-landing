@@ -31,15 +31,27 @@
     body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
     .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
 
-    /* Language toggle */
-    .lang-toggle { position: fixed; top: 16px; right: 24px; z-index: 100; display: flex; gap: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
-    .lang-toggle button { background: var(--bg-card); color: var(--text-dim); border: none; padding: 6px 14px; font-size: 0.85rem; cursor: pointer; font-family: inherit; }
-    .lang-toggle button.active { background: var(--accent); color: var(--bg); }
+    /* Toggles bar */
+    .toggles { position: fixed; top: 16px; right: 24px; z-index: 100; display: flex; gap: 12px; }
+    .toggle-group { display: flex; gap: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .toggle-group button { background: var(--bg-card); color: var(--text-dim); border: none; padding: 6px 14px; font-size: 0.85rem; cursor: pointer; font-family: inherit; transition: background 0.2s; }
+    .toggle-group button.active { background: var(--accent); color: var(--bg); }
+    @media (max-width: 640px) { .toggles { top: 8px; right: 8px; gap: 6px; } .toggle-group button { padding: 5px 8px; font-size: 0.75rem; } }
+    /* Language */
     .fr { display: none; }
     body.lang-fr .fr { display: block; }
     body.lang-fr .en { display: none; }
     body.lang-fr span.fr, body.lang-fr p.fr, body.lang-fr h1.fr, body.lang-fr h2.fr, body.lang-fr h3.fr, body.lang-fr li.fr, body.lang-fr td.fr, body.lang-fr th.fr, body.lang-fr a.fr, body.lang-fr div.fr { display: block; }
     body.lang-fr span.en, body.lang-fr p.en, body.lang-fr h1.en, body.lang-fr h2.en, body.lang-fr h3.en, body.lang-fr li.en, body.lang-fr td.en, body.lang-fr th.en, body.lang-fr a.en, body.lang-fr div.en { display: none; }
+
+    /* Simple mode */
+    .simple { display: none; }
+    body.mode-simple .simple { display: block; }
+    body.mode-simple .expert { display: none; }
+    body.mode-simple span.simple { display: inline; }
+    body.mode-simple span.expert { display: none; }
+    body.mode-simple .terminal { display: none; }
+    body.mode-simple .comparison { display: none; }
 
     /* Hero */
     .hero { padding: 80px 0 40px; text-align: center; }
@@ -125,10 +137,16 @@
 </head>
 <body>
 
-  <!-- Language toggle -->
-  <div class="lang-toggle">
-    <button class="active" onclick="setLang('en')">EN</button>
-    <button onclick="setLang('fr')">FR</button>
+  <!-- Toggles -->
+  <div class="toggles">
+    <div class="toggle-group" id="mode-toggle">
+      <button class="active" onclick="setMode('expert')">Expert</button>
+      <button onclick="setMode('simple')">Simple</button>
+    </div>
+    <div class="toggle-group" id="lang-toggle">
+      <button class="active" onclick="setLang('en')">EN</button>
+      <button onclick="setLang('fr')">FR</button>
+    </div>
   </div>
 
   <div class="container">
@@ -223,94 +241,178 @@ Total CPU: <span class="ok">0.03s</span>
       </pre>
     </div>
 
+    <!-- Who is it for -->
+    <section>
+      <h2 class="en" style="text-align:center;">Who is Substrat <span>for</span></h2>
+      <h2 class="fr" style="text-align:center;">A qui s'adresse <span>Substrat</span></h2>
+      <div class="features" style="margin-top:28px;">
+        <div class="feature">
+          <h3 class="en expert">Pentesters & forensics analysts</h3>
+          <h3 class="fr expert">Pentesters & analystes forensics</h3>
+          <h3 class="en simple">Security testers</h3>
+          <h3 class="fr simple">Testeurs de securite</h3>
+          <p class="en expert">Reverse-engineer unknown protocols from a pcap in seconds. Get the grammar, the Wireshark dissector and a fuzz corpus — what takes 3 days by hand takes 3 seconds.</p>
+          <p class="fr expert">Reverse-engineerez des protocoles inconnus depuis un pcap en quelques secondes. Obtenez la grammaire, le dissecteur Wireshark et un corpus de fuzz — ce qui prend 3 jours a la main prend 3 secondes.</p>
+          <p class="en simple">People who test the security of computer systems. Substrat gives them an instant X-ray of how machines talk to each other, and generates test cases to find weaknesses.</p>
+          <p class="fr simple">Les personnes qui testent la securite des systemes informatiques. Substrat leur donne une radiographie instantanee de comment les machines communiquent, et genere des cas de test pour trouver les faiblesses.</p>
+        </div>
+        <div class="feature">
+          <h3 class="en expert">SOC & security teams</h3>
+          <h3 class="fr expert">SOC & equipes securite</h3>
+          <h3 class="en simple">Security monitoring teams</h3>
+          <h3 class="fr simple">Equipes de surveillance securite</h3>
+          <p class="en expert">Monitor network traffic in real time without writing signatures. Substrat learns the baseline, detects deviations. Zero false positives on clean traffic.</p>
+          <p class="fr expert">Surveillez le trafic reseau en temps reel sans ecrire de signatures. Substrat apprend la baseline, detecte les deviations. Zero faux positifs sur du trafic propre.</p>
+          <p class="en simple">Teams that watch over a company's network 24/7. Instead of maintaining a list of known attacks, Substrat learns what's normal and alerts on anything unusual — even attacks nobody has seen before.</p>
+          <p class="fr simple">Les equipes qui surveillent le reseau d'une entreprise 24h/24. Au lieu de maintenir une liste d'attaques connues, Substrat apprend ce qui est normal et alerte sur tout ce qui est inhabituel — meme des attaques que personne n'a encore vues.</p>
+        </div>
+        <div class="feature">
+          <h3 class="en expert">IoT & industrial (SCADA/ICS)</h3>
+          <h3 class="fr expert">IoT & industriel (SCADA/ICS)</h3>
+          <h3 class="en simple">Factories & connected devices</h3>
+          <h3 class="fr simple">Usines & objets connectes</h3>
+          <p class="en expert">Discover the grammar of proprietary protocols on sensors, PLCs, SCADA systems. Monitor in real time on a Raspberry Pi. No GPU, no cloud dependency.</p>
+          <p class="fr expert">Decouvrez la grammaire de protocoles proprietaires sur vos capteurs, automates, systemes SCADA. Surveillance temps reel sur un Raspberry Pi. Pas de GPU, pas de dependance cloud.</p>
+          <p class="en simple">Factories use machines that speak proprietary languages nobody documented. Substrat learns these languages automatically and monitors for anything abnormal — running on hardware as small as a credit card.</p>
+          <p class="fr simple">Les usines utilisent des machines qui parlent des langages proprietaires que personne n'a documentes. Substrat apprend ces langages automatiquement et surveille toute anomalie — sur du materiel aussi petit qu'une carte de credit.</p>
+        </div>
+        <div class="feature">
+          <h3 class="en expert">R&D & protocol designers</h3>
+          <h3 class="fr expert">R&D & concepteurs de protocoles</h3>
+          <h3 class="en simple">Engineers building new systems</h3>
+          <h3 class="fr simple">Ingenieurs qui construisent de nouveaux systemes</h3>
+          <p class="en expert">Validate that your implementation matches your spec. Use Substrat as an automatic conformance checker — the grammar it discovers should match yours.</p>
+          <p class="fr expert">Validez que votre implementation correspond a votre specification. Utilisez Substrat comme verificateur de conformite automatique — la grammaire qu'il decouvre devrait correspondre a la votre.</p>
+          <p class="en simple">Engineers who design communication systems can use Substrat to verify that their system works as intended — like a spell-checker, but for machine communication.</p>
+          <p class="fr simple">Les ingenieurs qui concoivent des systemes de communication peuvent utiliser Substrat pour verifier que leur systeme fonctionne comme prevu — comme un correcteur orthographique, mais pour la communication entre machines.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Stats -->
     <div class="stats">
       <div class="stat">
         <div class="num">3s</div>
-        <div class="label en">to reverse-engineer a protocol</div>
-        <div class="label fr">pour reverse-engineer un protocole</div>
+        <div class="label en"><span class="expert">to reverse-engineer a protocol</span><span class="simple">to understand an unknown format</span></div>
+        <div class="label fr"><span class="expert">pour reverse-engineer un protocole</span><span class="simple">pour comprendre un format inconnu</span></div>
       </div>
       <div class="stat">
         <div class="num">0%</div>
-        <div class="label en">false positives</div>
-        <div class="label fr">faux positifs</div>
+        <div class="label en"><span class="expert">false positives</span><span class="simple">false alarms</span></div>
+        <div class="label fr"><span class="expert">faux positifs</span><span class="simple">fausses alertes</span></div>
       </div>
       <div class="stat">
         <div class="num">100%</div>
-        <div class="label en">attacks detected</div>
-        <div class="label fr">attaques detectees</div>
+        <div class="label en"><span class="expert">attacks detected</span><span class="simple">anomalies caught</span></div>
+        <div class="label fr"><span class="expert">attaques detectees</span><span class="simple">anomalies trouvees</span></div>
       </div>
       <div class="stat">
         <div class="num">0</div>
-        <div class="label en">GPU needed</div>
-        <div class="label fr">GPU necessaire</div>
+        <div class="label en"><span class="expert">GPU needed</span><span class="simple">expensive hardware needed</span></div>
+        <div class="label fr"><span class="expert">GPU necessaire</span><span class="simple">materiel couteux necessaire</span></div>
       </div>
     </div>
 
     <!-- Features -->
     <section>
-      <h2 class="en">What you get from <span>one command</span></h2>
-      <h2 class="fr">Ce que vous obtenez en <span>une commande</span></h2>
+      <h2 class="en expert">What you get from <span>one command</span></h2>
+      <h2 class="fr expert">Ce que vous obtenez en <span>une commande</span></h2>
+      <h2 class="en simple">What Substrat does <span>for you</span></h2>
+      <h2 class="fr simple">Ce que Substrat fait <span>pour vous</span></h2>
       <div class="features">
         <div class="feature">
-          <h3 class="en">Protocol Grammar</h3>
-          <h3 class="fr">Grammaire du protocole</h3>
-          <p class="en">Human-readable rules describing the exact structure of your protocol. Magic bytes, type fields, length fields, variable data — all identified automatically.</p>
-          <p class="fr">Des regles lisibles par un humain decrivant la structure exacte de votre protocole. Magic bytes, champs de type, champs de longueur, donnees variables — tout identifie automatiquement.</p>
+          <h3 class="en expert">Protocol Grammar</h3>
+          <h3 class="fr expert">Grammaire du protocole</h3>
+          <h3 class="en simple">It reads the language of your machines</h3>
+          <h3 class="fr simple">Il comprend le langage de vos machines</h3>
+          <p class="en expert">Human-readable rules describing the exact structure of your protocol. Magic bytes, type fields, length fields, variable data — all identified automatically.</p>
+          <p class="fr expert">Des regles lisibles par un humain decrivant la structure exacte de votre protocole. Magic bytes, champs de type, champs de longueur, donnees variables — tout identifie automatiquement.</p>
+          <p class="en simple">Your devices exchange messages in a specific format. Substrat figures out that format on its own, and writes it down in rules that any engineer can read and verify.</p>
+          <p class="fr simple">Vos equipements echangent des messages dans un format precis. Substrat decouvre ce format tout seul, et le redige sous forme de regles que n'importe quel ingenieur peut lire et verifier.</p>
         </div>
         <div class="feature">
-          <h3 class="en">Anomaly Detection</h3>
-          <h3 class="fr">Detection d'anomalies</h3>
-          <p class="en">Every packet that deviates from the learned structure is flagged. Corrupted headers, unknown types, truncated messages. No signatures needed.</p>
-          <p class="fr">Chaque paquet qui devie de la structure apprise est signale. Headers corrompus, types inconnus, messages tronques. Pas de signatures necessaires.</p>
+          <h3 class="en expert">Anomaly Detection</h3>
+          <h3 class="fr expert">Detection d'anomalies</h3>
+          <h3 class="en simple">It spots what doesn't belong</h3>
+          <h3 class="fr simple">Il repere ce qui ne va pas</h3>
+          <p class="en expert">Every packet that deviates from the learned structure is flagged. Corrupted headers, unknown types, truncated messages. No signatures needed.</p>
+          <p class="fr expert">Chaque paquet qui devie de la structure apprise est signale. Headers corrompus, types inconnus, messages tronques. Pas de signatures necessaires.</p>
+          <p class="en simple">Once it knows the normal rhythm of your traffic, any message that breaks the pattern triggers an alert. No need to describe every possible attack in advance — if it's abnormal, it's flagged.</p>
+          <p class="fr simple">Une fois qu'il connait le rythme normal de votre trafic, tout message qui casse le schema declenche une alerte. Pas besoin de decrire chaque attaque possible a l'avance — si c'est anormal, c'est signale.</p>
         </div>
         <div class="feature">
-          <h3 class="en">Wireshark Dissector</h3>
-          <h3 class="fr">Dissecteur Wireshark</h3>
-          <p class="en">Auto-generated .lua dissector, registered on the right port. Load it in Wireshark — fields are named, anomalies are marked in Expert Info.</p>
-          <p class="fr">Dissecteur .lua genere automatiquement, enregistre sur le bon port. Chargez-le dans Wireshark — les champs sont nommes, les anomalies marquees dans Expert Info.</p>
+          <h3 class="en expert">Wireshark Dissector</h3>
+          <h3 class="fr expert">Dissecteur Wireshark</h3>
+          <h3 class="en simple">It plugs into your existing tools</h3>
+          <h3 class="fr simple">Il se branche sur vos outils existants</h3>
+          <p class="en expert">Auto-generated .lua dissector, registered on the right port. Load it in Wireshark — fields are named, anomalies are marked in Expert Info.</p>
+          <p class="fr expert">Dissecteur .lua genere automatiquement, enregistre sur le bon port. Chargez-le dans Wireshark — les champs sont nommes, les anomalies marquees dans Expert Info.</p>
+          <p class="en simple">Substrat generates a plugin for Wireshark (the standard tool for network analysis). Open your capture file, and every field is already named and labeled — no manual work needed.</p>
+          <p class="fr simple">Substrat genere un plugin pour Wireshark (l'outil standard d'analyse reseau). Ouvrez votre fichier de capture, et chaque champ est deja nomme et etiquete — aucun travail manuel.</p>
         </div>
         <div class="feature">
-          <h3 class="en">Fuzz Corpus</h3>
-          <h3 class="fr">Corpus de fuzz</h3>
-          <p class="en">500 mutated packets in 3 strategies: field corruption, boundary values, structural mutations. Ready to send to the target.</p>
-          <p class="fr">500 paquets mutes selon 3 strategies : corruption de champs, valeurs limites, mutations structurelles. Prets a envoyer sur la cible.</p>
+          <h3 class="en expert">Fuzz Corpus</h3>
+          <h3 class="fr expert">Corpus de fuzz</h3>
+          <h3 class="en simple">It tests your system's resistance</h3>
+          <h3 class="fr simple">Il teste la resistance de votre systeme</h3>
+          <p class="en expert">500 mutated packets in 3 strategies: field corruption, boundary values, structural mutations. Ready to send to the target.</p>
+          <p class="fr expert">500 paquets mutes selon 3 strategies : corruption de champs, valeurs limites, mutations structurelles. Prets a envoyer sur la cible.</p>
+          <p class="en simple">Like a stress test for your heart, Substrat generates hundreds of slightly corrupted messages to see how your system reacts. It finds the weaknesses before an attacker does.</p>
+          <p class="fr simple">Comme un test d'effort pour votre coeur, Substrat genere des centaines de messages legerement corrompus pour voir comment votre systeme reagit. Il trouve les faiblesses avant qu'un attaquant ne le fasse.</p>
         </div>
       </div>
     </section>
 
     <!-- Protocols tested -->
     <section>
-      <h2 class="en">Tested on <span>real protocols</span></h2>
-      <h2 class="fr">Teste sur des <span>protocoles reels</span></h2>
+      <h2 class="en expert">Tested on <span>real protocols</span></h2>
+      <h2 class="fr expert">Teste sur des <span>protocoles reels</span></h2>
+      <h2 class="en simple">Works with <span>real-world systems</span></h2>
+      <h2 class="fr simple">Fonctionne avec des <span>systemes reels</span></h2>
       <div class="features">
         <div class="feature">
           <div class="num">MODBUS/TCP</div>
-          <p class="en">SCADA industrial protocol. Proto ID, Unit ID, Length discovered. 5/5 injected anomalies detected.</p>
-          <p class="fr">Protocole industriel SCADA. Proto ID, Unit ID, Length decouverts. 5/5 anomalies injectees detectees.</p>
+          <p class="en expert">SCADA industrial protocol. Proto ID, Unit ID, Length discovered. 5/5 injected anomalies detected.</p>
+          <p class="fr expert">Protocole industriel SCADA. Proto ID, Unit ID, Length decouverts. 5/5 anomalies injectees detectees.</p>
+          <p class="en simple">The language used by industrial machines in factories and power plants. Substrat understood it automatically and detected all 5 simulated attacks.</p>
+          <p class="fr simple">Le langage utilise par les machines industrielles dans les usines et centrales. Substrat l'a compris automatiquement et a detecte les 5 attaques simulees.</p>
         </div>
         <div class="feature">
           <div class="num">DNS</div>
-          <p class="en">Transaction ID, Flags, Questions count, Authority. Structural anomalies found in real captures.</p>
-          <p class="fr">Transaction ID, Flags, nombre de questions, Authority. Anomalies structurelles trouvees sur des captures reelles.</p>
+          <p class="en expert">Transaction ID, Flags, Questions count, Authority. Structural anomalies found in real captures.</p>
+          <p class="fr expert">Transaction ID, Flags, nombre de questions, Authority. Anomalies structurelles trouvees sur des captures reelles.</p>
+          <p class="en simple">The system that translates website names into addresses (like a phone book for the internet). Substrat identified its structure and found anomalies in real traffic.</p>
+          <p class="fr simple">Le systeme qui traduit les noms de sites en adresses (comme un annuaire pour internet). Substrat a identifie sa structure et trouve des anomalies dans du vrai trafic.</p>
         </div>
         <div class="feature">
           <div class="num">Telnet</div>
-          <p class="en">Auto-split: IAC binary commands separated from text data in the same flow.</p>
-          <p class="fr">Separation automatique : commandes binaires IAC separees des donnees texte dans le meme flux.</p>
+          <p class="en expert">Auto-split: IAC binary commands separated from text data in the same flow.</p>
+          <p class="fr expert">Separation automatique : commandes binaires IAC separees des donnees texte dans le meme flux.</p>
+          <p class="en simple">A remote control protocol that mixes commands and text in the same conversation. Substrat separated them automatically.</p>
+          <p class="fr simple">Un protocole de controle a distance qui melange commandes et texte dans la meme conversation. Substrat les a separes automatiquement.</p>
         </div>
         <div class="feature">
           <div class="num">HTTP / FTP</div>
-          <p class="en">Text mode: tokens discovered (\r\n, HTTP, GET), requests and responses separated.</p>
-          <p class="fr">Mode texte : tokens decouverts (\r\n, HTTP, GET), requetes et reponses separees.</p>
+          <p class="en expert">Text mode: tokens discovered (\r\n, HTTP, GET), requests and responses separated.</p>
+          <p class="fr expert">Mode texte : tokens decouverts (\r\n, HTTP, GET), requetes et reponses separees.</p>
+          <p class="en simple">The protocols behind web pages and file transfers. Substrat identified the keywords and separated requests from responses.</p>
+          <p class="fr simple">Les protocoles derriere les pages web et les transferts de fichiers. Substrat a identifie les mots-cles et separe les requetes des reponses.</p>
         </div>
       </div>
     </section>
 
     <!-- Comparison -->
     <section>
-      <h2 class="en">How it <span>compares</span></h2>
-      <h2 class="fr">Face a la <span>concurrence</span></h2>
+      <h2 class="en expert">How it <span>compares</span></h2>
+      <h2 class="fr expert">Face a la <span>concurrence</span></h2>
+      <h2 class="en simple">Why Substrat is <span>different</span></h2>
+      <h2 class="fr simple">Pourquoi Substrat est <span>different</span></h2>
+      <div class="simple" style="max-width:640px;margin:0 auto;">
+        <div class="feature" style="margin-bottom:20px;">
+          <p class="en" style="color:var(--text-dim);font-size:1rem;line-height:1.8;">Most security tools need you to <span style="color:var(--text);">describe each attack in advance</span> — a new attack means a new rule to write. Substrat works the other way around: it learns what's normal, and <span style="color:var(--text);">anything abnormal is caught automatically</span>, even attacks that have never been seen before.<br><br>Other tools that do this require <span style="color:var(--text);">expensive GPU hardware</span> and produce opaque scores that nobody can explain. Substrat runs on a <span style="color:var(--text);">regular laptop</span> and produces <span style="color:var(--text);">readable rules</span> that your team can audit.</p>
+          <p class="fr" style="color:var(--text-dim);font-size:1rem;line-height:1.8;">La plupart des outils de securite demandent de <span style="color:var(--text);">decrire chaque attaque a l'avance</span> — une nouvelle attaque, c'est une nouvelle regle a ecrire. Substrat fonctionne a l'envers : il apprend ce qui est normal, et <span style="color:var(--text);">tout ce qui est anormal est detecte automatiquement</span>, meme les attaques jamais vues.<br><br>D'autres outils font ca mais necessitent du <span style="color:var(--text);">materiel GPU couteux</span> et produisent des scores opaques que personne ne peut expliquer. Substrat tourne sur un <span style="color:var(--text);">ordinateur portable ordinaire</span> et produit des <span style="color:var(--text);">regles lisibles</span> que votre equipe peut auditer.</p>
+        </div>
+      </div>
       <table class="comparison">
         <thead>
           <tr>
@@ -513,17 +615,21 @@ Total CPU: <span class="ok">0.03s</span>
   <script>
     function setLang(lang) {
       document.body.classList.toggle('lang-fr', lang === 'fr');
-      document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
+      const btns = document.querySelectorAll('#lang-toggle button');
+      btns.forEach(b => b.classList.remove('active'));
+      btns[lang === 'fr' ? 1 : 0].classList.add('active');
       localStorage.setItem('substrat-lang', lang);
     }
-    // Restore saved language
-    const saved = localStorage.getItem('substrat-lang');
-    if (saved === 'fr') {
-      document.body.classList.add('lang-fr');
-      document.querySelectorAll('.lang-toggle button')[1].classList.add('active');
-      document.querySelectorAll('.lang-toggle button')[0].classList.remove('active');
+    function setMode(mode) {
+      document.body.classList.toggle('mode-simple', mode === 'simple');
+      const btns = document.querySelectorAll('#mode-toggle button');
+      btns.forEach(b => b.classList.remove('active'));
+      btns[mode === 'simple' ? 1 : 0].classList.add('active');
+      localStorage.setItem('substrat-mode', mode);
     }
+    // Restore saved preferences
+    if (localStorage.getItem('substrat-lang') === 'fr') setLang('fr');
+    if (localStorage.getItem('substrat-mode') === 'simple') setMode('simple');
   </script>
 
 </body>
