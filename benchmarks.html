@@ -90,8 +90,9 @@
   <p>All binary-mode analyses complete in well under a second on a 2024 MacBook Pro. <code>tlv_synth.pcap</code> exercises the <strong>new TLV engine</strong> (v1.2.2) that handles chained Type-Length-Value protocols such as IEC 60870-5-104, DNP3, BACnet, and DHCP options — protocols the positional-only engine couldn't model.</p>
 
   <div class="note">
-    <p><strong>New in v1.2.3:</strong> nested TLV detection (constructed Types whose Value is itself a TLV chain, like BACnet APDU or OPC-UA partials), TLV-aware fuzz corpus generator, TLV-aware Wireshark <code>.lua</code> dissector (loop-based, with Expert Info for prefix / type / length / overrun violations). TLV mode is now feature-equivalent to positional mode.</p>
-    <p><strong>Still in v1.2.2:</strong> TCP reassembly on by default (multi-segment HTTP/FTP/SSH), non-Ethernet pcap support (Linux SLL, raw IP, loopback), live capture (<code>substrat sniff</code>), JSON output on all analysis commands.</p>
+    <p><strong>New in v1.2.4:</strong> adaptive anomaly threshold — <code>substrat anomaly</code> now tracks a sliding window of recent NLLs (default 500) and z-scores incoming lines against the <em>rolling</em> baseline. Legitimate drift (day/night cycles, firmware updates, seasonal shifts) no longer floods false positives; a dedicated drift event fires when the rolling mean crosses <code>K × initial_std</code> from the training baseline. Opt-out with <code>--no-adaptive</code>.</p>
+    <p><strong>In v1.2.3:</strong> nested TLV detection (constructed Types whose Value is itself a TLV chain — BACnet APDU, OPC-UA partials), TLV-aware fuzz corpus generator, TLV-aware Wireshark <code>.lua</code> dissector (loop-based, Expert Info for prefix / type / length / overrun).</p>
+    <p><strong>In v1.2.2:</strong> TCP reassembly on by default (multi-segment HTTP/FTP/SSH), non-Ethernet pcap support (Linux SLL, raw IP, loopback), live capture (<code>substrat sniff</code>), JSON output on all analysis commands.</p>
   </div>
 
   <h2>1. MODBUS/TCP — 5/5 injected anomalies detected</h2>
