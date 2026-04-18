@@ -166,7 +166,7 @@ bpc: 1.4113
 Total CPU: <span class="o">0.45s</span></pre>
 
   <h2>Hardware & notes</h2>
-  <p>Measured on a MacBook Pro (Apple Silicon). Substrat uses a Rust backend for CYK parsing; no GPU, no cloud API, no training data.</p>
+  <p>Measured on a MacBook Pro (Apple Silicon). Substrat runs a Rust core; no GPU, no cloud API, no training data, nothing leaves your machine.</p>
   <p>Numbers will vary with CPU — expect sub-second analysis on any modern laptop for pcaps up to a few hundred packets. Larger captures scale roughly linearly with packet count in binary mode, and with text corpus size for text mode.</p>
   <p>Found a pcap where Substrat does something unexpected? <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20benchmark%20feedback">Send it to us</a> — every edge case improves the tool.</p>
 

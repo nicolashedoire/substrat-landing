@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Substrat — Reverse-engineer any protocol from a pcap | Deterministic protocol analysis</title>
   <meta name="description" content="Free tool to reverse-engineer network protocols from pcap files. Grammar discovery, anomaly detection, Wireshark dissector export and fuzz corpus generation. Deterministic, auditable, runs on a laptop. Works on MODBUS, DNS, Telnet, HTTP, FTP.">
-  <meta name="keywords" content="protocol reverse engineering, pcap analysis, wireshark dissector, network protocol analyzer, anomaly detection, IDS, SCADA security, MODBUS, IoT security, pentest tool, fuzz testing, grammar induction, binary protocol, packet analysis, network forensics">
+  <meta name="keywords" content="protocol reverse engineering, pcap analysis, wireshark dissector, network protocol analyzer, anomaly detection, IDS, SCADA security, MODBUS, IoT security, pentest tool, fuzz testing, binary protocol, packet analysis, network forensics">
   <meta property="og:title" content="Substrat — Reverse-engineer any protocol from a pcap">
   <meta property="og:description" content="Give it a pcap, get the protocol grammar, anomalies, a Wireshark dissector and a fuzz corpus. Deterministic, auditable, runs on a laptop.">
   <meta property="og:type" content="website">
@@ -556,8 +556,8 @@ Total CPU: <span class="term-o">0.19s</span>
 
       <details class="card !p-5 cursor-pointer">
         <summary class="font-semibold text-text list-none flex justify-between items-center"><span data-lang="en">Why no AI or machine learning?</span><span data-lang="fr">Pourquoi pas d'IA ou de machine learning ?</span><span class="text-accent">+</span></summary>
-        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="en">Protocol reverse-engineering requires output that is <strong>correct</strong>, not <strong>plausible</strong>. Substrat uses deterministic algorithms (CYK parsing + MDL-driven grammar induction). Every rule is human-readable, every detection is explainable, no GPU needed, no training data leaks. LLMs are a bad fit here.</p>
-        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="fr">Le reverse-engineering de protocoles demande une sortie <strong>correcte</strong>, pas <strong>plausible</strong>. Substrat utilise des algorithmes déterministes (parsing CYK + induction de grammaire basée MDL). Chaque règle est lisible, chaque détection est explicable, pas besoin de GPU, aucune fuite de données d'entraînement. Les LLM sont mal placés ici.</p>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="en">Protocol reverse-engineering requires output that is <strong>correct</strong>, not <strong>plausible</strong>. Substrat runs a fully deterministic pipeline — same input, same output, every time. Every rule is human-readable, every detection is explainable, no GPU needed, no training data, nothing leaves your machine. LLMs are a bad fit here: they hallucinate grammars and can't explain their reasoning.</p>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="fr">Le reverse-engineering de protocoles demande une sortie <strong>correcte</strong>, pas <strong>plausible</strong>. Substrat repose sur un pipeline entièrement déterministe — même entrée, même sortie, à chaque fois. Chaque règle est lisible, chaque détection est explicable, pas besoin de GPU, pas de données d'entraînement, rien ne quitte votre machine. Les LLM sont mal placés ici : ils hallucinent les grammaires et ne savent pas justifier leur raisonnement.</p>
       </details>
 
       <details class="card !p-5 cursor-pointer">
