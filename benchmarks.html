@@ -79,7 +79,8 @@
     </thead>
     <tbody>
       <tr><td><a href="pcaps/modbus_synth.pcap">modbus_synth.pcap</a></td><td>7.0 KB</td><td>85</td><td>binary (positional)</td><td>94%</td><td>5/5 injected</td><td>0.034s</td></tr>
-      <tr><td><a href="pcaps/tlv_synth.pcap">tlv_synth.pcap</a> <em>(new, v1.2.2)</em></td><td>5.9 KB</td><td>100</td><td><strong>binary TLV</strong></td><td>99%</td><td>5/5 injected</td><td>0.04s</td></tr>
+      <tr><td><a href="pcaps/tlv_synth.pcap">tlv_synth.pcap</a> <em>(v1.2.2)</em></td><td>5.9 KB</td><td>100</td><td><strong>binary TLV</strong></td><td>99%</td><td>5/5 injected</td><td>0.04s</td></tr>
+      <tr><td><a href="pcaps/nested_tlv_synth.pcap">nested_tlv_synth.pcap</a> <em>(new, v1.2.3)</em></td><td>6.0 KB</td><td>95</td><td><strong>binary TLV nested</strong></td><td>100%</td><td>5/5 (incl. 2 inner-recursive)</td><td>0.04s</td></tr>
       <tr><td><a href="pcaps/dns.pcap">dns.pcap</a></td><td>4.3 KB</td><td>38 (3 flows)</td><td>binary</td><td>94–100%</td><td>7 structural</td><td>0.017s</td></tr>
       <tr><td><a href="pcaps/http_synth.pcap">http_synth.pcap</a></td><td>8.8 KB</td><td>60 (2 flows)</td><td>text</td><td>template</td><td>—</td><td>0.18s</td></tr>
       <tr><td><a href="pcaps/telnet.pcap">telnet.pcap</a></td><td>24.3 KB</td><td>117</td><td>text</td><td>template</td><td>—</td><td>0.30s</td></tr>
@@ -89,7 +90,8 @@
   <p>All binary-mode analyses complete in well under a second on a 2024 MacBook Pro. <code>tlv_synth.pcap</code> exercises the <strong>new TLV engine</strong> (v1.2.2) that handles chained Type-Length-Value protocols such as IEC 60870-5-104, DNP3, BACnet, and DHCP options — protocols the positional-only engine couldn't model.</p>
 
   <div class="note">
-    <p><strong>New in v1.2.2:</strong> TCP reassembly on by default (joins multi-segment app messages for HTTP/FTP/SSH), non-Ethernet pcap support (Linux SLL, raw IP, loopback), TLV-aware binary mode (IEC 104, DNP3, BACnet), live interface capture (<code>substrat sniff</code>), JSON output on all analysis commands.</p>
+    <p><strong>New in v1.2.3:</strong> nested TLV detection (constructed Types whose Value is itself a TLV chain, like BACnet APDU or OPC-UA partials), TLV-aware fuzz corpus generator, TLV-aware Wireshark <code>.lua</code> dissector (loop-based, with Expert Info for prefix / type / length / overrun violations). TLV mode is now feature-equivalent to positional mode.</p>
+    <p><strong>Still in v1.2.2:</strong> TCP reassembly on by default (multi-segment HTTP/FTP/SSH), non-Ethernet pcap support (Linux SLL, raw IP, loopback), live capture (<code>substrat sniff</code>), JSON output on all analysis commands.</p>
   </div>
 
   <h2>1. MODBUS/TCP — 5/5 injected anomalies detected</h2>
@@ -151,7 +153,39 @@ Total CPU: <span class="o">0.034s</span></pre>
 
 Total CPU: <span class="o">0.04s</span></pre>
 
-  <h2>3. DNS — real capture, 3 flows auto-separated</h2>
+  <h2>3. Nested TLV — constructed records <em>(new in v1.2.3)</em></h2>
+  <p>Some real protocols carry records whose Value is itself a TLV chain: BACnet APDU, OPC-UA partial encodings, ASN.1 short-form. Substrat's nested detector runs after the flat template is built, probes every observed Type, and recursively discovers a sub-template when a Type's Value parses cleanly as a chain in the same (T, L, endian) format.</p>
+  <p>The synthetic pcap has an outer prefix <code>0x53</code>, a sensor_id field (type 0x01), and a constructed type 0x10 whose Value chains three inner readings — temperature (0x20), humidity (0x22), pressure (0x24). Five anomalies are injected: three at the outer level (unknown type 0xcc), two at the inner level (unknown inner type 0xff but keeping the outer length intact).</p>
+  <p><a class="dl" href="pcaps/nested_tlv_synth.pcap" download>Download nested_tlv_synth.pcap (6.0 KB)</a></p>
+  <pre><span class="c">$ ./substrat re nested_tlv_synth.pcap --json | jq '.flows[0]'</span>
+
+{
+  "mode": <span class="o">"binary_tlv"</span>,
+  "packets": 95,
+  "coverage": <span class="o">1.0</span>,
+  "tlv_format": {
+    "prefix": <span class="v">"53"</span>, "t_size": 1, "l_size": 1, "l_endian": "big",
+    "types": [<span class="v">1, 16</span>],
+    "nested_types": [<span class="v">16</span>]
+  },
+  "grammar": [
+    "MSG -> PREFIX TLV_CHAIN",    "PREFIX -> 0x53",
+    "TYPE -> 0x01 | 0x10",
+    "VALUE -> &lt;bytes[LENGTH]&gt;   # primitive types",
+    "VALUE (when TYPE=0x10) -> T10_MSG   # nested TLV",
+    "# nested grammar for TYPE=0x10",
+    "T10_TYPE -> 0x20 | 0x22 | 0x24"
+  ],
+  "anomalies": [
+    { "index": 90, "issues": [<span class="w">"unknown TYPE 0xcc"</span>] },
+    { "index": 93, "issues": [<span class="w">"TYPE=0x10→unknown TYPE 0xff"</span>] }
+  ]
+}
+
+Total CPU: <span class="o">0.04s</span></pre>
+  <p>Notice the recursive anomaly path <code>TYPE=0x10→unknown TYPE 0xff</code> — the operator sees exactly which nested record violated the template. The fuzz corpus and Wireshark <code>.lua</code> dissector are now also generated for TLV flows (<code>--fuzz</code> / <code>--wireshark</code> flags), with a loop-based dissector that walks the chain at runtime and emits Expert Info warnings for prefix mismatch, unknown types, out-of-range lengths, and packet overruns.</p>
+
+  <h2>4. DNS — real capture, 3 flows auto-separated</h2>
   <p>Real DNS traffic. Substrat identifies three distinct flows (queries to different resolvers) and discovers a grammar per flow. Transaction ID, Flags, Questions count, Authority are recovered as separate fields.</p>
   <p><a class="dl" href="pcaps/dns.pcap" download>Download dns.pcap (4 KB)</a></p>
   <pre><span class="c">$ ./substrat re dns.pcap</span>
@@ -172,7 +206,7 @@ Anomalies found: 4/10 packets
 
 Total CPU: <span class="o">0.017s</span></pre>
 
-  <h2>4. Telnet — auto-split binary commands from text data</h2>
+  <h2>5. Telnet — auto-split binary commands from text data</h2>
   <p>Real Telnet session. Substrat detects the IAC escape prefix <code>0xff</code> and splits binary command packets from text data packets in the same TCP flow, then builds a grammar for each.</p>
   <p><a class="dl" href="pcaps/telnet.pcap" download>Download telnet.pcap (24 KB)</a></p>
   <pre><span class="c">$ ./substrat re telnet.pcap</span>
@@ -187,7 +221,7 @@ Parse failures: 0/39
 
 Total CPU: <span class="o">0.30s</span></pre>
 
-  <h2>5. HTTP / FTP / TFTP — text-mode tokenization</h2>
+  <h2>6. HTTP / FTP / TFTP — text-mode tokenization</h2>
   <p>For text protocols, Substrat discovers delimiter tokens (CRLF, status codes, keywords) and builds a slot-based grammar separating requests from responses.</p>
   <p>
     <a class="dl" href="pcaps/http_synth.pcap" download>http_synth.pcap</a>
@@ -204,7 +238,7 @@ bpc: 1.4113
 
 Total CPU: <span class="o">0.18s</span></pre>
 
-  <h2>6. Live capture throughput <em>(new in v1.2.2)</em></h2>
+  <h2>7. Live capture throughput <em>(v1.2.2+)</em></h2>
   <p>Measured with the <code>docker/stress</code> harness bundled in the Substrat source tree: one MQTT broker, 10 synthetic sensors pushing 50 messages per second each (5% injected anomaly rate), and one sniffer running <code>substrat sniff</code>'s underlying pipeline. All in containers on a 2024 MacBook Pro.</p>
   <pre><span class="c">$ cd docker/stress && docker compose up -d</span>
 <span class="c">$ docker logs -f stress-sniffer-1</span>
