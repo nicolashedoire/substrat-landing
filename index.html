@@ -30,28 +30,54 @@
     .tg button.on{background:var(--accent);color:var(--bg)}
     @media(max-width:640px){.toggles{top:8px;right:8px;gap:6px}.tg button{padding:5px 8px;font-size:.72rem}}
 
-    /* --- Visibility: JS sets body class to one of: en-tech en-simple fr-tech fr-simple --- */
-    /* Hide everything by default, then show only the active state */
-    [data-lang]{visibility:visible} /* reset */
+    /* --- Visibility system ---
+       Elements can have data-lang, data-mode, or both.
+       JS toggles body.fr and body.simple.
+       We use a specificity trick: double-attribute selectors beat single ones.
+    */
 
-    /* Lang: hide wrong language */
+    /* 1. Hide FR by default (EN is default) */
     [data-lang="fr"]{display:none!important}
-    body.fr [data-lang="fr"]{display:revert!important}
-    body.fr span[data-lang="fr"]{display:inline!important}
-    body.fr a[data-lang="fr"]{display:inline-block!important}
-    body.fr td[data-lang="fr"]{display:table-cell!important}
-    body.fr li[data-lang="fr"]{display:list-item!important}
+
+    /* 2. Hide simple by default (tech is default) */
+    [data-mode="simple"]{display:none!important}
+
+    /* 3. When FR active: show FR, hide EN */
+    body.fr [data-lang="fr"]:not([data-mode]){display:revert!important}
+    body.fr span[data-lang="fr"]:not([data-mode]){display:inline!important}
+    body.fr a[data-lang="fr"]:not([data-mode]){display:inline-block!important}
+    body.fr td[data-lang="fr"]:not([data-mode]){display:table-cell!important}
+    body.fr li[data-lang="fr"]:not([data-mode]){display:list-item!important}
     body.fr [data-lang="en"]{display:none!important}
 
-    /* Mode: hide wrong mode */
-    [data-mode="simple"]{display:none!important}
-    body.simple [data-mode="simple"]{display:revert!important}
-    body.simple span[data-mode="simple"]{display:inline!important}
-    body.simple a[data-mode="simple"]{display:inline-block!important}
-    body.simple td[data-mode="simple"]{display:table-cell!important}
-    body.simple li[data-mode="simple"]{display:list-item!important}
+    /* 4. When simple active: show simple, hide tech */
+    body.simple [data-mode="simple"]:not([data-lang]){display:revert!important}
+    body.simple span[data-mode="simple"]:not([data-lang]){display:inline!important}
+    body.simple a[data-mode="simple"]:not([data-lang]){display:inline-block!important}
+    body.simple li[data-mode="simple"]:not([data-lang]){display:list-item!important}
     body.simple [data-mode="tech"]{display:none!important}
 
+    /* 5. CROSS: elements with BOTH data-lang AND data-mode need explicit combos */
+    /* EN + tech (default state — already visible, nothing to do) */
+
+    /* EN + simple: show only when body.simple and NOT body.fr */
+    body.simple [data-lang="en"][data-mode="simple"]{display:revert!important}
+    body.simple span[data-lang="en"][data-mode="simple"]{display:inline!important}
+    body.simple li[data-lang="en"][data-mode="simple"]{display:list-item!important}
+    body.fr.simple [data-lang="en"][data-mode="simple"]{display:none!important}
+
+    /* FR + tech: show only when body.fr and NOT body.simple */
+    body.fr [data-lang="fr"][data-mode="tech"]{display:revert!important}
+    body.fr span[data-lang="fr"][data-mode="tech"]{display:inline!important}
+    body.fr li[data-lang="fr"][data-mode="tech"]{display:list-item!important}
+    body.fr.simple [data-lang="fr"][data-mode="tech"]{display:none!important}
+
+    /* FR + simple: show only when BOTH body.fr AND body.simple */
+    body.fr.simple [data-lang="fr"][data-mode="simple"]{display:revert!important}
+    body.fr.simple span[data-lang="fr"][data-mode="simple"]{display:inline!important}
+    body.fr.simple li[data-lang="fr"][data-mode="simple"]{display:list-item!important}
+
+    /* Hide terminal + comparison in simple mode */
     body.simple .terminal{display:none!important}
     body.simple .comparison{display:none!important}
 
