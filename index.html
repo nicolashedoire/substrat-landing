@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Substrat — Reverse-engineer any protocol in seconds | Automatic protocol analysis tool</title>
-  <meta name="description" content="Free tool to reverse-engineer network protocols from pcap files. Automatic grammar discovery, anomaly detection, Wireshark dissector export and fuzz corpus generation. No AI, no GPU. Works on MODBUS, DNS, Telnet, HTTP, FTP and any binary or text protocol.">
+  <title>Substrat — Reverse-engineer any protocol from a pcap | Deterministic protocol analysis</title>
+  <meta name="description" content="Free tool to reverse-engineer network protocols from pcap files. Grammar discovery, anomaly detection, Wireshark dissector export and fuzz corpus generation. Deterministic, auditable, runs on a laptop. Works on MODBUS, DNS, Telnet, HTTP, FTP.">
   <meta name="keywords" content="protocol reverse engineering, pcap analysis, wireshark dissector, network protocol analyzer, anomaly detection, IDS, SCADA security, MODBUS, IoT security, pentest tool, fuzz testing, grammar induction, binary protocol, packet analysis, network forensics">
-  <meta property="og:title" content="Substrat — Reverse-engineer any protocol in seconds">
-  <meta property="og:description" content="Give it a pcap, get the protocol grammar, anomalies, a Wireshark dissector and a fuzz corpus. In 3 seconds. No AI, no GPU.">
+  <meta property="og:title" content="Substrat — Reverse-engineer any protocol from a pcap">
+  <meta property="og:description" content="Give it a pcap, get the protocol grammar, anomalies, a Wireshark dissector and a fuzz corpus. Deterministic, auditable, runs on a laptop.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://nicolashedoire.github.io/substrat-landing/">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Substrat — Reverse-engineer any protocol in seconds">
-  <meta name="twitter:description" content="Automatic protocol analysis from pcap. Grammar discovery, anomaly detection, Wireshark export, fuzzing. Free tool.">
+  <meta name="twitter:title" content="Substrat — Reverse-engineer any protocol from a pcap">
+  <meta name="twitter:description" content="Automatic protocol analysis from pcap. Grammar discovery, anomaly detection, Wireshark export, fuzzing. Deterministic, auditable.">
   <link rel="canonical" href="https://nicolashedoire.github.io/substrat-landing/">
   <link rel="icon" type="image/png" href="images/substrat-logo.png">
   <link rel="apple-touch-icon" href="images/substrat-logo.png">
@@ -159,7 +159,7 @@
         <span data-lang="en">Download for free</span><span data-lang="fr">Télécharger gratuitement</span>
       </a>
       <a href="docs.html" class="btn btn-s text-[1.1rem]">Documentation</a>
-      <a href="https://github.com/nicolashedoire" class="btn btn-s text-[1.1rem]"><i data-lucide="github" class="ico !w-4 !h-4"></i>GitHub</a>
+      <a href="https://github.com/nicolashedoire/substrat" class="btn btn-s text-[1.1rem]"><i data-lucide="github" class="ico !w-4 !h-4"></i>GitHub</a>
     </div>
 
     <div class="flex justify-center gap-3 flex-wrap mt-1" data-mode="tech">
@@ -182,7 +182,7 @@
       <div class="bg-card border-l-[3px] border-accent rounded-r-xl px-8 py-7 my-9 [&amp;_p]:mb-3.5 [&amp;_p:last-child]:mb-0">
         <p><span class="hl">Substrat does the same thing, but with machines.</span></p>
         <p>Your devices — sensors, servers, industrial controllers — talk to each other constantly. Every message follows a pattern. A rhythm. A grammar. But nobody wrote the manual.</p>
-        <p>Substrat <span class="hl">watches the traffic for a few seconds</span>, discovers the rules on its own, and then monitors in real time. When a message breaks the pattern — a corrupted header, an unknown command, an injected payload — it flags it instantly.</p>
+        <p>Substrat <span class="hl">watches a capture of your traffic</span>, discovers the rules on its own, then checks every packet against them. When a message breaks the pattern — a corrupted header, an unknown command, an injected payload — it's flagged, with the exact reason. Live capture is on the roadmap for v1.3.</p>
       </div>
       <p>The doctor can read the chart. The engineer can read the grammar. It's not a black box. It's <span class="hl">a formal description of what your protocol actually does</span>, discovered automatically.</p>
       <p>And just like a doctor can run a stress test, Substrat can <span class="hl">generate test packets</span> — mutated, corrupted, edge-case — to find out what breaks your system before an attacker does.</p>
@@ -194,7 +194,7 @@
       <div class="bg-card border-l-[3px] border-accent rounded-r-xl px-8 py-7 my-9 [&amp;_p]:mb-3.5 [&amp;_p:last-child]:mb-0">
         <p><span class="hl">Substrat fait la même chose, mais avec des machines.</span></p>
         <p>Vos équipements — capteurs, serveurs, automates industriels — communiquent en permanence. Chaque message suit un schéma. Un rythme. Une grammaire. Mais personne n'a écrit le manuel.</p>
-        <p>Substrat <span class="hl">observe le trafic pendant quelques secondes</span>, découvre les règles tout seul, puis surveille en temps réel. Quand un message casse le schéma — il le signale immédiatement.</p>
+        <p>Substrat <span class="hl">analyse une capture de votre trafic</span>, découvre les règles tout seul, puis confronte chaque paquet à ces règles. Quand un message casse le schéma, il est signalé avec la raison exacte. La capture live arrive dans la v1.3.</p>
       </div>
       <p>Le médecin peut lire le dossier patient. L'ingénieur peut lire la grammaire. Ce n'est pas une boîte noire. C'est <span class="hl">une description formelle de ce que fait votre protocole</span>, découverte automatiquement.</p>
       <p>Et tout comme un médecin peut prescrire un test d'effort, Substrat peut <span class="hl">générer des paquets de test</span> — mutés, corrompus, cas limites — pour découvrir ce qui casse votre système avant qu'un attaquant ne le fasse.</p>
@@ -220,7 +220,7 @@ Protocol grammar discovered:
 Anomalies found: <span class="term-w">5/85 packets</span>
 
 Wireshark dissector: <span class="term-o">./dissectors/TCP_192.168.1.10_502.lua</span>
-Total CPU: <span class="term-o">0.03s</span>
+Total CPU: <span class="term-o">0.19s</span>
     </pre>
   </div>
 
@@ -243,18 +243,18 @@ Total CPU: <span class="term-o">0.03s</span>
         <h3 class="text-[1.1rem] font-semibold mb-2" data-lang="fr" data-mode="tech"><i data-lucide="shield" class="ico"></i>SOC &amp; équipes sécurité</h3>
         <h3 class="text-[1.1rem] font-semibold mb-2" data-lang="en" data-mode="simple"><i data-lucide="shield" class="ico"></i>Security monitoring teams</h3>
         <h3 class="text-[1.1rem] font-semibold mb-2" data-lang="fr" data-mode="simple"><i data-lucide="shield" class="ico"></i>Équipes de surveillance</h3>
-        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">Monitor network traffic in real time without writing signatures. Substrat learns the baseline, flags deviations from the learned grammar.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Surveillez le trafic réseau en temps réel sans écrire de signatures. Substrat apprend la baseline et signale les déviations par rapport à la grammaire apprise.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="simple">Teams that watch over a company's network 24/7. Substrat learns what's normal and alerts on anything unusual — even attacks nobody has seen before.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="simple">Les équipes qui surveillent le réseau d'une entreprise 24h/24. Substrat apprend ce qui est normal et alerte sur tout ce qui est inhabituel — même des attaques jamais vues.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">Analyze captured traffic without writing signatures. Substrat learns the baseline from a pcap and flags every deviation, with the exact rule broken. Live capture ships in v1.3.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Analysez des captures réseau sans écrire de signatures. Substrat apprend la baseline depuis un pcap et signale chaque déviation, avec la règle exacte cassée. La capture live arrive en v1.3.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="simple">Teams analyzing network captures for incidents. Substrat learns what's normal and flags anything unusual — even attacks nobody has seen before.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="simple">Les équipes qui analysent les captures réseau lors d'incidents. Substrat apprend ce qui est normal et signale tout ce qui est inhabituel — même des attaques jamais vues.</p>
       </div>
       <div class="card">
         <h3 class="text-[1.1rem] font-semibold mb-2" data-lang="en" data-mode="tech"><i data-lucide="cpu" class="ico"></i>IoT &amp; industrial (SCADA/ICS)</h3>
         <h3 class="text-[1.1rem] font-semibold mb-2" data-lang="fr" data-mode="tech"><i data-lucide="cpu" class="ico"></i>IoT &amp; industriel (SCADA/ICS)</h3>
         <h3 class="text-[1.1rem] font-semibold mb-2" data-lang="en" data-mode="simple"><i data-lucide="cpu" class="ico"></i>Factories &amp; connected devices</h3>
         <h3 class="text-[1.1rem] font-semibold mb-2" data-lang="fr" data-mode="simple"><i data-lucide="cpu" class="ico"></i>Usines &amp; objets connectés</h3>
-        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">Discover the grammar of proprietary protocols on sensors, PLCs, SCADA systems. Monitor in real time on a Raspberry Pi. No GPU, no cloud.</p>
-        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Découvrez la grammaire de protocoles propriétaires sur capteurs et automates. Surveillance temps réel sur Raspberry Pi.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="tech">Discover the grammar of proprietary protocols on sensors, PLCs, SCADA systems from captured traffic. Runs on a Raspberry Pi. No GPU, no cloud.</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="tech">Découvrez la grammaire de protocoles propriétaires sur capteurs et automates depuis du trafic capturé. Tourne sur Raspberry Pi. Pas de GPU, pas de cloud.</p>
         <p class="text-text-dim text-[0.92rem]" data-lang="en" data-mode="simple">Factories use machines that speak proprietary languages nobody documented. Substrat learns these languages automatically — running on hardware as small as a credit card.</p>
         <p class="text-text-dim text-[0.92rem]" data-lang="fr" data-mode="simple">Les usines utilisent des machines qui parlent des langages que personne n'a documentés. Substrat les apprend automatiquement — sur du matériel aussi petit qu'une carte de crédit.</p>
       </div>
@@ -302,8 +302,8 @@ Total CPU: <span class="term-o">0.03s</span>
     </div>
   </div>
   <p class="text-center text-[0.8rem] text-text-dim -mt-4 mb-10">
-    <span data-lang="en">Measured on MacBook (Apple Silicon) against pcaps in the public repo. <a href="https://github.com/nicolashedoire" class="text-accent">Reproduce yourself</a>.</span>
-    <span data-lang="fr">Mesuré sur MacBook (Apple Silicon) contre les pcaps du repo public. <a href="https://github.com/nicolashedoire" class="text-accent">Reproduisez vous-même</a>.</span>
+    <span data-lang="en">Measured on MacBook (Apple Silicon) against pcaps in the public repo. <a href="https://github.com/nicolashedoire/substrat" class="text-accent">Reproduce yourself</a>.</span>
+    <span data-lang="fr">Mesuré sur MacBook (Apple Silicon) contre les pcaps du repo public. <a href="https://github.com/nicolashedoire/substrat" class="text-accent">Reproduisez vous-même</a>.</span>
   </p>
 
   <section class="py-12">
@@ -391,8 +391,8 @@ Total CPU: <span class="term-o">0.03s</span>
       </div>
     </div>
     <p class="text-center mt-5 text-[0.85rem] text-text-dim">
-      <span data-lang="en">All benchmarks above are reproducible from the pcaps in the <a href="https://github.com/nicolashedoire" class="text-accent">public repo</a>. No GPU, no training data, no cloud API.</span>
-      <span data-lang="fr">Tous les benchmarks ci-dessus sont reproductibles à partir des pcaps du <a href="https://github.com/nicolashedoire" class="text-accent">repo public</a>. Pas de GPU, pas de données d'entraînement, pas d'API cloud.</span>
+      <span data-lang="en">All benchmarks above are reproducible from the pcaps in the <a href="https://github.com/nicolashedoire/substrat" class="text-accent">public repo</a>. No GPU, no training data, no cloud API.</span>
+      <span data-lang="fr">Tous les benchmarks ci-dessus sont reproductibles à partir des pcaps du <a href="https://github.com/nicolashedoire/substrat" class="text-accent">repo public</a>. Pas de GPU, pas de données d'entraînement, pas d'API cloud.</span>
     </p>
   </section>
 
@@ -577,7 +577,7 @@ Total CPU: <span class="term-o">0.03s</span>
     <p data-lang="fr">Substrat — créé par Nicolas Hedoire</p>
     <p class="mt-2">
       <a href="docs.html" class="text-accent no-underline hover:underline">Documentation</a> &middot;
-      <a href="https://github.com/nicolashedoire" class="text-accent no-underline hover:underline">GitHub</a> &middot;
+      <a href="https://github.com/nicolashedoire/substrat" class="text-accent no-underline hover:underline">GitHub</a> &middot;
       <a href="https://www.linkedin.com/in/nicolas-hedoire-1734775b/" class="text-accent no-underline hover:underline">LinkedIn</a> &middot;
       <a href="mailto:nicolashedoire@hotmail.com" class="text-accent no-underline hover:underline">Contact</a> &middot;
       <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20co-founder%20interest" class="text-accent no-underline hover:underline" data-lang="en">Co-founder enquiries</a><a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20interet%20associe" class="text-accent no-underline hover:underline" data-lang="fr">Rejoindre comme associé</a>
