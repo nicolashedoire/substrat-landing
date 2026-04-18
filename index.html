@@ -16,6 +16,7 @@
   <link rel="canonical" href="https://nicolashedoire.github.io/substrat-landing/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     :root { --bg:#0a0a0f; --bg-card:#12121a; --border:#1e1e2e; --text:#e0e0e8; --text-dim:#8888a0; --accent:#00d4aa; --yellow:#ffaa00; }
     *{margin:0;padding:0;box-sizing:border-box}
@@ -94,9 +95,7 @@
     .card .num{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent);margin-bottom:8px}
 
     /* --- Icons (SVG inline, next to h3) --- */
-    .ico{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;margin-right:8px;flex-shrink:0}
-    .card .icon-row{display:flex;align-items:center;margin-bottom:10px}
-    .card .icon-row h3{margin-bottom:0}
+    .ico{color:var(--accent);width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:6px;position:relative;top:-2px}
 
     /* --- Stats --- */
     .stats{display:flex;justify-content:space-around;padding:32px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0;flex-wrap:wrap;gap:20px}
@@ -234,44 +233,40 @@ Total CPU: <span class="o">0.03s</span>
   <h2 data-lang="fr" style="text-align:center">A qui s'adresse <em>Substrat</em></h2>
   <div class="grid" style="margin-top:28px">
     <div class="card">
-      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><path d="M15 11l2 2 4-4"/></svg>
-      <h3 data-lang="en" data-mode="tech">Pentesters & forensics analysts</h3>
-      <h3 data-lang="fr" data-mode="tech">Pentesters & analystes forensics</h3>
-      <h3 data-lang="en" data-mode="simple">Security testers</h3>
-      <h3 data-lang="fr" data-mode="simple">Testeurs de securite</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="user-check" class="ico"></i>Pentesters & forensics analysts</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="user-check" class="ico"></i>Pentesters & analystes forensics</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="user-check" class="ico"></i>Security testers</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="user-check" class="ico"></i>Testeurs de securite</h3>
       <p data-lang="en" data-mode="tech">Reverse-engineer unknown protocols from a pcap in seconds. Get the grammar, the Wireshark dissector and a fuzz corpus — what takes 3 days by hand takes 3 seconds.</p>
       <p data-lang="fr" data-mode="tech">Reverse-engineerez des protocoles inconnus depuis un pcap en quelques secondes. Ce qui prend 3 jours a la main prend 3 secondes.</p>
       <p data-lang="en" data-mode="simple">People who test the security of computer systems. Substrat gives them an instant X-ray of how machines talk to each other, and generates test cases to find weaknesses.</p>
       <p data-lang="fr" data-mode="simple">Les personnes qui testent la securite des systemes informatiques. Substrat leur donne une radiographie instantanee de la communication entre machines, et genere des cas de test pour trouver les faiblesses.</p>
     </div>
     <div class="card">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <h3 data-lang="en" data-mode="tech">SOC & security teams</h3>
-      <h3 data-lang="fr" data-mode="tech">SOC & equipes securite</h3>
-      <h3 data-lang="en" data-mode="simple">Security monitoring teams</h3>
-      <h3 data-lang="fr" data-mode="simple">Equipes de surveillance</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="shield" class="ico"></i>SOC & security teams</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="shield" class="ico"></i>SOC & equipes securite</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="shield" class="ico"></i>Security monitoring teams</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="shield" class="ico"></i>Equipes de surveillance</h3>
       <p data-lang="en" data-mode="tech">Monitor network traffic in real time without writing signatures. Substrat learns the baseline, detects deviations. Zero false positives on clean traffic.</p>
       <p data-lang="fr" data-mode="tech">Surveillez le trafic reseau en temps reel sans ecrire de signatures. Zero faux positifs sur du trafic propre.</p>
       <p data-lang="en" data-mode="simple">Teams that watch over a company's network 24/7. Substrat learns what's normal and alerts on anything unusual — even attacks nobody has seen before.</p>
       <p data-lang="fr" data-mode="simple">Les equipes qui surveillent le reseau d'une entreprise 24h/24. Substrat apprend ce qui est normal et alerte sur tout ce qui est inhabituel — meme des attaques jamais vues.</p>
     </div>
     <div class="card">
-      <svg class="ico" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>
-      <h3 data-lang="en" data-mode="tech">IoT & industrial (SCADA/ICS)</h3>
-      <h3 data-lang="fr" data-mode="tech">IoT & industriel (SCADA/ICS)</h3>
-      <h3 data-lang="en" data-mode="simple">Factories & connected devices</h3>
-      <h3 data-lang="fr" data-mode="simple">Usines & objets connectes</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="cpu" class="ico"></i>IoT & industrial (SCADA/ICS)</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="cpu" class="ico"></i>IoT & industriel (SCADA/ICS)</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="cpu" class="ico"></i>Factories & connected devices</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="cpu" class="ico"></i>Usines & objets connectes</h3>
       <p data-lang="en" data-mode="tech">Discover the grammar of proprietary protocols on sensors, PLCs, SCADA systems. Monitor in real time on a Raspberry Pi. No GPU, no cloud.</p>
       <p data-lang="fr" data-mode="tech">Decouvrez la grammaire de protocoles proprietaires sur capteurs et automates. Surveillance temps reel sur Raspberry Pi.</p>
       <p data-lang="en" data-mode="simple">Factories use machines that speak proprietary languages nobody documented. Substrat learns these languages automatically — running on hardware as small as a credit card.</p>
       <p data-lang="fr" data-mode="simple">Les usines utilisent des machines qui parlent des langages que personne n'a documentes. Substrat les apprend automatiquement — sur du materiel aussi petit qu'une carte de credit.</p>
     </div>
     <div class="card">
-      <svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
-      <h3 data-lang="en" data-mode="tech">R&D & protocol designers</h3>
-      <h3 data-lang="fr" data-mode="tech">R&D & concepteurs de protocoles</h3>
-      <h3 data-lang="en" data-mode="simple">Engineers building new systems</h3>
-      <h3 data-lang="fr" data-mode="simple">Ingenieurs qui construisent de nouveaux systemes</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="search" class="ico"></i>R&D & protocol designers</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="search" class="ico"></i>R&D & concepteurs de protocoles</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="search" class="ico"></i>Engineers building new systems</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="search" class="ico"></i>Ingenieurs qui construisent de nouveaux systemes</h3>
       <p data-lang="en" data-mode="tech">Validate that your implementation matches your spec. Use Substrat as an automatic conformance checker.</p>
       <p data-lang="fr" data-mode="tech">Validez que votre implementation correspond a votre spec. Substrat sert de verificateur de conformite automatique.</p>
       <p data-lang="en" data-mode="simple">Engineers who design communication systems can use Substrat to verify that their system works as intended — like a spell-checker for machine communication.</p>
@@ -320,44 +315,40 @@ Total CPU: <span class="o">0.03s</span>
   <h2 data-lang="fr" data-mode="simple">Ce que Substrat fait <em>pour vous</em></h2>
   <div class="grid">
     <div class="card">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-      <h3 data-lang="en" data-mode="tech">Protocol Grammar</h3>
-      <h3 data-lang="fr" data-mode="tech">Grammaire du protocole</h3>
-      <h3 data-lang="en" data-mode="simple">It reads the language of your machines</h3>
-      <h3 data-lang="fr" data-mode="simple">Il comprend le langage de vos machines</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="file-text" class="ico"></i>Protocol Grammar</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="file-text" class="ico"></i>Grammaire du protocole</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="file-text" class="ico"></i>It reads the language of your machines</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="file-text" class="ico"></i>Il comprend le langage de vos machines</h3>
       <p data-lang="en" data-mode="tech">Human-readable rules describing the exact structure of your protocol. Magic bytes, type fields, length fields, variable data — all identified automatically.</p>
       <p data-lang="fr" data-mode="tech">Des regles lisibles decrivant la structure exacte de votre protocole. Magic bytes, champs de type, de longueur, donnees variables — tout identifie automatiquement.</p>
       <p data-lang="en" data-mode="simple">Your devices exchange messages in a specific format. Substrat figures out that format on its own, and writes it down in rules that any engineer can read and verify.</p>
       <p data-lang="fr" data-mode="simple">Vos equipements echangent des messages dans un format precis. Substrat decouvre ce format tout seul et le redige sous forme de regles que n'importe quel ingenieur peut lire.</p>
     </div>
     <div class="card">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <h3 data-lang="en" data-mode="tech">Anomaly Detection</h3>
-      <h3 data-lang="fr" data-mode="tech">Detection d'anomalies</h3>
-      <h3 data-lang="en" data-mode="simple">It spots what doesn't belong</h3>
-      <h3 data-lang="fr" data-mode="simple">Il repere ce qui ne va pas</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="alert-triangle" class="ico"></i>Anomaly Detection</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="alert-triangle" class="ico"></i>Detection d'anomalies</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="alert-triangle" class="ico"></i>It spots what doesn't belong</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="alert-triangle" class="ico"></i>Il repere ce qui ne va pas</h3>
       <p data-lang="en" data-mode="tech">Every packet that deviates from the learned structure is flagged. Corrupted headers, unknown types, truncated messages. No signatures needed.</p>
       <p data-lang="fr" data-mode="tech">Chaque paquet qui devie de la structure apprise est signale. Headers corrompus, types inconnus, messages tronques. Pas de signatures.</p>
       <p data-lang="en" data-mode="simple">Once it knows the normal rhythm of your traffic, any message that breaks the pattern triggers an alert. No need to describe every possible attack in advance.</p>
       <p data-lang="fr" data-mode="simple">Une fois qu'il connait le rythme normal de votre trafic, tout message qui casse le schema declenche une alerte. Pas besoin de decrire chaque attaque a l'avance.</p>
     </div>
     <div class="card">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      <h3 data-lang="en" data-mode="tech">Wireshark Dissector</h3>
-      <h3 data-lang="fr" data-mode="tech">Dissecteur Wireshark</h3>
-      <h3 data-lang="en" data-mode="simple">It plugs into your existing tools</h3>
-      <h3 data-lang="fr" data-mode="simple">Il se branche sur vos outils existants</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="external-link" class="ico"></i>Wireshark Dissector</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="external-link" class="ico"></i>Dissecteur Wireshark</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="external-link" class="ico"></i>It plugs into your existing tools</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="external-link" class="ico"></i>Il se branche sur vos outils existants</h3>
       <p data-lang="en" data-mode="tech">Auto-generated .lua dissector, registered on the right port. Load it in Wireshark — fields are named, anomalies marked in Expert Info.</p>
       <p data-lang="fr" data-mode="tech">Dissecteur .lua genere automatiquement, enregistre sur le bon port. Chargez-le dans Wireshark — champs nommes, anomalies marquees.</p>
       <p data-lang="en" data-mode="simple">Substrat generates a plugin for Wireshark (the standard network analysis tool). Open your capture, every field is already named — no manual work.</p>
       <p data-lang="fr" data-mode="simple">Substrat genere un plugin pour Wireshark (l'outil standard d'analyse reseau). Ouvrez votre capture, chaque champ est deja nomme — aucun travail manuel.</p>
     </div>
     <div class="card">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M9.5 14.5L3 21"/><path d="M14.5 9.5L21 3"/><circle cx="12" cy="12" r="3"/><path d="M4.22 10.22a8 8 0 0 1 5.56-5.56"/><path d="M19.78 13.78a8 8 0 0 1-5.56 5.56"/></svg>
-      <h3 data-lang="en" data-mode="tech">Fuzz Corpus</h3>
-      <h3 data-lang="fr" data-mode="tech">Corpus de fuzz</h3>
-      <h3 data-lang="en" data-mode="simple">It tests your system's resistance</h3>
-      <h3 data-lang="fr" data-mode="simple">Il teste la resistance de votre systeme</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="target" class="ico"></i>Fuzz Corpus</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="target" class="ico"></i>Corpus de fuzz</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="target" class="ico"></i>It tests your system's resistance</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="target" class="ico"></i>Il teste la resistance de votre systeme</h3>
       <p data-lang="en" data-mode="tech">500 mutated packets in 3 strategies: field corruption, boundary values, structural mutations. Ready to send to the target.</p>
       <p data-lang="fr" data-mode="tech">500 paquets mutes selon 3 strategies : corruption de champs, valeurs limites, mutations structurelles.</p>
       <p data-lang="en" data-mode="simple">Like a stress test for your heart, Substrat generates hundreds of slightly corrupted messages to see how your system reacts. It finds weaknesses before an attacker does.</p>
@@ -486,40 +477,40 @@ Total CPU: <span class="o">0.03s</span>
   <p class="sub" data-lang="fr" style="text-align:center">Substrat est en developpement actif. Voici ce qui arrive.</p>
   <div class="grid">
     <div class="card">
-      <h3 data-lang="en" data-mode="tech">Real-time dashboard</h3>
-      <h3 data-lang="fr" data-mode="tech">Dashboard temps reel</h3>
-      <h3 data-lang="en" data-mode="simple">Live monitoring screen</h3>
-      <h3 data-lang="fr" data-mode="simple">Ecran de surveillance en direct</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="monitor" class="ico"></i>Real-time dashboard</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="monitor" class="ico"></i>Dashboard temps reel</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="monitor" class="ico"></i>Live monitoring screen</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="monitor" class="ico"></i>Ecran de surveillance en direct</h3>
       <p data-lang="en" data-mode="tech">Web interface to visualize traffic, grammars and anomalies live.</p>
       <p data-lang="fr" data-mode="tech">Interface web pour visualiser le trafic, les grammaires et les anomalies en direct.</p>
       <p data-lang="en" data-mode="simple">A visual dashboard to monitor your network in real time from any browser.</p>
       <p data-lang="fr" data-mode="simple">Un tableau de bord visuel pour surveiller votre reseau depuis n'importe quel navigateur.</p>
     </div>
     <div class="card">
-      <h3 data-lang="en" data-mode="tech">REST API</h3>
-      <h3 data-lang="fr" data-mode="tech">API REST</h3>
-      <h3 data-lang="en" data-mode="simple">Connect to your other tools</h3>
-      <h3 data-lang="fr" data-mode="simple">Connexion a vos autres outils</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="plug" class="ico"></i>REST API</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="plug" class="ico"></i>API REST</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="plug" class="ico"></i>Connect to your other tools</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="plug" class="ico"></i>Connexion a vos autres outils</h3>
       <p data-lang="en" data-mode="tech">Integrate Substrat into your pipeline. Plug it into your SIEM, your CI, your SOC toolchain.</p>
       <p data-lang="fr" data-mode="tech">Integrez Substrat dans votre pipeline. Branchez-le sur votre SIEM, votre CI, votre SOC.</p>
       <p data-lang="en" data-mode="simple">Let Substrat work automatically with your existing software — no human intervention needed.</p>
       <p data-lang="fr" data-mode="simple">Laissez Substrat travailler automatiquement avec vos logiciels existants.</p>
     </div>
     <div class="card">
-      <h3 data-lang="en" data-mode="tech">Burp Suite plugin</h3>
-      <h3 data-lang="fr" data-mode="tech">Plugin Burp Suite</h3>
-      <h3 data-lang="en" data-mode="simple">Built into security testing tools</h3>
-      <h3 data-lang="fr" data-mode="simple">Integre aux outils de test</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="puzzle" class="ico"></i>Burp Suite plugin</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="puzzle" class="ico"></i>Plugin Burp Suite</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="puzzle" class="ico"></i>Built into security testing tools</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="puzzle" class="ico"></i>Integre aux outils de test</h3>
       <p data-lang="en" data-mode="tech">Automatic protocol analysis directly inside Burp during a pentest.</p>
       <p data-lang="fr" data-mode="tech">Analyse automatique de protocoles directement dans Burp pendant un pentest.</p>
       <p data-lang="en" data-mode="simple">Substrat will plug directly into the tools security professionals use every day.</p>
       <p data-lang="fr" data-mode="simple">Substrat s'integrera dans les outils que les professionnels utilisent au quotidien.</p>
     </div>
     <div class="card">
-      <h3 data-lang="en" data-mode="tech">Team & enterprise</h3>
-      <h3 data-lang="fr" data-mode="tech">Equipes & entreprises</h3>
-      <h3 data-lang="en" data-mode="simple">For companies and teams</h3>
-      <h3 data-lang="fr" data-mode="simple">Pour les entreprises et equipes</h3>
+      <h3 data-lang="en" data-mode="tech"><i data-lucide="building" class="ico"></i>Team & enterprise</h3>
+      <h3 data-lang="fr" data-mode="tech"><i data-lucide="building" class="ico"></i>Equipes & entreprises</h3>
+      <h3 data-lang="en" data-mode="simple"><i data-lucide="building" class="ico"></i>For companies and teams</h3>
+      <h3 data-lang="fr" data-mode="simple"><i data-lucide="building" class="ico"></i>Pour les entreprises et equipes</h3>
       <p data-lang="en" data-mode="tech">Multi-user licenses, on-premise deployment, SCADA/IoT monitoring at scale, SLA.</p>
       <p data-lang="fr" data-mode="tech">Licences multi-utilisateurs, deploiement on-premise, monitoring a grande echelle, SLA.</p>
       <p data-lang="en" data-mode="simple">Licenses for entire teams, installation on your own servers, large-scale monitoring, dedicated support.</p>
@@ -576,7 +567,7 @@ Total CPU: <span class="o">0.03s</span>
 <section style="padding:50px 0">
   <div class="container">
     <div class="card" style="max-width:680px;margin:0 auto;text-align:center;border-color:var(--accent)">
-      <svg class="ico" viewBox="0 0 24 24" style="margin:0 auto 14px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <i data-lucide="users" class="ico" style="margin:0 auto 14px;display:block;width:32px;height:32px"></i>
       <h2 data-lang="en" style="font-size:1.5rem;margin-bottom:12px">Looking for <em>co-founders</em></h2>
       <h2 data-lang="fr" style="font-size:1.5rem;margin-bottom:12px">Recherche d'<em>associes</em></h2>
       <p data-lang="en" style="color:var(--text-dim);font-size:1rem;line-height:1.8;margin-bottom:20px">Substrat is a solo project today, but the vision is bigger than one person. I'm looking for one or two co-founders to grow the business, sharpen the product, and bring it to market. If you have experience in <span class="hl">cybersecurity, sales, or product development</span> and want to build something from scratch — let's talk.</p>
@@ -617,6 +608,7 @@ function setMode(m){
 }
 if(localStorage.getItem('s-lang')==='fr')setLang('fr');
 if(localStorage.getItem('s-mode')==='simple')setMode('simple');
+lucide.createIcons();
 </script>
 
 </body>
