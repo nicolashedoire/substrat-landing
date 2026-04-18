@@ -29,24 +29,24 @@
     .tg button.on{background:var(--accent);color:var(--bg)}
     @media(max-width:640px){.toggles{top:8px;right:8px;gap:6px}.tg button{padding:5px 8px;font-size:.72rem}}
 
-    /* --- Visibility: 4 states --- */
-    /* By default: EN + Technical visible */
-    [data-lang="fr"]{display:none}
-    [data-mode="simple"]{display:none}
+    /* --- Visibility: 4 states (lang x mode) --- */
+    [data-lang="fr"]{display:none!important}
+    [data-mode="simple"]{display:none!important}
 
-    body.fr [data-lang="fr"]{display:block}
-    body.fr span[data-lang="fr"]{display:inline}
-    body.fr [data-lang="en"]{display:none}
-    body.fr span[data-lang="en"]{display:none}
+    body.fr [data-lang="fr"]{display:block!important}
+    body.fr span[data-lang="fr"]{display:inline!important}
+    body.fr a[data-lang="fr"]{display:inline-block!important}
+    body.fr div[data-lang="fr"]{display:block!important}
+    body.fr [data-lang="en"]{display:none!important}
 
-    body.simple [data-mode="simple"]{display:block}
-    body.simple span[data-mode="simple"]{display:inline}
-    body.simple [data-mode="tech"]{display:none}
-    body.simple span[data-mode="tech"]{display:none}
+    body.simple [data-mode="simple"]{display:block!important}
+    body.simple span[data-mode="simple"]{display:inline!important}
+    body.simple a[data-mode="simple"]{display:inline-block!important}
+    body.simple div[data-mode="simple"]{display:block!important}
+    body.simple [data-mode="tech"]{display:none!important}
 
-    /* Hide terminal + comparison table in simple mode */
-    body.simple .terminal{display:none}
-    body.simple .comparison{display:none}
+    body.simple .terminal{display:none!important}
+    body.simple .comparison{display:none!important}
 
     /* --- Hero --- */
     .hero{padding:80px 0 40px;text-align:center}
@@ -87,8 +87,10 @@
     .card p{color:var(--text-dim);font-size:.92rem}
     .card .num{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent);margin-bottom:8px}
 
-    /* --- Icons (SVG inline) --- */
-    .ico{width:32px;height:32px;margin-bottom:14px;stroke:var(--accent);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    /* --- Icons (SVG inline, next to h3) --- */
+    .ico{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;margin-right:8px;flex-shrink:0}
+    .card .icon-row{display:flex;align-items:center;margin-bottom:10px}
+    .card .icon-row h3{margin-bottom:0}
 
     /* --- Stats --- */
     .stats{display:flex;justify-content:space-around;padding:32px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0;flex-wrap:wrap;gap:20px}
@@ -160,10 +162,9 @@
     <span>macOS / Linux</span><span>Zero GPU</span><span>Rust backend</span><span>21 MB</span>
   </div>
   <div class="badges" data-mode="simple">
-    <span>Mac & Linux</span>
     <span data-lang="en">No expensive hardware</span><span data-lang="fr">Pas de materiel couteux</span>
-    <span data-lang="en">Fast</span><span data-lang="fr">Rapide</span>
-    <span data-lang="en">Lightweight</span><span data-lang="fr">Leger</span>
+    <span data-lang="en">Works on Mac & Linux</span><span data-lang="fr">Mac & Linux</span>
+    <span data-lang="en">Fast & lightweight</span><span data-lang="fr">Rapide & leger</span>
   </div>
 </section>
 
@@ -227,8 +228,7 @@ Total CPU: <span class="o">0.03s</span>
   <h2 data-lang="fr" style="text-align:center">A qui s'adresse <em>Substrat</em></h2>
   <div class="grid" style="margin-top:28px">
     <div class="card">
-      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><path d="M15 11l2 2 4-4"/></svg>
-      <h3 data-lang="en" data-mode="tech">Pentesters & forensics analysts</h3>
+      <div class="icon-row"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><path d="M15 11l2 2 4-4"/></svg><h3 data-lang="en" data-mode="tech">Pentesters & forensics analysts</h3>
       <h3 data-lang="fr" data-mode="tech">Pentesters & analystes forensics</h3>
       <h3 data-lang="en" data-mode="simple">Security testers</h3>
       <h3 data-lang="fr" data-mode="simple">Testeurs de securite</h3>
