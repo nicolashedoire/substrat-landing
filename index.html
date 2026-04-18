@@ -97,6 +97,7 @@
     .features { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 640px) { .features { grid-template-columns: 1fr; } .hero h1 { font-size: 2.2rem; } }
     .feature { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+    .feature .icon { font-size: 2rem; margin-bottom: 12px; display: block; }
     .feature h3 { font-size: 1.1rem; margin-bottom: 8px; }
     .feature p { color: var(--text-dim); font-size: 0.92rem; }
     .feature .num { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
@@ -159,10 +160,16 @@
       <p class="tagline en">Protocol reverse-engineering, anomaly detection, Wireshark export and fuzzing. In seconds. No AI, no GPU.</p>
       <p class="tagline fr">Reverse-engineering de protocoles, detection d'anomalies, export Wireshark et fuzzing. En quelques secondes. Sans IA, sans GPU.</p>
 
-      <a href="#download" class="cta-btn primary" style="font-size:1.1rem;">
-        <span class="en">Download for free</span>
-        <span class="fr">Telecharger gratuitement</span>
-      </a>
+      <div style="display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;">
+        <a href="#download" class="cta-btn primary" style="font-size:1.1rem;">
+          <span class="en">Download for free</span>
+          <span class="fr">Telecharger gratuitement</span>
+        </a>
+        <a href="docs.html" class="cta-btn secondary" style="font-size:1.1rem;">
+          <span class="en">Documentation</span>
+          <span class="fr">Documentation</span>
+        </a>
+      </div>
 
       <div class="hero-badges">
         <span>macOS / Linux</span>
@@ -247,6 +254,7 @@ Total CPU: <span class="ok">0.03s</span>
       <h2 class="fr" style="text-align:center;">A qui s'adresse <span>Substrat</span></h2>
       <div class="features" style="margin-top:28px;">
         <div class="feature">
+          <span class="icon">&#128373;</span>
           <h3 class="en expert">Pentesters & forensics analysts</h3>
           <h3 class="fr expert">Pentesters & analystes forensics</h3>
           <h3 class="en simple">Security testers</h3>
@@ -257,6 +265,7 @@ Total CPU: <span class="ok">0.03s</span>
           <p class="fr simple">Les personnes qui testent la securite des systemes informatiques. Substrat leur donne une radiographie instantanee de comment les machines communiquent, et genere des cas de test pour trouver les faiblesses.</p>
         </div>
         <div class="feature">
+          <span class="icon">&#128737;</span>
           <h3 class="en expert">SOC & security teams</h3>
           <h3 class="fr expert">SOC & equipes securite</h3>
           <h3 class="en simple">Security monitoring teams</h3>
@@ -267,6 +276,7 @@ Total CPU: <span class="ok">0.03s</span>
           <p class="fr simple">Les equipes qui surveillent le reseau d'une entreprise 24h/24. Au lieu de maintenir une liste d'attaques connues, Substrat apprend ce qui est normal et alerte sur tout ce qui est inhabituel — meme des attaques que personne n'a encore vues.</p>
         </div>
         <div class="feature">
+          <span class="icon">&#9881;</span>
           <h3 class="en expert">IoT & industrial (SCADA/ICS)</h3>
           <h3 class="fr expert">IoT & industriel (SCADA/ICS)</h3>
           <h3 class="en simple">Factories & connected devices</h3>
@@ -277,6 +287,7 @@ Total CPU: <span class="ok">0.03s</span>
           <p class="fr simple">Les usines utilisent des machines qui parlent des langages proprietaires que personne n'a documentes. Substrat apprend ces langages automatiquement et surveille toute anomalie — sur du materiel aussi petit qu'une carte de credit.</p>
         </div>
         <div class="feature">
+          <span class="icon">&#128300;</span>
           <h3 class="en expert">R&D & protocol designers</h3>
           <h3 class="fr expert">R&D & concepteurs de protocoles</h3>
           <h3 class="en simple">Engineers building new systems</h3>
@@ -321,6 +332,7 @@ Total CPU: <span class="ok">0.03s</span>
       <h2 class="fr simple">Ce que Substrat fait <span>pour vous</span></h2>
       <div class="features">
         <div class="feature">
+          <span class="icon">&#128220;</span>
           <h3 class="en expert">Protocol Grammar</h3>
           <h3 class="fr expert">Grammaire du protocole</h3>
           <h3 class="en simple">It reads the language of your machines</h3>
@@ -331,6 +343,7 @@ Total CPU: <span class="ok">0.03s</span>
           <p class="fr simple">Vos equipements echangent des messages dans un format precis. Substrat decouvre ce format tout seul, et le redige sous forme de regles que n'importe quel ingenieur peut lire et verifier.</p>
         </div>
         <div class="feature">
+          <span class="icon">&#128680;</span>
           <h3 class="en expert">Anomaly Detection</h3>
           <h3 class="fr expert">Detection d'anomalies</h3>
           <h3 class="en simple">It spots what doesn't belong</h3>
@@ -341,6 +354,7 @@ Total CPU: <span class="ok">0.03s</span>
           <p class="fr simple">Une fois qu'il connait le rythme normal de votre trafic, tout message qui casse le schema declenche une alerte. Pas besoin de decrire chaque attaque possible a l'avance — si c'est anormal, c'est signale.</p>
         </div>
         <div class="feature">
+          <span class="icon">&#128268;</span>
           <h3 class="en expert">Wireshark Dissector</h3>
           <h3 class="fr expert">Dissecteur Wireshark</h3>
           <h3 class="en simple">It plugs into your existing tools</h3>
@@ -351,6 +365,7 @@ Total CPU: <span class="ok">0.03s</span>
           <p class="fr simple">Substrat genere un plugin pour Wireshark (l'outil standard d'analyse reseau). Ouvrez votre fichier de capture, et chaque champ est deja nomme et etiquete — aucun travail manuel.</p>
         </div>
         <div class="feature">
+          <span class="icon">&#128163;</span>
           <h3 class="en expert">Fuzz Corpus</h3>
           <h3 class="fr expert">Corpus de fuzz</h3>
           <h3 class="en simple">It tests your system's resistance</h3>
