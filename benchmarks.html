@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Substrat — Benchmarks & Reproducibility</title>
+  <meta name="description" content="Reproduce every benchmark claim on the Substrat landing page. Download the exact pcaps, run the exact command, see the exact output.">
+  <link rel="canonical" href="https://nicolashedoire.github.io/substrat-landing/benchmarks.html">
+  <link rel="icon" type="image/png" href="images/substrat-logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0f',
+            card: '#12121a',
+            line: '#1e1e2e',
+            text: { DEFAULT: '#e0e0e8', dim: '#8888a0' },
+            accent: '#00d4aa',
+          },
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style type="text/tailwindcss">
+    @layer base {
+      body     { @apply bg-bg text-text font-sans leading-relaxed }
+      a        { @apply text-accent no-underline hover:underline }
+      h1       { @apply text-[2.4rem] font-bold mb-2 }
+      h1 span  { @apply text-accent }
+      h2       { @apply text-[1.5rem] font-semibold mt-12 mb-4 pb-2 border-b border-line text-accent }
+      h3       { @apply text-[1.15rem] font-semibold mt-7 mb-3 }
+      p        { @apply text-text-dim mb-3.5 }
+      strong   { @apply text-text }
+      pre      { @apply bg-[#0d0d14] border border-line rounded-lg px-5 py-4 my-3.5 overflow-x-auto font-mono text-[0.82rem] leading-[1.6] text-text-dim }
+      code     { @apply font-mono text-[0.88em] bg-card px-1.5 py-0.5 rounded }
+      pre code { @apply bg-transparent p-0 }
+      th       { @apply text-left px-3.5 py-2.5 border-b border-line text-text-dim font-medium }
+      td       { @apply px-3.5 py-2.5 border-b border-line text-text-dim }
+    }
+    @layer components {
+      .back    { @apply inline-block mb-8 text-text-dim text-[0.9rem] no-underline hover:underline }
+      .note    { @apply bg-card border-l-[3px] border-accent rounded-r-lg px-5 py-4 my-4 [&_p]:m-0 }
+      .dl      { @apply inline-block bg-accent text-bg font-semibold text-[0.85rem] px-3 py-1.5 rounded no-underline hover:opacity-85 }
+    }
+    .c { color: #00d4aa }
+    .o { color: #44dd88 }
+    .w { color: #ffaa00 }
+    .d { color: #555570 }
+  </style>
+</head>
+<body>
+
+<div class="max-w-[820px] mx-auto px-6 py-12">
+
+  <a href="index.html" class="back">← Back to home</a>
+
+  <h1>Benchmarks & <span>reproducibility</span></h1>
+  <p>Every number quoted on the <a href="index.html">landing page</a> comes from running Substrat against one of the pcaps below. This page lets you verify each claim — download the pcap, run the exact command, compare output.</p>
+
+  <div class="note">
+    <p><strong>Setup:</strong> download the <a href="index.html#download">Substrat binary</a> for your platform, then make it executable (<code>chmod +x substrat-*</code>). On macOS, also run <code>xattr -d com.apple.quarantine substrat-macos-arm64</code>. The numbers below were measured on a MacBook (Apple Silicon, M-series).</p>
+  </div>
+
+  <h2>Summary</h2>
+  <table class="w-full border-collapse text-[0.9rem] my-4">
+    <thead>
+      <tr><th>Pcap</th><th>Size</th><th>Packets</th><th>Coverage</th><th>Anomalies</th><th>CPU</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="pcaps/modbus_synth.pcap">modbus_synth.pcap</a></td><td>7.0 KB</td><td>85</td><td>94%</td><td>5/5 injected</td><td>0.19s</td></tr>
+      <tr><td><a href="pcaps/dns.pcap">dns.pcap</a></td><td>4.3 KB</td><td>38 (3 flows)</td><td>94–100%</td><td>7 structural</td><td>0.14s</td></tr>
+      <tr><td><a href="pcaps/http_synth.pcap">http_synth.pcap</a></td><td>8.8 KB</td><td>30</td><td>text-mode tokens</td><td>—</td><td>0.45s</td></tr>
+      <tr><td><a href="pcaps/telnet.pcap">telnet.pcap</a></td><td>24.3 KB</td><td>136 (auto-split)</td><td>binary + text</td><td>2 structural</td><td>0.56s</td></tr>
+      <tr><td><a href="pcaps/tftp.pcap">tftp.pcap</a></td><td>9.2 KB</td><td>27</td><td>FTP tokens (CRLF)</td><td>—</td><td>0.23s</td></tr>
+      <tr><td><a href="pcaps/nb6.pcap">nb6.pcap</a></td><td>8.9 KB</td><td>mixed</td><td>template grammar</td><td>—</td><td>18.5s</td></tr>
+    </tbody>
+  </table>
+  <p>Binary-mode CPU times are sub-second. <code>nb6.pcap</code> is text-mode on a large HTTP trace and shows the current upper bound of CPU time for this release.</p>
+
+  <h2>1. MODBUS/TCP — 5/5 injected anomalies detected</h2>
+  <p>SCADA protocol with deliberately corrupted packets appended to a clean trace. Substrat discovers the grammar from the first 80 packets and flags every corrupted packet.</p>
+  <p><a class="dl" href="pcaps/modbus_synth.pcap" download>Download modbus_synth.pcap (7 KB)</a></p>
+  <pre><span class="c">$ ./substrat re modbus_synth.pcap --wireshark ./dissectors --fuzz ./fuzz</span>
+
+Pcap: 85 packets, 1 services (1 analyzable)
+
+<span class="d">--- Flow: TCP|192.168.1.10:502 (85 packets, BINARY mode) ---</span>
+Coverage: <span class="o">94%</span>
+
+Protocol grammar discovered:
+  MSG -> MAGIC_0 DATA_1 FIXED_2 TYPE_3 DATA_4 FIXED_5 DATA_6
+  MAGIC_0 -> 0x00
+  FIXED_2 -> 0x00000006
+  TYPE_3  -> 0x01 | 0x02 | 0x03
+  FIXED_5 -> 0x00
+
+Anomalies found: <span class="w">5/85 packets</span>
+  #80..#84: FIXED_2 mismatch (got 0x00010006), FIXED_5 mismatch (got 0xde)
+
+Fuzz corpus: 500 samples -&gt; ./fuzz/TCP_192.168.1.10_502/
+Wireshark dissector: ./dissectors/TCP_192.168.1.10_502.lua
+Total CPU: <span class="o">0.19s</span></pre>
+
+  <h2>2. DNS — real capture, 3 flows auto-separated</h2>
+  <p>Real DNS traffic. Substrat identifies three distinct flows (queries to different resolvers) and discovers a grammar per flow. Transaction ID, Flags, Questions count, Authority are recovered as separate fields.</p>
+  <p><a class="dl" href="pcaps/dns.pcap" download>Download dns.pcap (4 KB)</a></p>
+  <pre><span class="c">$ ./substrat re dns.pcap</span>
+
+Pcap: 38 packets, 2 services (2 analyzable)
+
+<span class="d">--- Flow: UDP|192.168.170.20:53 [binary] (16 packets) ---</span>
+Coverage: <span class="o">94%</span>
+Anomalies found: 2/16 packets
+
+<span class="d">--- Flow: UDP|192.168.170.20:53 [text] (12 packets) ---</span>
+Coverage: <span class="o">100%</span>
+Anomalies found: 1/12 packets
+
+<span class="d">--- Flow: UDP|217.13.4.24:53 (10 packets) ---</span>
+Coverage: <span class="o">100%</span>
+Anomalies found: 4/10 packets
+
+Total CPU: <span class="o">0.14s</span></pre>
+
+  <h2>3. Telnet — auto-split binary commands from text data</h2>
+  <p>Real Telnet session. Substrat detects the IAC escape prefix <code>0xff</code> and splits binary command packets from text data packets in the same TCP flow, then builds a grammar for each.</p>
+  <p><a class="dl" href="pcaps/telnet.pcap" download>Download telnet.pcap (24 KB)</a></p>
+  <pre><span class="c">$ ./substrat re telnet.pcap</span>
+
+<span class="d">--- Flow: TCP|192.168.0.1:23&lt;&gt;192.168.0.2:1254 [binary] (19 packets) ---</span>
+Grammar: MSG -&gt; DELIM_0xff SEGMENT
+Anomalies found: 2/19 packets
+
+<span class="d">--- Flow: TCP|192.168.0.1:23&lt;&gt;192.168.0.2:1254 [text] (117 packets) ---</span>
+Strategy: template, Tokens: []
+Parse failures: 0/39
+
+Total CPU: <span class="o">0.56s</span></pre>
+
+  <h2>4. HTTP / FTP / TFTP — text-mode tokenization</h2>
+  <p>For text protocols, Substrat discovers delimiter tokens (CRLF, status codes, keywords) and builds a slot-based grammar separating requests from responses.</p>
+  <p>
+    <a class="dl" href="pcaps/http_synth.pcap" download>http_synth.pcap</a>
+    <a class="dl" href="pcaps/tftp.pcap" download>tftp.pcap</a>
+    <a class="dl" href="pcaps/nb6.pcap" download>nb6.pcap</a>
+  </p>
+  <pre><span class="c">$ ./substrat re http_synth.pcap</span>
+
+<span class="d">--- Flow: TCP|10.0.0.1:80&lt;&gt;10.0.0.2:54321 (30 packets, TEXT mode) ---</span>
+Strategy: template
+Tokens discovered: ['HTTP', '1.1', '200', 'OK\r\nContent-Type:', 'application']
+Parse failures: 0/10
+bpc: 1.4113
+
+Total CPU: <span class="o">0.45s</span></pre>
+
+  <h2>Hardware & notes</h2>
+  <p>Measured on a MacBook Pro (Apple Silicon). Substrat uses a Rust backend for CYK parsing; no GPU, no cloud API, no training data.</p>
+  <p>Numbers will vary with CPU — expect sub-second analysis on any modern laptop for pcaps up to a few hundred packets. Larger captures scale roughly linearly with packet count in binary mode, and with text corpus size for text mode.</p>
+  <p>Found a pcap where Substrat does something unexpected? <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20benchmark%20feedback">Send it to us</a> — every edge case improves the tool.</p>
+
+  <p class="mt-12"><a href="index.html" class="back">← Back to home</a></p>
+
+</div>
+
+</body>
+</html>
