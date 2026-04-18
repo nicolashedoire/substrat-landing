@@ -43,7 +43,7 @@
     [data-mode="simple"]{display:none!important}
 
     /* 3. When FR active: show FR, hide EN */
-    body.fr [data-lang="fr"]:not([data-mode]){display:revert!important}
+    body.fr [data-lang="fr"]:not([data-mode]){display:block!important}
     body.fr span[data-lang="fr"]:not([data-mode]){display:inline!important}
     body.fr a[data-lang="fr"]:not([data-mode]){display:inline-block!important}
     body.fr td[data-lang="fr"]:not([data-mode]){display:table-cell!important}
@@ -51,7 +51,7 @@
     body.fr [data-lang="en"]{display:none!important}
 
     /* 4. When simple active: show simple, hide tech */
-    body.simple [data-mode="simple"]:not([data-lang]){display:revert!important}
+    body.simple [data-mode="simple"]:not([data-lang]){display:block!important}
     body.simple span[data-mode="simple"]:not([data-lang]){display:inline!important}
     body.simple a[data-mode="simple"]:not([data-lang]){display:inline-block!important}
     body.simple li[data-mode="simple"]:not([data-lang]){display:list-item!important}
@@ -61,19 +61,19 @@
     /* EN + tech (default state — already visible, nothing to do) */
 
     /* EN + simple: show only when body.simple and NOT body.fr */
-    body.simple [data-lang="en"][data-mode="simple"]{display:revert!important}
+    body.simple [data-lang="en"][data-mode="simple"]{display:block!important}
     body.simple span[data-lang="en"][data-mode="simple"]{display:inline!important}
     body.simple li[data-lang="en"][data-mode="simple"]{display:list-item!important}
     body.fr.simple [data-lang="en"][data-mode="simple"]{display:none!important}
 
     /* FR + tech: show only when body.fr and NOT body.simple */
-    body.fr [data-lang="fr"][data-mode="tech"]{display:revert!important}
+    body.fr [data-lang="fr"][data-mode="tech"]{display:block!important}
     body.fr span[data-lang="fr"][data-mode="tech"]{display:inline!important}
     body.fr li[data-lang="fr"][data-mode="tech"]{display:list-item!important}
     body.fr.simple [data-lang="fr"][data-mode="tech"]{display:none!important}
 
     /* FR + simple: show only when BOTH body.fr AND body.simple */
-    body.fr.simple [data-lang="fr"][data-mode="simple"]{display:revert!important}
+    body.fr.simple [data-lang="fr"][data-mode="simple"]{display:block!important}
     body.fr.simple span[data-lang="fr"][data-mode="simple"]{display:inline!important}
     body.fr.simple li[data-lang="fr"][data-mode="simple"]{display:list-item!important}
 
