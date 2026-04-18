@@ -6,43 +6,66 @@
   <title>Substrat — Documentation</title>
   <meta name="description" content="How to use Substrat: installation, commands, protocol reverse-engineering, anomaly detection, Wireshark export, fuzzing.">
   <link rel="canonical" href="https://nicolashedoire.github.io/substrat-landing/docs.html">
+  <link rel="icon" type="image/png" href="images/substrat-logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root { --bg: #0a0a0f; --bg-card: #12121a; --border: #1e1e2e; --text: #e0e0e8; --text-dim: #8888a0; --accent: #00d4aa; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    .container { max-width: 780px; margin: 0 auto; padding: 40px 24px 80px; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    h1 { font-size: 2.4rem; margin-bottom: 8px; }
-    h1 span { color: var(--accent); }
-    .back { display: inline-block; margin-bottom: 32px; color: var(--text-dim); font-size: 0.9rem; }
-    h2 { font-size: 1.5rem; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--accent); }
-    h3 { font-size: 1.15rem; margin: 28px 0 12px; }
-    p { color: var(--text-dim); margin-bottom: 14px; }
-    ul, ol { color: var(--text-dim); margin: 12px 0 20px 24px; }
-    li { margin-bottom: 6px; }
-    strong { color: var(--text); }
-    pre { background: #0d0d14; border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 14px 0 20px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.6; color: var(--text-dim); }
-    code { font-family: 'JetBrains Mono', monospace; font-size: 0.88em; background: var(--bg-card); padding: 2px 6px; border-radius: 4px; }
-    pre code { background: none; padding: 0; }
-    table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 0.9rem; }
-    th { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-dim); font-weight: 500; }
-    td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-dim); }
-    .note { background: var(--bg-card); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0 24px; }
-    .note p { margin: 0; }
-    footer { text-align: center; padding: 32px 0; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 60px; }
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0f',
+            card: '#12121a',
+            line: '#1e1e2e',
+            text: { DEFAULT: '#e0e0e8', dim: '#8888a0' },
+            accent: '#00d4aa',
+          },
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style type="text/tailwindcss">
+    @layer base {
+      body     { @apply bg-bg text-text font-sans leading-relaxed }
+      a        { @apply text-accent no-underline hover:underline }
+      h1       { @apply text-[2.4rem] font-bold mb-2 }
+      h1 span  { @apply text-accent }
+      h2       { @apply text-[1.5rem] font-semibold mt-12 mb-4 pb-2 border-b border-line text-accent }
+      h3       { @apply text-[1.15rem] font-semibold mt-7 mb-3 }
+      p        { @apply text-text-dim mb-3.5 }
+      ul, ol   { @apply text-text-dim my-3 ml-6 }
+      ul       { @apply list-disc }
+      ol       { @apply list-decimal }
+      li       { @apply mb-1.5 }
+      strong   { @apply text-text }
+      pre      { @apply bg-[#0d0d14] border border-line rounded-lg px-5 py-4 my-3.5 overflow-x-auto font-mono text-[0.82rem] leading-[1.6] text-text-dim }
+      code     { @apply font-mono text-[0.88em] bg-card px-1.5 py-0.5 rounded }
+      pre code { @apply bg-transparent p-0 }
+      th       { @apply text-left px-3.5 py-2.5 border-b border-line text-text-dim font-medium }
+      td       { @apply px-3.5 py-2.5 border-b border-line text-text-dim }
+    }
+    @layer components {
+      .back    { @apply inline-block mb-8 text-text-dim text-[0.9rem] no-underline hover:underline }
+      .note    { @apply bg-card border-l-[3px] border-accent rounded-r-lg px-5 py-4 my-4 [&_p]:m-0 }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="max-w-[780px] mx-auto px-6 pt-10 pb-20">
 
     <a href="index.html" class="back">&larr; Back to Substrat</a>
 
     <h1>Substrat <span>Documentation</span></h1>
-    <p style="font-size:1.1rem;">Everything you need to use Substrat.</p>
+    <p class="text-[1.1rem]">Everything you need to use Substrat.</p>
 
-    <!-- TOC -->
     <h2>Table of contents</h2>
     <ol>
       <li><a href="#install">Installation</a></li>
@@ -57,7 +80,6 @@
       <li><a href="#protocols">Supported protocols</a></li>
     </ol>
 
-    <!-- Install -->
     <h2 id="install">1. Installation</h2>
     <p>Download the binary for your platform from the <a href="index.html#download">download page</a>.</p>
     <pre><code># macOS: remove quarantine flag
@@ -73,14 +95,12 @@ chmod +x substrat-macos-arm64
 CYK backend: Rust (cyk_fast)
 Capabilities: learn, compress, anomaly, generate, re</code></pre>
 
-    <!-- Quick start -->
     <h2 id="quickstart">2. Quick start</h2>
     <p>The most common use case: analyze a network capture file.</p>
     <pre><code># Analyze a pcap — get grammar + anomalies + Wireshark plugin + fuzz corpus
 ./substrat-macos-arm64 re capture.pcap --wireshark ./dissectors --fuzz ./fuzz</code></pre>
     <p>That's it. Substrat reads the pcap, discovers the protocol structure, flags anomalies, generates a Wireshark dissector and 500 test packets.</p>
 
-    <!-- substrat re -->
     <h2 id="re">3. substrat re — Protocol reverse-engineering</h2>
     <p>The main command for pentest and forensics.</p>
     <pre><code># Basic: grammar + anomalies
@@ -140,7 +160,6 @@ Fuzz corpus: 500 samples -> ./fuzz/TCP_192.168.1.10_502/
 
 Total CPU: 0.03s</code></pre>
 
-    <!-- substrat learn -->
     <h2 id="learn">4. substrat learn — Grammar discovery</h2>
     <p>Discover the grammar of any structured text file (one sample per line).</p>
     <pre><code>./substrat learn data.txt</code></pre>
@@ -154,7 +173,6 @@ bpc: 1.6030
 Parse failures: 0/34
 CPU: 0.04s</code></pre>
 
-    <!-- substrat anomaly -->
     <h2 id="anomaly">5. substrat anomaly — Anomaly detection</h2>
     <pre><code># Auto split: train on 2/3, test on 1/3
 ./substrat anomaly data.txt
@@ -167,19 +185,16 @@ CPU: 0.04s</code></pre>
       <li><strong>Statistical</strong>: the line parses but has unusual values (NLL z-score &gt; 2.5)</li>
     </ul>
 
-    <!-- substrat compress -->
     <h2 id="compress">6. substrat compress — Compression</h2>
     <pre><code>./substrat compress data.txt</code></pre>
     <pre><code>Raw: 2720 bits (340 chars x 8)
 Compressed: 545 bits (1.6030 bpc)
 Ratio: 20.0%</code></pre>
 
-    <!-- substrat generate -->
     <h2 id="generate">7. substrat generate — Data generation</h2>
     <pre><code>./substrat generate data.txt --n 20</code></pre>
     <p>Learns the grammar and generates N valid samples with controlled depth.</p>
 
-    <!-- Wireshark -->
     <h2 id="wireshark">8. Wireshark integration</h2>
     <h3>Install the dissector</h3>
     <pre><code># macOS
@@ -200,7 +215,6 @@ copy dissectors\*.lua %APPDATA%\Wireshark\plugins\</code></pre>
       <li>Auto-registers on the discovered port (502 for MODBUS, 53 for DNS...)</li>
     </ul>
 
-    <!-- Fuzz -->
     <h2 id="fuzz">9. Using the fuzz corpus</h2>
     <p>The <code>.bin</code> files in the fuzz directory are raw binary packets, ready to send:</p>
     <pre><code># With ncat
@@ -214,9 +228,8 @@ done</code></pre>
       <li><strong>structural</strong>: truncation, duplication, extension of fields</li>
     </ul>
 
-    <!-- Protocols -->
     <h2 id="protocols">10. Supported protocols</h2>
-    <table>
+    <table class="w-full border-collapse my-4 text-[0.9rem]">
       <thead><tr><th>Protocol</th><th>Type</th><th>Result</th></tr></thead>
       <tbody>
         <tr><td>DNS</td><td>Binary (real)</td><td>Transaction ID, Flags, Questions, Authority detected</td></tr>
@@ -233,7 +246,7 @@ done</code></pre>
 
   </div>
 
-  <footer>
+  <footer class="text-center py-8 text-text-dim text-[0.8rem] border-t border-line mt-16">
     <p>Substrat — built by Nicolas Hedoire &middot; <a href="index.html">Home</a> &middot; <a href="mailto:nicolashedoire@hotmail.com">Contact</a></p>
   </footer>
 </body>
