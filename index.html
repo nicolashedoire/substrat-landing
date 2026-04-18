@@ -87,7 +87,9 @@
 
   <style>
     html { scroll-behavior: smooth }
+    html, body { overflow-x: hidden; max-width: 100vw }
     body { line-height: 1.7 }
+    img, svg, pre, table { max-width: 100% }
 
     .brand-lockup { display: inline-flex; flex-direction: column; align-items: center; gap: 12px }
     .brand-row   { display: inline-flex; align-items: baseline; gap: 10px }
@@ -129,14 +131,14 @@
 </head>
 <body class="bg-bg text-text font-sans">
 
-<div class="fixed top-4 right-6 z-50 flex gap-3 max-[640px]:top-2 max-[640px]:right-2 max-[640px]:gap-1.5">
+<div class="fixed top-4 right-6 z-50 flex gap-3 max-[640px]:top-2 max-[640px]:right-2 max-[640px]:gap-1.5 max-[640px]:text-[0.7rem]">
   <div class="tg" id="tg-mode">
-    <button class="on" onclick="setMode('tech')">Technical</button>
-    <button onclick="setMode('simple')">Non-technical</button>
+    <button class="on max-[640px]:px-2" onclick="setMode('tech')"><span class="max-[640px]:hidden">Technical</span><span class="hidden max-[640px]:inline">Tech</span></button>
+    <button class="max-[640px]:px-2" onclick="setMode('simple')"><span class="max-[640px]:hidden">Non-technical</span><span class="hidden max-[640px]:inline">Simple</span></button>
   </div>
   <div class="tg" id="tg-lang">
-    <button class="on" onclick="setLang('en')">EN</button>
-    <button onclick="setLang('fr')">FR</button>
+    <button class="on max-[640px]:px-2" onclick="setLang('en')">EN</button>
+    <button class="max-[640px]:px-2" onclick="setLang('fr')">FR</button>
   </div>
 </div>
 
@@ -415,7 +417,8 @@ Total CPU: <span class="term-o">0.19s</span>
       </div>
     </div>
 
-    <table class="cmp w-full border-collapse my-5 text-[0.9rem]">
+    <div class="overflow-x-auto -mx-6 px-6 my-5">
+    <table class="cmp w-full border-collapse text-[0.9rem] min-w-[640px]">
       <thead><tr><th></th><th>Substrat</th><th>Snort/Suricata</th><th>Darktrace</th><th>Netzob</th></tr></thead>
       <tbody>
         <tr><td data-lang="en">Signature-free detection</td><td data-lang="fr">Détection sans signatures</td><td class="y"><span data-lang="en">Yes (grammar-based)</span><span data-lang="fr">Oui (grammaire)</span></td><td class="n"><span data-lang="en">Signature-based</span><span data-lang="fr">À base de signatures</span></td><td class="y"><span data-lang="en">Yes (ML)</span><span data-lang="fr">Oui (ML)</span></td><td class="y"><span data-lang="en">Yes (inference)</span><span data-lang="fr">Oui (inférence)</span></td></tr>
@@ -426,6 +429,7 @@ Total CPU: <span class="term-o">0.19s</span>
         <tr><td data-lang="en">Real-time capture</td><td data-lang="fr">Capture temps réel</td><td class="n"><span data-lang="en">Pcap only (v1.2)</span><span data-lang="fr">Pcap seul (v1.2)</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
       </tbody>
     </table>
+    </div>
     <p class="text-center text-[0.8rem] text-text-dim mt-3">
       <span data-lang="en">Comparison based on public documentation of each tool as of 2026. Substrat is complementary — not a replacement — for signature-based IDS.</span>
       <span data-lang="fr">Comparaison basée sur la documentation publique de chaque outil en 2026. Substrat est complémentaire — pas un remplaçant — des IDS à signatures.</span>
