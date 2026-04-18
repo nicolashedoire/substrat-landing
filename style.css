@@ -101,7 +101,8 @@ section .sub{color:var(--text-dim);margin-bottom:36px;font-size:1.02rem}
 /* --- Grid --- */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media(max-width:640px){.grid{grid-template-columns:1fr}.hero h1{font-size:2.2rem}}
-.card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px;display:flex;flex-direction:column}
+.card .btn{margin-top:auto}
 .card h3{font-size:1.1rem;margin-bottom:8px}
 .card p{color:var(--text-dim);font-size:.92rem}
 .card .num{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent);margin-bottom:8px}
