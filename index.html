@@ -149,7 +149,7 @@
       <img src="images/substrat-logo.png" alt="Substrat logo" class="brand-mark">
       <div class="brand-row">
         <span class="brand-name">substrat</span>
-        <span class="brand-version">v1.3.2</span>
+        <span class="brand-version">v1.4.0</span>
       </div>
     </div>
     <h1 class="text-5xl max-[640px]:text-[2.2rem] font-bold tracking-[-.02em] mb-3" data-lang="en" data-mode="tech">Your traffic has a grammar.<br><em>Substrat finds it.</em></h1>
@@ -623,6 +623,9 @@ Total CPU: <span class="term-o">0.034s</span>
 
 <span class="term-d"># Fair MDL comparison: SWC vs n-gram vs gzip (new in v1.3)</span>
 <span class="term-c">$ ./substrat diagnose mydata.txt</span>
+
+<span class="term-d"># Soft readout: ~14% better bpc under noise, same grammar (new in v1.4)</span>
+<span class="term-c">$ ./substrat diagnose mydata.txt --readout=both --fragility</span>
       </pre>
     </div>
   </section>
