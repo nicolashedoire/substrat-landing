@@ -83,13 +83,14 @@
     html { scroll-behavior: smooth }
     body { line-height: 1.7 }
 
-    .brand-lockup { display: inline-flex; align-items: center; gap: 14px }
-    .brand-mark  { height: 56px; width: auto; display: block }
-    .brand-name  { font-size: 2rem; font-weight: 700; color: #00d4aa; letter-spacing: -.02em; line-height: 1 }
+    .brand-lockup { display: inline-flex; flex-direction: column; align-items: center; gap: 12px }
+    .brand-row   { display: inline-flex; align-items: baseline; gap: 10px }
+    .brand-mark  { height: 120px; width: auto; display: block }
+    .brand-name  { font-size: 2.2rem; font-weight: 700; color: #00d4aa; letter-spacing: -.02em; line-height: 1 }
     .brand-version { font-size: .8rem; color: #8888a0 }
     @media (max-width: 520px) {
-      .brand-mark  { height: 44px }
-      .brand-name  { font-size: 1.6rem }
+      .brand-mark  { height: 88px }
+      .brand-name  { font-size: 1.8rem }
       .brand-version { font-size: .7rem }
     }
 
@@ -138,8 +139,10 @@
   <section class="pt-20 pb-10 text-center">
     <div class="brand-lockup mb-8">
       <img src="images/substrat-logo.png" alt="Substrat logo" class="brand-mark">
-      <span class="brand-name">substrat</span>
-      <span class="brand-version">v1.2.0</span>
+      <div class="brand-row">
+        <span class="brand-name">substrat</span>
+        <span class="brand-version">v1.2.0</span>
+      </div>
     </div>
     <h1 class="text-5xl max-[640px]:text-[2.2rem] font-bold tracking-[-.02em] mb-3" data-lang="en" data-mode="tech">Your traffic has a grammar.<br><em>Substrat finds it.</em></h1>
     <h1 class="text-5xl max-[640px]:text-[2.2rem] font-bold tracking-[-.02em] mb-3" data-lang="fr" data-mode="tech">Votre trafic a une grammaire.<br><em>Substrat la trouve.</em></h1>
