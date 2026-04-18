@@ -17,670 +17,585 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0a0a0f;
-      --bg-card: #12121a;
-      --border: #1e1e2e;
-      --text: #e0e0e8;
-      --text-dim: #8888a0;
-      --accent: #00d4aa;
-      --red: #ff4466;
-      --yellow: #ffaa00;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    :root { --bg:#0a0a0f; --bg-card:#12121a; --border:#1e1e2e; --text:#e0e0e8; --text-dim:#8888a0; --accent:#00d4aa; --yellow:#ffaa00; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+    .container{max-width:860px;margin:0 auto;padding:0 24px}
 
-    /* Toggles bar */
-    .toggles { position: fixed; top: 16px; right: 24px; z-index: 100; display: flex; gap: 12px; }
-    .toggle-group { display: flex; gap: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
-    .toggle-group button { background: var(--bg-card); color: var(--text-dim); border: none; padding: 6px 14px; font-size: 0.85rem; cursor: pointer; font-family: inherit; transition: background 0.2s; }
-    .toggle-group button.active { background: var(--accent); color: var(--bg); }
-    @media (max-width: 640px) { .toggles { top: 8px; right: 8px; gap: 6px; } .toggle-group button { padding: 5px 8px; font-size: 0.75rem; } }
-    /* Language */
-    .fr { display: none; }
-    body.lang-fr .fr { display: block; }
-    body.lang-fr .en { display: none; }
-    body.lang-fr span.fr, body.lang-fr p.fr, body.lang-fr h1.fr, body.lang-fr h2.fr, body.lang-fr h3.fr, body.lang-fr li.fr, body.lang-fr td.fr, body.lang-fr th.fr, body.lang-fr a.fr, body.lang-fr div.fr { display: block; }
-    body.lang-fr span.en, body.lang-fr p.en, body.lang-fr h1.en, body.lang-fr h2.en, body.lang-fr h3.en, body.lang-fr li.en, body.lang-fr td.en, body.lang-fr th.en, body.lang-fr a.en, body.lang-fr div.en { display: none; }
+    /* --- Toggle bar --- */
+    .toggles{position:fixed;top:16px;right:24px;z-index:100;display:flex;gap:12px}
+    .tg{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .tg button{background:var(--bg-card);color:var(--text-dim);border:none;padding:6px 14px;font-size:.85rem;cursor:pointer;font-family:inherit;transition:background .2s}
+    .tg button.on{background:var(--accent);color:var(--bg)}
+    @media(max-width:640px){.toggles{top:8px;right:8px;gap:6px}.tg button{padding:5px 8px;font-size:.72rem}}
 
-    /* Simple mode */
-    .simple { display: none; }
-    body.mode-simple .simple { display: block; }
-    body.mode-simple .expert { display: none; }
-    body.mode-simple span.simple { display: inline; }
-    body.mode-simple span.expert { display: none; }
-    body.mode-simple .terminal { display: none; }
-    body.mode-simple .comparison { display: none; }
+    /* --- Visibility: 4 states --- */
+    /* By default: EN + Technical visible */
+    [data-lang="fr"]{display:none}
+    [data-mode="simple"]{display:none}
 
-    /* Hero */
-    .hero { padding: 80px 0 40px; text-align: center; }
-    .hero h1 { font-size: 3rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
-    .hero h1 span { color: var(--accent); }
-    .hero .tagline { font-size: 1.2rem; color: var(--text-dim); max-width: 620px; margin: 0 auto 36px; }
+    body.fr [data-lang="fr"]{display:block}
+    body.fr span[data-lang="fr"]{display:inline}
+    body.fr [data-lang="en"]{display:none}
+    body.fr span[data-lang="en"]{display:none}
 
-    /* Hero badges */
-    .hero-badges { margin-top: 28px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-    .hero-badges span { color: var(--text-dim); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 5px 14px; }
+    body.simple [data-mode="simple"]{display:block}
+    body.simple span[data-mode="simple"]{display:inline}
+    body.simple [data-mode="tech"]{display:none}
+    body.simple span[data-mode="tech"]{display:none}
 
-    /* Story */
-    .story { max-width: 680px; margin: 0 auto; padding: 60px 0 70px; }
-    .story h2 { font-size: 1.8rem; margin-bottom: 32px; text-align: center; line-height: 1.3; }
-    .story h2 span { color: var(--accent); }
-    .story p { color: var(--text-dim); font-size: 1.05rem; margin-bottom: 20px; line-height: 1.8; }
-    .story .highlight { color: var(--text); font-weight: 500; }
-    .story .analogy-box { background: var(--bg-card); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 28px 32px; margin: 36px 0; }
-    .story .analogy-box p { margin-bottom: 14px; }
-    .story .analogy-box p:last-child { margin-bottom: 0; }
+    /* Hide terminal + comparison table in simple mode */
+    body.simple .terminal{display:none}
+    body.simple .comparison{display:none}
 
-    /* Terminal */
-    .terminal { background: #0d0d14; border: 1px solid var(--border); border-radius: 12px; margin: 40px 0; overflow: hidden; }
-    .terminal-bar { background: #16161e; padding: 10px 16px; display: flex; gap: 8px; }
-    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .terminal-dot.r { background: #ff5f57; }
-    .terminal-dot.y { background: #febc2e; }
-    .terminal-dot.g { background: #28c840; }
-    .terminal pre { padding: 20px 24px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.7; overflow-x: auto; color: var(--text-dim); }
-    .terminal .cmd { color: var(--accent); }
-    .terminal .val { color: #ff9966; }
-    .terminal .ok { color: #44dd88; }
-    .terminal .warn { color: var(--yellow); }
-    .terminal .dim { color: #555570; }
+    /* --- Hero --- */
+    .hero{padding:80px 0 40px;text-align:center}
+    .hero h1{font-size:3rem;font-weight:700;letter-spacing:-.02em;margin-bottom:12px}
+    .hero h1 em{color:var(--accent);font-style:normal}
+    .hero .tagline{font-size:1.2rem;color:var(--text-dim);max-width:620px;margin:0 auto 36px}
+    .hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+    .badges{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:4px}
+    .badges span{color:var(--text-dim);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:5px 14px}
 
-    /* Sections */
-    section { padding: 50px 0; }
-    section h2 { font-size: 1.7rem; margin-bottom: 12px; }
-    section h2 span { color: var(--accent); }
-    section .subtitle { color: var(--text-dim); margin-bottom: 36px; font-size: 1.02rem; }
+    /* --- Story --- */
+    .story{max-width:680px;margin:0 auto;padding:60px 0 70px}
+    .story h2{font-size:1.8rem;margin-bottom:32px;text-align:center;line-height:1.3}
+    .story h2 em{color:var(--accent);font-style:normal}
+    .story p{color:var(--text-dim);font-size:1.05rem;margin-bottom:20px;line-height:1.8}
+    .story .hl{color:var(--text);font-weight:500}
+    .story .box{background:var(--bg-card);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;padding:28px 32px;margin:36px 0}
+    .story .box p{margin-bottom:14px}.story .box p:last-child{margin-bottom:0}
 
-    /* Features */
-    .features { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    @media (max-width: 640px) { .features { grid-template-columns: 1fr; } .hero h1 { font-size: 2.2rem; } }
-    .feature { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
-    .feature .icon { font-size: 2rem; margin-bottom: 12px; display: block; }
-    .feature h3 { font-size: 1.1rem; margin-bottom: 8px; }
-    .feature p { color: var(--text-dim); font-size: 0.92rem; }
-    .feature .num { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+    /* --- Terminal --- */
+    .terminal{background:#0d0d14;border:1px solid var(--border);border-radius:12px;margin:40px 0;overflow:hidden}
+    .tbar{background:#16161e;padding:10px 16px;display:flex;gap:8px}
+    .td{width:12px;height:12px;border-radius:50%}.td.r{background:#ff5f57}.td.y{background:#febc2e}.td.g{background:#28c840}
+    .terminal pre{padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.7;overflow-x:auto;color:var(--text-dim)}
+    .terminal .c{color:var(--accent)}.terminal .v{color:#ff9966}.terminal .o{color:#44dd88}.terminal .w{color:var(--yellow)}.terminal .d{color:#555570}
 
-    /* Stats */
-    .stats { display: flex; justify-content: space-around; padding: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 40px 0; flex-wrap: wrap; gap: 20px; }
-    .stat { text-align: center; }
-    .stat .num { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--accent); }
-    .stat .label { color: var(--text-dim); font-size: 0.85rem; margin-top: 4px; }
+    /* --- Sections --- */
+    section{padding:50px 0}
+    section h2{font-size:1.7rem;margin-bottom:12px}
+    section h2 em{color:var(--accent);font-style:normal}
+    section .sub{color:var(--text-dim);margin-bottom:36px;font-size:1.02rem}
 
-    /* Comparison */
-    .comparison { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem; }
-    .comparison th { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-dim); font-weight: 500; }
-    .comparison td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
-    .comparison .yes { color: var(--accent); font-weight: 600; }
-    .comparison .no { color: #3a3a50; }
-    .comparison .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
-    .comparison .dot.green { background: var(--accent); }
-    .comparison .dot.red { background: #3a3a50; }
+    /* --- Grid --- */
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    @media(max-width:640px){.grid{grid-template-columns:1fr}.hero h1{font-size:2.2rem}}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px}
+    .card h3{font-size:1.1rem;margin-bottom:8px}
+    .card p{color:var(--text-dim);font-size:.92rem}
+    .card .num{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--accent);margin-bottom:8px}
 
-    /* CTA */
-    .cta-btn { display: inline-block; text-align: center; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: opacity 0.2s; }
-    .cta-btn:hover { opacity: 0.85; }
-    .cta-btn.primary { background: var(--accent); color: var(--bg); }
-    .cta-btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    /* --- Icons (SVG inline) --- */
+    .ico{width:32px;height:32px;margin-bottom:14px;stroke:var(--accent);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 
-    /* Early access */
-    .early-access { background: var(--bg-card); border: 1px solid var(--accent); border-radius: 12px; padding: 32px; max-width: 500px; margin: 0 auto; position: relative; }
-    .early-access::before { content: 'Early Access'; position: absolute; top: -12px; left: 24px; background: var(--accent); color: var(--bg); font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 4px; }
-    .early-access ul { list-style: none; margin: 20px 0; }
-    .early-access li { padding: 5px 0; font-size: 0.9rem; color: var(--text-dim); }
-    .early-access li::before { content: '\2713  '; color: var(--accent); }
+    /* --- Stats --- */
+    .stats{display:flex;justify-content:space-around;padding:32px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0;flex-wrap:wrap;gap:20px}
+    .stat{text-align:center}
+    .stat .n{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;color:var(--accent)}
+    .stat .l{color:var(--text-dim);font-size:.85rem;margin-top:4px}
 
-    /* Footer */
-    footer { padding: 40px 0; text-align: center; color: var(--text-dim); font-size: 0.85rem; border-top: 1px solid var(--border); }
-    footer a { color: var(--accent); text-decoration: none; }
+    /* --- Comparison --- */
+    .comparison{width:100%;border-collapse:collapse;margin:20px 0;font-size:.9rem}
+    .comparison th{text-align:left;padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-dim);font-weight:500}
+    .comparison td{padding:12px 16px;border-bottom:1px solid var(--border)}
+    .comparison .y{color:var(--accent);font-weight:600}.comparison .n{color:#3a3a50}
+
+    /* --- CTA --- */
+    .btn{display:inline-block;text-align:center;padding:14px 32px;border-radius:8px;font-weight:600;font-size:.95rem;text-decoration:none;transition:opacity .2s}
+    .btn:hover{opacity:.85}
+    .btn.p{background:var(--accent);color:var(--bg)}
+    .btn.s{background:transparent;color:var(--text);border:1px solid var(--border)}
+
+    /* --- Early access --- */
+    .ea{background:var(--bg-card);border:1px solid var(--accent);border-radius:12px;padding:32px;max-width:500px;margin:0 auto;position:relative}
+    .ea::before{content:'Early Access';position:absolute;top:-12px;left:24px;background:var(--accent);color:var(--bg);font-size:.75rem;font-weight:600;padding:3px 10px;border-radius:4px}
+    .ea ul{list-style:none;margin:20px 0}
+    .ea li{padding:5px 0;font-size:.9rem;color:var(--text-dim)}
+    .ea li::before{content:'\2713  ';color:var(--accent)}
+    .ea .price{font-family:'JetBrains Mono',monospace;font-size:2.4rem;font-weight:700;margin:12px 0}
+
+    /* --- Footer --- */
+    footer{padding:40px 0;text-align:center;color:var(--text-dim);font-size:.85rem;border-top:1px solid var(--border)}
+    footer a{color:var(--accent);text-decoration:none}
   </style>
 </head>
 <body>
 
-  <!-- Toggles -->
-  <div class="toggles">
-    <div class="toggle-group" id="mode-toggle">
-      <button class="active" onclick="setMode('expert')">Technical</button>
-      <button onclick="setMode('simple')">Non-technical</button>
-    </div>
-    <div class="toggle-group" id="lang-toggle">
-      <button class="active" onclick="setLang('en')">EN</button>
-      <button onclick="setLang('fr')">FR</button>
-    </div>
+<!-- Toggle bar -->
+<div class="toggles">
+  <div class="tg" id="tg-mode">
+    <button class="on" onclick="setMode('tech')">Technical</button>
+    <button onclick="setMode('simple')">Non-technical</button>
+  </div>
+  <div class="tg" id="tg-lang">
+    <button class="on" onclick="setLang('en')">EN</button>
+    <button onclick="setLang('fr')">FR</button>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <h1 data-lang="en" data-mode="tech">Your traffic has a grammar.<br><em>Substrat finds it.</em></h1>
+  <h1 data-lang="fr" data-mode="tech">Votre trafic a une grammaire.<br><em>Substrat la trouve.</em></h1>
+  <h1 data-lang="en" data-mode="simple">Your machines talk.<br><em>Substrat understands them.</em></h1>
+  <h1 data-lang="fr" data-mode="simple">Vos machines communiquent.<br><em>Substrat les comprend.</em></h1>
+
+  <p class="tagline" data-lang="en" data-mode="tech">Protocol reverse-engineering, anomaly detection, Wireshark export and fuzzing. In seconds. No AI, no GPU.</p>
+  <p class="tagline" data-lang="fr" data-mode="tech">Reverse-engineering de protocoles, detection d'anomalies, export Wireshark et fuzzing. En quelques secondes. Sans IA, sans GPU.</p>
+  <p class="tagline" data-lang="en" data-mode="simple">A tool that automatically learns how your devices communicate, spots anything abnormal, and helps you test their security. No special hardware needed.</p>
+  <p class="tagline" data-lang="fr" data-mode="simple">Un outil qui apprend automatiquement comment vos equipements communiquent, repere tout ce qui est anormal, et vous aide a tester leur securite. Aucun materiel special necessaire.</p>
+
+  <div class="hero-cta">
+    <a href="#download" class="btn p" style="font-size:1.1rem">
+      <span data-lang="en">Download for free</span><span data-lang="fr">Telecharger gratuitement</span>
+    </a>
+    <a href="docs.html" class="btn s" style="font-size:1.1rem">Documentation</a>
   </div>
 
-  <div class="container">
+  <div class="badges" data-mode="tech">
+    <span>macOS / Linux</span><span>Zero GPU</span><span>Rust backend</span><span>21 MB</span>
+  </div>
+  <div class="badges" data-mode="simple">
+    <span>Mac & Linux</span>
+    <span data-lang="en">No expensive hardware</span><span data-lang="fr">Pas de materiel couteux</span>
+    <span data-lang="en">Fast</span><span data-lang="fr">Rapide</span>
+    <span data-lang="en">Lightweight</span><span data-lang="fr">Leger</span>
+  </div>
+</section>
 
-    <!-- Hero -->
-    <section class="hero">
-      <h1 class="en expert">Your traffic has a grammar.<br><span>Substrat finds it.</span></h1>
-      <h1 class="fr expert">Votre trafic a une grammaire.<br><span>Substrat la trouve.</span></h1>
-      <h1 class="en simple">Your machines talk.<br><span>Substrat understands them.</span></h1>
-      <h1 class="fr simple">Vos machines communiquent.<br><span>Substrat les comprend.</span></h1>
+<!-- ===================== STORY ===================== -->
+<div class="story">
+  <h2 data-lang="en">Imagine a <em>doctor</em> who has never seen this patient</h2>
+  <h2 data-lang="fr">Imaginez un <em>medecin</em> qui voit un patient pour la premiere fois</h2>
 
-      <p class="tagline en expert">Protocol reverse-engineering, anomaly detection, Wireshark export and fuzzing. In seconds. No AI, no GPU.</p>
-      <p class="tagline fr expert">Reverse-engineering de protocoles, detection d'anomalies, export Wireshark et fuzzing. En quelques secondes. Sans IA, sans GPU.</p>
-      <p class="tagline en simple">A tool that automatically learns how your devices communicate, spots anything abnormal, and helps you test their security. No special hardware needed.</p>
-      <p class="tagline fr simple">Un outil qui apprend automatiquement comment vos equipements communiquent, repere tout ce qui est anormal, et vous aide a tester leur securite. Aucun materiel special necessaire.</p>
-
-      <div style="display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;">
-        <a href="#download" class="cta-btn primary" style="font-size:1.1rem;">
-          <span class="en">Download for free</span>
-          <span class="fr">Telecharger gratuitement</span>
-        </a>
-        <a href="docs.html" class="cta-btn secondary" style="font-size:1.1rem;">
-          <span class="en">Documentation</span>
-          <span class="fr">Documentation</span>
-        </a>
-      </div>
-
-      <div class="hero-badges expert">
-        <span>macOS / Linux</span>
-        <span>Zero GPU</span>
-        <span>Rust backend</span>
-        <span>21 MB</span>
-      </div>
-      <div class="hero-badges simple">
-        <span>Mac & Linux</span>
-        <span class="en">No expensive hardware</span><span class="fr">Pas de materiel couteux</span>
-        <span class="en">Fast</span><span class="fr">Rapide</span>
-        <span class="en">Lightweight</span><span class="fr">Leger</span>
-      </div>
-    </section>
-
-    <!-- Story -->
-    <div class="story">
-      <h2 class="en">Imagine a <span>doctor</span> who has never seen this patient</h2>
-      <h2 class="fr">Imaginez un <span>medecin</span> qui voit un patient pour la premiere fois</h2>
-
-      <div class="en">
-        <p>A doctor walks into a room. They've never met this patient. But within minutes, by taking a pulse, measuring blood pressure, checking temperature, they know what <span class="highlight">"normal" looks like</span> for this body.</p>
-
-        <p>Now imagine an alarm goes off. The heart rate spikes. The doctor doesn't need a list of every possible disease — they just know: <span class="highlight">something has changed.</span></p>
-
-        <div class="analogy-box">
-          <p><span class="highlight">Substrat does the same thing, but with machines.</span></p>
-          <p>Your devices — sensors, servers, industrial controllers — talk to each other constantly. Every message follows a pattern. A rhythm. A grammar. But nobody wrote the manual.</p>
-          <p>Substrat <span class="highlight">watches the traffic for a few seconds</span>, discovers the rules on its own, and then monitors in real time. When a message breaks the pattern — a corrupted header, an unknown command, an injected payload — it flags it instantly.</p>
-        </div>
-
-        <p>The doctor can read the chart. The engineer can read the grammar. It's not a black box. It's not a neural network guessing probabilities. It's <span class="highlight">a formal description of what your protocol actually does</span>, discovered automatically.</p>
-
-        <p>And just like a doctor can generate a stress test to see how the body reacts, Substrat can <span class="highlight">generate test packets</span> — mutated, corrupted, edge-case — to find out what breaks your system before an attacker does.</p>
-      </div>
-
-      <div class="fr">
-        <p>Un medecin entre dans une chambre. Il n'a jamais vu ce patient. Mais en quelques minutes — pouls, tension, temperature — il sait ce qui est <span class="highlight">normal pour ce corps.</span></p>
-
-        <p>Maintenant une alarme sonne. Le rythme cardiaque s'emballe. Le medecin n'a pas besoin de la liste de toutes les maladies possibles — il sait juste : <span class="highlight">quelque chose a change.</span></p>
-
-        <div class="analogy-box">
-          <p><span class="highlight">Substrat fait la meme chose, mais avec des machines.</span></p>
-          <p>Vos equipements — capteurs, serveurs, automates industriels — communiquent en permanence. Chaque message suit un schema. Un rythme. Une grammaire. Mais personne n'a ecrit le manuel.</p>
-          <p>Substrat <span class="highlight">observe le trafic pendant quelques secondes</span>, decouvre les regles tout seul, puis surveille en temps reel. Quand un message casse le schema — un header corrompu, une commande inconnue, un payload injecte — il le signale immediatement.</p>
-        </div>
-
-        <p>Le medecin peut lire le dossier patient. L'ingenieur peut lire la grammaire. Ce n'est pas une boite noire. Ce n'est pas un reseau de neurones qui devine des probabilites. C'est <span class="highlight">une description formelle de ce que fait votre protocole</span>, decouverte automatiquement.</p>
-
-        <p>Et tout comme un medecin peut prescrire un test d'effort pour voir comment le corps reagit, Substrat peut <span class="highlight">generer des paquets de test</span> — mutes, corrompus, cas limites — pour decouvrir ce qui casse votre systeme avant qu'un attaquant ne le fasse.</p>
-      </div>
+  <div data-lang="en">
+    <p>A doctor walks into a room. They've never met this patient. But within minutes, by taking a pulse, measuring blood pressure, checking temperature, they know what <span class="hl">"normal" looks like</span> for this body.</p>
+    <p>Now imagine an alarm goes off. The heart rate spikes. The doctor doesn't need a list of every possible disease — they just know: <span class="hl">something has changed.</span></p>
+    <div class="box">
+      <p><span class="hl">Substrat does the same thing, but with machines.</span></p>
+      <p>Your devices — sensors, servers, industrial controllers — talk to each other constantly. Every message follows a pattern. A rhythm. A grammar. But nobody wrote the manual.</p>
+      <p>Substrat <span class="hl">watches the traffic for a few seconds</span>, discovers the rules on its own, and then monitors in real time. When a message breaks the pattern — a corrupted header, an unknown command, an injected payload — it flags it instantly.</p>
     </div>
+    <p>The doctor can read the chart. The engineer can read the grammar. It's not a black box. It's <span class="hl">a formal description of what your protocol actually does</span>, discovered automatically.</p>
+    <p>And just like a doctor can run a stress test, Substrat can <span class="hl">generate test packets</span> — mutated, corrupted, edge-case — to find out what breaks your system before an attacker does.</p>
+  </div>
 
-    <!-- Terminal demo -->
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="terminal-dot r"></div>
-        <div class="terminal-dot y"></div>
-        <div class="terminal-dot g"></div>
-      </div>
-      <pre>
-<span class="cmd">$ substrat re capture.pcap --wireshark ./dissectors</span>
+  <div data-lang="fr">
+    <p>Un medecin entre dans une chambre. Il n'a jamais vu ce patient. Mais en quelques minutes — pouls, tension, temperature — il sait ce qui est <span class="hl">normal pour ce corps.</span></p>
+    <p>Maintenant une alarme sonne. Le rythme cardiaque s'emballe. Le medecin n'a pas besoin de la liste de toutes les maladies possibles — il sait juste : <span class="hl">quelque chose a change.</span></p>
+    <div class="box">
+      <p><span class="hl">Substrat fait la meme chose, mais avec des machines.</span></p>
+      <p>Vos equipements — capteurs, serveurs, automates industriels — communiquent en permanence. Chaque message suit un schema. Un rythme. Une grammaire. Mais personne n'a ecrit le manuel.</p>
+      <p>Substrat <span class="hl">observe le trafic pendant quelques secondes</span>, decouvre les regles tout seul, puis surveille en temps reel. Quand un message casse le schema — il le signale immediatement.</p>
+    </div>
+    <p>Le medecin peut lire le dossier patient. L'ingenieur peut lire la grammaire. Ce n'est pas une boite noire. C'est <span class="hl">une description formelle de ce que fait votre protocole</span>, decouverte automatiquement.</p>
+    <p>Et tout comme un medecin peut prescrire un test d'effort, Substrat peut <span class="hl">generer des paquets de test</span> — mutes, corrompus, cas limites — pour decouvrir ce qui casse votre systeme avant qu'un attaquant ne le fasse.</p>
+  </div>
+</div>
+
+<!-- ===================== TERMINAL ===================== -->
+<div class="terminal">
+  <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+  <pre>
+<span class="c">$ substrat re capture.pcap --wireshark ./dissectors</span>
 
 Pcap: 85 packets, 1 services (1 analyzable)
 
-<span class="dim">--- Flow: TCP|192.168.1.10:502 (85 packets, BINARY mode) ---</span>
-Coverage: <span class="ok">94%</span>
+<span class="d">--- Flow: TCP|192.168.1.10:502 (85 packets, BINARY mode) ---</span>
+Coverage: <span class="o">94%</span>
 
 Protocol grammar discovered:
   MSG -> MAGIC_0 DATA_1 FIXED_2 TYPE_3 DATA_4 FIXED_5 DATA_6
-  MAGIC_0 -> <span class="val">0x00</span>
-  FIXED_2 -> <span class="val">0x00000006</span>
-  TYPE_3  -> <span class="val">0x01</span> | <span class="val">0x02</span> | <span class="val">0x03</span>
+  MAGIC_0 -> <span class="v">0x00</span>
+  FIXED_2 -> <span class="v">0x00000006</span>
+  TYPE_3  -> <span class="v">0x01</span> | <span class="v">0x02</span> | <span class="v">0x03</span>
 
-Anomalies found: <span class="warn">5/85 packets</span>
-  #80: FIXED_2 mismatch: expected 0x00000006, got 0x00010006
-  #81: FIXED_5 mismatch: expected 0x00, got 0xde
+Anomalies found: <span class="w">5/85 packets</span>
 
-Wireshark dissector: <span class="ok">./dissectors/TCP_192.168.1.10_502.lua</span>
+Wireshark dissector: <span class="o">./dissectors/TCP_192.168.1.10_502.lua</span>
+Total CPU: <span class="o">0.03s</span>
+  </pre>
+</div>
 
-Total CPU: <span class="ok">0.03s</span>
-      </pre>
+<!-- ===================== WHO IS IT FOR ===================== -->
+<section>
+  <h2 data-lang="en" style="text-align:center">Who is Substrat <em>for</em></h2>
+  <h2 data-lang="fr" style="text-align:center">A qui s'adresse <em>Substrat</em></h2>
+  <div class="grid" style="margin-top:28px">
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><path d="M15 11l2 2 4-4"/></svg>
+      <h3 data-lang="en" data-mode="tech">Pentesters & forensics analysts</h3>
+      <h3 data-lang="fr" data-mode="tech">Pentesters & analystes forensics</h3>
+      <h3 data-lang="en" data-mode="simple">Security testers</h3>
+      <h3 data-lang="fr" data-mode="simple">Testeurs de securite</h3>
+      <p data-lang="en" data-mode="tech">Reverse-engineer unknown protocols from a pcap in seconds. Get the grammar, the Wireshark dissector and a fuzz corpus — what takes 3 days by hand takes 3 seconds.</p>
+      <p data-lang="fr" data-mode="tech">Reverse-engineerez des protocoles inconnus depuis un pcap en quelques secondes. Ce qui prend 3 jours a la main prend 3 secondes.</p>
+      <p data-lang="en" data-mode="simple">People who test the security of computer systems. Substrat gives them an instant X-ray of how machines talk to each other, and generates test cases to find weaknesses.</p>
+      <p data-lang="fr" data-mode="simple">Les personnes qui testent la securite des systemes informatiques. Substrat leur donne une radiographie instantanee de la communication entre machines, et genere des cas de test pour trouver les faiblesses.</p>
     </div>
-
-    <!-- Who is it for -->
-    <section>
-      <h2 class="en" style="text-align:center;">Who is Substrat <span>for</span></h2>
-      <h2 class="fr" style="text-align:center;">A qui s'adresse <span>Substrat</span></h2>
-      <div class="features" style="margin-top:28px;">
-        <div class="feature">
-          <span class="icon">&#128373;</span>
-          <h3 class="en expert">Pentesters & forensics analysts</h3>
-          <h3 class="fr expert">Pentesters & analystes forensics</h3>
-          <h3 class="en simple">Security testers</h3>
-          <h3 class="fr simple">Testeurs de securite</h3>
-          <p class="en expert">Reverse-engineer unknown protocols from a pcap in seconds. Get the grammar, the Wireshark dissector and a fuzz corpus — what takes 3 days by hand takes 3 seconds.</p>
-          <p class="fr expert">Reverse-engineerez des protocoles inconnus depuis un pcap en quelques secondes. Obtenez la grammaire, le dissecteur Wireshark et un corpus de fuzz — ce qui prend 3 jours a la main prend 3 secondes.</p>
-          <p class="en simple">People who test the security of computer systems. Substrat gives them an instant X-ray of how machines talk to each other, and generates test cases to find weaknesses.</p>
-          <p class="fr simple">Les personnes qui testent la securite des systemes informatiques. Substrat leur donne une radiographie instantanee de comment les machines communiquent, et genere des cas de test pour trouver les faiblesses.</p>
-        </div>
-        <div class="feature">
-          <span class="icon">&#128737;</span>
-          <h3 class="en expert">SOC & security teams</h3>
-          <h3 class="fr expert">SOC & equipes securite</h3>
-          <h3 class="en simple">Security monitoring teams</h3>
-          <h3 class="fr simple">Equipes de surveillance securite</h3>
-          <p class="en expert">Monitor network traffic in real time without writing signatures. Substrat learns the baseline, detects deviations. Zero false positives on clean traffic.</p>
-          <p class="fr expert">Surveillez le trafic reseau en temps reel sans ecrire de signatures. Substrat apprend la baseline, detecte les deviations. Zero faux positifs sur du trafic propre.</p>
-          <p class="en simple">Teams that watch over a company's network 24/7. Instead of maintaining a list of known attacks, Substrat learns what's normal and alerts on anything unusual — even attacks nobody has seen before.</p>
-          <p class="fr simple">Les equipes qui surveillent le reseau d'une entreprise 24h/24. Au lieu de maintenir une liste d'attaques connues, Substrat apprend ce qui est normal et alerte sur tout ce qui est inhabituel — meme des attaques que personne n'a encore vues.</p>
-        </div>
-        <div class="feature">
-          <span class="icon">&#9881;</span>
-          <h3 class="en expert">IoT & industrial (SCADA/ICS)</h3>
-          <h3 class="fr expert">IoT & industriel (SCADA/ICS)</h3>
-          <h3 class="en simple">Factories & connected devices</h3>
-          <h3 class="fr simple">Usines & objets connectes</h3>
-          <p class="en expert">Discover the grammar of proprietary protocols on sensors, PLCs, SCADA systems. Monitor in real time on a Raspberry Pi. No GPU, no cloud dependency.</p>
-          <p class="fr expert">Decouvrez la grammaire de protocoles proprietaires sur vos capteurs, automates, systemes SCADA. Surveillance temps reel sur un Raspberry Pi. Pas de GPU, pas de dependance cloud.</p>
-          <p class="en simple">Factories use machines that speak proprietary languages nobody documented. Substrat learns these languages automatically and monitors for anything abnormal — running on hardware as small as a credit card.</p>
-          <p class="fr simple">Les usines utilisent des machines qui parlent des langages proprietaires que personne n'a documentes. Substrat apprend ces langages automatiquement et surveille toute anomalie — sur du materiel aussi petit qu'une carte de credit.</p>
-        </div>
-        <div class="feature">
-          <span class="icon">&#128300;</span>
-          <h3 class="en expert">R&D & protocol designers</h3>
-          <h3 class="fr expert">R&D & concepteurs de protocoles</h3>
-          <h3 class="en simple">Engineers building new systems</h3>
-          <h3 class="fr simple">Ingenieurs qui construisent de nouveaux systemes</h3>
-          <p class="en expert">Validate that your implementation matches your spec. Use Substrat as an automatic conformance checker — the grammar it discovers should match yours.</p>
-          <p class="fr expert">Validez que votre implementation correspond a votre specification. Utilisez Substrat comme verificateur de conformite automatique — la grammaire qu'il decouvre devrait correspondre a la votre.</p>
-          <p class="en simple">Engineers who design communication systems can use Substrat to verify that their system works as intended — like a spell-checker, but for machine communication.</p>
-          <p class="fr simple">Les ingenieurs qui concoivent des systemes de communication peuvent utiliser Substrat pour verifier que leur systeme fonctionne comme prevu — comme un correcteur orthographique, mais pour la communication entre machines.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stats -->
-    <div class="stats">
-      <div class="stat">
-        <div class="num">3s</div>
-        <div class="label en"><span class="expert">to reverse-engineer a protocol</span><span class="simple">to understand an unknown format</span></div>
-        <div class="label fr"><span class="expert">pour reverse-engineer un protocole</span><span class="simple">pour comprendre un format inconnu</span></div>
-      </div>
-      <div class="stat">
-        <div class="num">0%</div>
-        <div class="label en"><span class="expert">false positives</span><span class="simple">false alarms</span></div>
-        <div class="label fr"><span class="expert">faux positifs</span><span class="simple">fausses alertes</span></div>
-      </div>
-      <div class="stat">
-        <div class="num">100%</div>
-        <div class="label en"><span class="expert">attacks detected</span><span class="simple">anomalies caught</span></div>
-        <div class="label fr"><span class="expert">attaques detectees</span><span class="simple">anomalies trouvees</span></div>
-      </div>
-      <div class="stat">
-        <div class="num">0</div>
-        <div class="label en"><span class="expert">GPU needed</span><span class="simple">expensive hardware needed</span></div>
-        <div class="label fr"><span class="expert">GPU necessaire</span><span class="simple">materiel couteux necessaire</span></div>
-      </div>
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <h3 data-lang="en" data-mode="tech">SOC & security teams</h3>
+      <h3 data-lang="fr" data-mode="tech">SOC & equipes securite</h3>
+      <h3 data-lang="en" data-mode="simple">Security monitoring teams</h3>
+      <h3 data-lang="fr" data-mode="simple">Equipes de surveillance</h3>
+      <p data-lang="en" data-mode="tech">Monitor network traffic in real time without writing signatures. Substrat learns the baseline, detects deviations. Zero false positives on clean traffic.</p>
+      <p data-lang="fr" data-mode="tech">Surveillez le trafic reseau en temps reel sans ecrire de signatures. Zero faux positifs sur du trafic propre.</p>
+      <p data-lang="en" data-mode="simple">Teams that watch over a company's network 24/7. Substrat learns what's normal and alerts on anything unusual — even attacks nobody has seen before.</p>
+      <p data-lang="fr" data-mode="simple">Les equipes qui surveillent le reseau d'une entreprise 24h/24. Substrat apprend ce qui est normal et alerte sur tout ce qui est inhabituel — meme des attaques jamais vues.</p>
     </div>
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>
+      <h3 data-lang="en" data-mode="tech">IoT & industrial (SCADA/ICS)</h3>
+      <h3 data-lang="fr" data-mode="tech">IoT & industriel (SCADA/ICS)</h3>
+      <h3 data-lang="en" data-mode="simple">Factories & connected devices</h3>
+      <h3 data-lang="fr" data-mode="simple">Usines & objets connectes</h3>
+      <p data-lang="en" data-mode="tech">Discover the grammar of proprietary protocols on sensors, PLCs, SCADA systems. Monitor in real time on a Raspberry Pi. No GPU, no cloud.</p>
+      <p data-lang="fr" data-mode="tech">Decouvrez la grammaire de protocoles proprietaires sur capteurs et automates. Surveillance temps reel sur Raspberry Pi.</p>
+      <p data-lang="en" data-mode="simple">Factories use machines that speak proprietary languages nobody documented. Substrat learns these languages automatically — running on hardware as small as a credit card.</p>
+      <p data-lang="fr" data-mode="simple">Les usines utilisent des machines qui parlent des langages que personne n'a documentes. Substrat les apprend automatiquement — sur du materiel aussi petit qu'une carte de credit.</p>
+    </div>
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+      <h3 data-lang="en" data-mode="tech">R&D & protocol designers</h3>
+      <h3 data-lang="fr" data-mode="tech">R&D & concepteurs de protocoles</h3>
+      <h3 data-lang="en" data-mode="simple">Engineers building new systems</h3>
+      <h3 data-lang="fr" data-mode="simple">Ingenieurs qui construisent de nouveaux systemes</h3>
+      <p data-lang="en" data-mode="tech">Validate that your implementation matches your spec. Use Substrat as an automatic conformance checker.</p>
+      <p data-lang="fr" data-mode="tech">Validez que votre implementation correspond a votre spec. Substrat sert de verificateur de conformite automatique.</p>
+      <p data-lang="en" data-mode="simple">Engineers who design communication systems can use Substrat to verify that their system works as intended — like a spell-checker for machine communication.</p>
+      <p data-lang="fr" data-mode="simple">Les ingenieurs qui concoivent des systemes de communication peuvent verifier que leur systeme fonctionne comme prevu — comme un correcteur pour la communication entre machines.</p>
+    </div>
+  </div>
+</section>
 
-    <!-- Features -->
-    <section>
-      <h2 class="en expert">What you get from <span>one command</span></h2>
-      <h2 class="fr expert">Ce que vous obtenez en <span>une commande</span></h2>
-      <h2 class="en simple">What Substrat does <span>for you</span></h2>
-      <h2 class="fr simple">Ce que Substrat fait <span>pour vous</span></h2>
-      <div class="features">
-        <div class="feature">
-          <span class="icon">&#128220;</span>
-          <h3 class="en expert">Protocol Grammar</h3>
-          <h3 class="fr expert">Grammaire du protocole</h3>
-          <h3 class="en simple">It reads the language of your machines</h3>
-          <h3 class="fr simple">Il comprend le langage de vos machines</h3>
-          <p class="en expert">Human-readable rules describing the exact structure of your protocol. Magic bytes, type fields, length fields, variable data — all identified automatically.</p>
-          <p class="fr expert">Des regles lisibles par un humain decrivant la structure exacte de votre protocole. Magic bytes, champs de type, champs de longueur, donnees variables — tout identifie automatiquement.</p>
-          <p class="en simple">Your devices exchange messages in a specific format. Substrat figures out that format on its own, and writes it down in rules that any engineer can read and verify.</p>
-          <p class="fr simple">Vos equipements echangent des messages dans un format precis. Substrat decouvre ce format tout seul, et le redige sous forme de regles que n'importe quel ingenieur peut lire et verifier.</p>
-        </div>
-        <div class="feature">
-          <span class="icon">&#128680;</span>
-          <h3 class="en expert">Anomaly Detection</h3>
-          <h3 class="fr expert">Detection d'anomalies</h3>
-          <h3 class="en simple">It spots what doesn't belong</h3>
-          <h3 class="fr simple">Il repere ce qui ne va pas</h3>
-          <p class="en expert">Every packet that deviates from the learned structure is flagged. Corrupted headers, unknown types, truncated messages. No signatures needed.</p>
-          <p class="fr expert">Chaque paquet qui devie de la structure apprise est signale. Headers corrompus, types inconnus, messages tronques. Pas de signatures necessaires.</p>
-          <p class="en simple">Once it knows the normal rhythm of your traffic, any message that breaks the pattern triggers an alert. No need to describe every possible attack in advance — if it's abnormal, it's flagged.</p>
-          <p class="fr simple">Une fois qu'il connait le rythme normal de votre trafic, tout message qui casse le schema declenche une alerte. Pas besoin de decrire chaque attaque possible a l'avance — si c'est anormal, c'est signale.</p>
-        </div>
-        <div class="feature">
-          <span class="icon">&#128268;</span>
-          <h3 class="en expert">Wireshark Dissector</h3>
-          <h3 class="fr expert">Dissecteur Wireshark</h3>
-          <h3 class="en simple">It plugs into your existing tools</h3>
-          <h3 class="fr simple">Il se branche sur vos outils existants</h3>
-          <p class="en expert">Auto-generated .lua dissector, registered on the right port. Load it in Wireshark — fields are named, anomalies are marked in Expert Info.</p>
-          <p class="fr expert">Dissecteur .lua genere automatiquement, enregistre sur le bon port. Chargez-le dans Wireshark — les champs sont nommes, les anomalies marquees dans Expert Info.</p>
-          <p class="en simple">Substrat generates a plugin for Wireshark (the standard tool for network analysis). Open your capture file, and every field is already named and labeled — no manual work needed.</p>
-          <p class="fr simple">Substrat genere un plugin pour Wireshark (l'outil standard d'analyse reseau). Ouvrez votre fichier de capture, et chaque champ est deja nomme et etiquete — aucun travail manuel.</p>
-        </div>
-        <div class="feature">
-          <span class="icon">&#128163;</span>
-          <h3 class="en expert">Fuzz Corpus</h3>
-          <h3 class="fr expert">Corpus de fuzz</h3>
-          <h3 class="en simple">It tests your system's resistance</h3>
-          <h3 class="fr simple">Il teste la resistance de votre systeme</h3>
-          <p class="en expert">500 mutated packets in 3 strategies: field corruption, boundary values, structural mutations. Ready to send to the target.</p>
-          <p class="fr expert">500 paquets mutes selon 3 strategies : corruption de champs, valeurs limites, mutations structurelles. Prets a envoyer sur la cible.</p>
-          <p class="en simple">Like a stress test for your heart, Substrat generates hundreds of slightly corrupted messages to see how your system reacts. It finds the weaknesses before an attacker does.</p>
-          <p class="fr simple">Comme un test d'effort pour votre coeur, Substrat genere des centaines de messages legerement corrompus pour voir comment votre systeme reagit. Il trouve les faiblesses avant qu'un attaquant ne le fasse.</p>
-        </div>
-      </div>
-    </section>
+<!-- ===================== STATS ===================== -->
+<div class="stats">
+  <div class="stat">
+    <div class="n">3s</div>
+    <div class="l" data-lang="en" data-mode="tech">to reverse-engineer a protocol</div>
+    <div class="l" data-lang="fr" data-mode="tech">pour analyser un protocole</div>
+    <div class="l" data-lang="en" data-mode="simple">to understand an unknown format</div>
+    <div class="l" data-lang="fr" data-mode="simple">pour comprendre un format inconnu</div>
+  </div>
+  <div class="stat">
+    <div class="n">0%</div>
+    <div class="l" data-lang="en" data-mode="tech">false positives</div>
+    <div class="l" data-lang="fr" data-mode="tech">faux positifs</div>
+    <div class="l" data-lang="en" data-mode="simple">false alarms</div>
+    <div class="l" data-lang="fr" data-mode="simple">fausses alertes</div>
+  </div>
+  <div class="stat">
+    <div class="n">100%</div>
+    <div class="l" data-lang="en" data-mode="tech">attacks detected</div>
+    <div class="l" data-lang="fr" data-mode="tech">attaques detectees</div>
+    <div class="l" data-lang="en" data-mode="simple">anomalies caught</div>
+    <div class="l" data-lang="fr" data-mode="simple">anomalies trouvees</div>
+  </div>
+  <div class="stat">
+    <div class="n">0</div>
+    <div class="l" data-lang="en" data-mode="tech">GPU needed</div>
+    <div class="l" data-lang="fr" data-mode="tech">GPU necessaire</div>
+    <div class="l" data-lang="en" data-mode="simple">expensive hardware needed</div>
+    <div class="l" data-lang="fr" data-mode="simple">materiel couteux necessaire</div>
+  </div>
+</div>
 
-    <!-- Protocols tested -->
-    <section>
-      <h2 class="en expert">Tested on <span>real protocols</span></h2>
-      <h2 class="fr expert">Teste sur des <span>protocoles reels</span></h2>
-      <h2 class="en simple">Works with <span>real-world systems</span></h2>
-      <h2 class="fr simple">Fonctionne avec des <span>systemes reels</span></h2>
-      <div class="features">
-        <div class="feature">
-          <div class="num">MODBUS/TCP</div>
-          <p class="en expert">SCADA industrial protocol. Proto ID, Unit ID, Length discovered. 5/5 injected anomalies detected.</p>
-          <p class="fr expert">Protocole industriel SCADA. Proto ID, Unit ID, Length decouverts. 5/5 anomalies injectees detectees.</p>
-          <p class="en simple">The language used by industrial machines in factories and power plants. Substrat understood it automatically and detected all 5 simulated attacks.</p>
-          <p class="fr simple">Le langage utilise par les machines industrielles dans les usines et centrales. Substrat l'a compris automatiquement et a detecte les 5 attaques simulees.</p>
-        </div>
-        <div class="feature">
-          <div class="num">DNS</div>
-          <p class="en expert">Transaction ID, Flags, Questions count, Authority. Structural anomalies found in real captures.</p>
-          <p class="fr expert">Transaction ID, Flags, nombre de questions, Authority. Anomalies structurelles trouvees sur des captures reelles.</p>
-          <p class="en simple">The system that translates website names into addresses (like a phone book for the internet). Substrat identified its structure and found anomalies in real traffic.</p>
-          <p class="fr simple">Le systeme qui traduit les noms de sites en adresses (comme un annuaire pour internet). Substrat a identifie sa structure et trouve des anomalies dans du vrai trafic.</p>
-        </div>
-        <div class="feature">
-          <div class="num">Telnet</div>
-          <p class="en expert">Auto-split: IAC binary commands separated from text data in the same flow.</p>
-          <p class="fr expert">Separation automatique : commandes binaires IAC separees des donnees texte dans le meme flux.</p>
-          <p class="en simple">A remote control protocol that mixes commands and text in the same conversation. Substrat separated them automatically.</p>
-          <p class="fr simple">Un protocole de controle a distance qui melange commandes et texte dans la meme conversation. Substrat les a separes automatiquement.</p>
-        </div>
-        <div class="feature">
-          <div class="num">HTTP / FTP</div>
-          <p class="en expert">Text mode: tokens discovered (\r\n, HTTP, GET), requests and responses separated.</p>
-          <p class="fr expert">Mode texte : tokens decouverts (\r\n, HTTP, GET), requetes et reponses separees.</p>
-          <p class="en simple">The protocols behind web pages and file transfers. Substrat identified the keywords and separated requests from responses.</p>
-          <p class="fr simple">Les protocoles derriere les pages web et les transferts de fichiers. Substrat a identifie les mots-cles et separe les requetes des reponses.</p>
-        </div>
-      </div>
-    </section>
+<!-- ===================== FEATURES ===================== -->
+<section>
+  <h2 data-lang="en" data-mode="tech">What you get from <em>one command</em></h2>
+  <h2 data-lang="fr" data-mode="tech">Ce que vous obtenez en <em>une commande</em></h2>
+  <h2 data-lang="en" data-mode="simple">What Substrat does <em>for you</em></h2>
+  <h2 data-lang="fr" data-mode="simple">Ce que Substrat fait <em>pour vous</em></h2>
+  <div class="grid">
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <h3 data-lang="en" data-mode="tech">Protocol Grammar</h3>
+      <h3 data-lang="fr" data-mode="tech">Grammaire du protocole</h3>
+      <h3 data-lang="en" data-mode="simple">It reads the language of your machines</h3>
+      <h3 data-lang="fr" data-mode="simple">Il comprend le langage de vos machines</h3>
+      <p data-lang="en" data-mode="tech">Human-readable rules describing the exact structure of your protocol. Magic bytes, type fields, length fields, variable data — all identified automatically.</p>
+      <p data-lang="fr" data-mode="tech">Des regles lisibles decrivant la structure exacte de votre protocole. Magic bytes, champs de type, de longueur, donnees variables — tout identifie automatiquement.</p>
+      <p data-lang="en" data-mode="simple">Your devices exchange messages in a specific format. Substrat figures out that format on its own, and writes it down in rules that any engineer can read and verify.</p>
+      <p data-lang="fr" data-mode="simple">Vos equipements echangent des messages dans un format precis. Substrat decouvre ce format tout seul et le redige sous forme de regles que n'importe quel ingenieur peut lire.</p>
+    </div>
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <h3 data-lang="en" data-mode="tech">Anomaly Detection</h3>
+      <h3 data-lang="fr" data-mode="tech">Detection d'anomalies</h3>
+      <h3 data-lang="en" data-mode="simple">It spots what doesn't belong</h3>
+      <h3 data-lang="fr" data-mode="simple">Il repere ce qui ne va pas</h3>
+      <p data-lang="en" data-mode="tech">Every packet that deviates from the learned structure is flagged. Corrupted headers, unknown types, truncated messages. No signatures needed.</p>
+      <p data-lang="fr" data-mode="tech">Chaque paquet qui devie de la structure apprise est signale. Headers corrompus, types inconnus, messages tronques. Pas de signatures.</p>
+      <p data-lang="en" data-mode="simple">Once it knows the normal rhythm of your traffic, any message that breaks the pattern triggers an alert. No need to describe every possible attack in advance.</p>
+      <p data-lang="fr" data-mode="simple">Une fois qu'il connait le rythme normal de votre trafic, tout message qui casse le schema declenche une alerte. Pas besoin de decrire chaque attaque a l'avance.</p>
+    </div>
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      <h3 data-lang="en" data-mode="tech">Wireshark Dissector</h3>
+      <h3 data-lang="fr" data-mode="tech">Dissecteur Wireshark</h3>
+      <h3 data-lang="en" data-mode="simple">It plugs into your existing tools</h3>
+      <h3 data-lang="fr" data-mode="simple">Il se branche sur vos outils existants</h3>
+      <p data-lang="en" data-mode="tech">Auto-generated .lua dissector, registered on the right port. Load it in Wireshark — fields are named, anomalies marked in Expert Info.</p>
+      <p data-lang="fr" data-mode="tech">Dissecteur .lua genere automatiquement, enregistre sur le bon port. Chargez-le dans Wireshark — champs nommes, anomalies marquees.</p>
+      <p data-lang="en" data-mode="simple">Substrat generates a plugin for Wireshark (the standard network analysis tool). Open your capture, every field is already named — no manual work.</p>
+      <p data-lang="fr" data-mode="simple">Substrat genere un plugin pour Wireshark (l'outil standard d'analyse reseau). Ouvrez votre capture, chaque champ est deja nomme — aucun travail manuel.</p>
+    </div>
+    <div class="card">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M9.5 14.5L3 21"/><path d="M14.5 9.5L21 3"/><circle cx="12" cy="12" r="3"/><path d="M4.22 10.22a8 8 0 0 1 5.56-5.56"/><path d="M19.78 13.78a8 8 0 0 1-5.56 5.56"/></svg>
+      <h3 data-lang="en" data-mode="tech">Fuzz Corpus</h3>
+      <h3 data-lang="fr" data-mode="tech">Corpus de fuzz</h3>
+      <h3 data-lang="en" data-mode="simple">It tests your system's resistance</h3>
+      <h3 data-lang="fr" data-mode="simple">Il teste la resistance de votre systeme</h3>
+      <p data-lang="en" data-mode="tech">500 mutated packets in 3 strategies: field corruption, boundary values, structural mutations. Ready to send to the target.</p>
+      <p data-lang="fr" data-mode="tech">500 paquets mutes selon 3 strategies : corruption de champs, valeurs limites, mutations structurelles.</p>
+      <p data-lang="en" data-mode="simple">Like a stress test for your heart, Substrat generates hundreds of slightly corrupted messages to see how your system reacts. It finds weaknesses before an attacker does.</p>
+      <p data-lang="fr" data-mode="simple">Comme un test d'effort pour votre coeur, Substrat genere des centaines de messages legerement corrompus pour voir comment votre systeme reagit.</p>
+    </div>
+  </div>
+</section>
 
-    <!-- Comparison -->
-    <section>
-      <h2 class="en expert">How it <span>compares</span></h2>
-      <h2 class="fr expert">Face a la <span>concurrence</span></h2>
-      <h2 class="en simple">Why Substrat is <span>different</span></h2>
-      <h2 class="fr simple">Pourquoi Substrat est <span>different</span></h2>
-      <div class="simple" style="max-width:640px;margin:0 auto;">
-        <div class="feature" style="margin-bottom:20px;">
-          <p class="en" style="color:var(--text-dim);font-size:1rem;line-height:1.8;">Most security tools need you to <span style="color:var(--text);">describe each attack in advance</span> — a new attack means a new rule to write. Substrat works the other way around: it learns what's normal, and <span style="color:var(--text);">anything abnormal is caught automatically</span>, even attacks that have never been seen before.<br><br>Other tools that do this require <span style="color:var(--text);">expensive GPU hardware</span> and produce opaque scores that nobody can explain. Substrat runs on a <span style="color:var(--text);">regular laptop</span> and produces <span style="color:var(--text);">readable rules</span> that your team can audit.</p>
-          <p class="fr" style="color:var(--text-dim);font-size:1rem;line-height:1.8;">La plupart des outils de securite demandent de <span style="color:var(--text);">decrire chaque attaque a l'avance</span> — une nouvelle attaque, c'est une nouvelle regle a ecrire. Substrat fonctionne a l'envers : il apprend ce qui est normal, et <span style="color:var(--text);">tout ce qui est anormal est detecte automatiquement</span>, meme les attaques jamais vues.<br><br>D'autres outils font ca mais necessitent du <span style="color:var(--text);">materiel GPU couteux</span> et produisent des scores opaques que personne ne peut expliquer. Substrat tourne sur un <span style="color:var(--text);">ordinateur portable ordinaire</span> et produit des <span style="color:var(--text);">regles lisibles</span> que votre equipe peut auditer.</p>
-        </div>
-      </div>
-      <table class="comparison">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Substrat</th>
-            <th>Snort / Suricata</th>
-            <th>Darktrace</th>
-            <th>Netzob</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="en">No signatures needed</span><span class="fr">Sans signatures</span></td>
-            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
-            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
-            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
-            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
-          </tr>
-          <tr>
-            <td><span class="en">Readable output</span><span class="fr">Sortie lisible</span></td>
-            <td class="yes"><span class="en">Formal grammar</span><span class="fr">Grammaire formelle</span></td>
-            <td class="no"><span class="en">Binary alert</span><span class="fr">Alerte binaire</span></td>
-            <td class="no"><span class="en">Opaque score</span><span class="fr">Score opaque</span></td>
-            <td class="no"><span class="en">Partial</span><span class="fr">Partiel</span></td>
-          </tr>
-          <tr>
-            <td><span class="en">Wireshark export</span><span class="fr">Export Wireshark</span></td>
-            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
-            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
-            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
-            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
-          </tr>
-          <tr>
-            <td><span class="en">Built-in fuzzing</span><span class="fr">Fuzzing integre</span></td>
-            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
-            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
-            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
-            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
-          </tr>
-          <tr>
-            <td>GPU</td>
-            <td class="yes"><span class="en">No</span><span class="fr">Non</span></td>
-            <td class="yes"><span class="en">No</span><span class="fr">Non</span></td>
-            <td class="no"><span class="en">Required</span><span class="fr">Requis</span></td>
-            <td class="yes"><span class="en">No</span><span class="fr">Non</span></td>
-          </tr>
-          <tr>
-            <td><span class="en">Real-time</span><span class="fr">Temps reel</span></td>
-            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
-            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
-            <td class="yes"><span class="en">Yes</span><span class="fr">Oui</span></td>
-            <td class="no"><span class="en">No</span><span class="fr">Non</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+<!-- ===================== PROTOCOLS ===================== -->
+<section>
+  <h2 data-lang="en" data-mode="tech">Tested on <em>real protocols</em></h2>
+  <h2 data-lang="fr" data-mode="tech">Teste sur des <em>protocoles reels</em></h2>
+  <h2 data-lang="en" data-mode="simple">Works with <em>real-world systems</em></h2>
+  <h2 data-lang="fr" data-mode="simple">Fonctionne avec des <em>systemes reels</em></h2>
+  <div class="grid">
+    <div class="card">
+      <div class="num">MODBUS/TCP</div>
+      <p data-lang="en" data-mode="tech">SCADA industrial protocol. Proto ID, Unit ID, Length discovered. 5/5 injected anomalies detected.</p>
+      <p data-lang="fr" data-mode="tech">Protocole industriel SCADA. Proto ID, Unit ID, Length decouverts. 5/5 anomalies detectees.</p>
+      <p data-lang="en" data-mode="simple">The language used by industrial machines in factories. Substrat understood it automatically and detected all 5 simulated attacks.</p>
+      <p data-lang="fr" data-mode="simple">Le langage utilise par les machines industrielles. Substrat l'a compris automatiquement et a detecte les 5 attaques simulees.</p>
+    </div>
+    <div class="card">
+      <div class="num">DNS</div>
+      <p data-lang="en" data-mode="tech">Transaction ID, Flags, Questions count, Authority. Structural anomalies found in real captures.</p>
+      <p data-lang="fr" data-mode="tech">Transaction ID, Flags, nombre de questions, Authority. Anomalies trouvees sur des captures reelles.</p>
+      <p data-lang="en" data-mode="simple">The internet's phone book. Substrat identified its structure and found anomalies in real traffic.</p>
+      <p data-lang="fr" data-mode="simple">L'annuaire d'internet. Substrat a identifie sa structure et trouve des anomalies dans du vrai trafic.</p>
+    </div>
+    <div class="card">
+      <div class="num">Telnet</div>
+      <p data-lang="en" data-mode="tech">Auto-split: IAC binary commands separated from text data in the same flow.</p>
+      <p data-lang="fr" data-mode="tech">Separation automatique : commandes binaires IAC separees des donnees texte.</p>
+      <p data-lang="en" data-mode="simple">A remote control protocol that mixes commands and text. Substrat separated them automatically.</p>
+      <p data-lang="fr" data-mode="simple">Un protocole de controle a distance qui melange commandes et texte. Substrat les a separes automatiquement.</p>
+    </div>
+    <div class="card">
+      <div class="num">HTTP / FTP</div>
+      <p data-lang="en" data-mode="tech">Text mode: tokens discovered, requests and responses separated.</p>
+      <p data-lang="fr" data-mode="tech">Mode texte : tokens decouverts, requetes et reponses separees.</p>
+      <p data-lang="en" data-mode="simple">The protocols behind web pages and file transfers. Substrat identified the keywords and separated requests from responses.</p>
+      <p data-lang="fr" data-mode="simple">Les protocoles derriere les pages web et les transferts de fichiers. Substrat a identifie les mots-cles et separe requetes et reponses.</p>
+    </div>
+  </div>
+</section>
 
-    <!-- Early Access -->
-    <section>
-      <h2 class="en" style="text-align:center;"><span>Early access</span> — free, full features</h2>
-      <h2 class="fr" style="text-align:center;"><span>Acces anticipe</span> — gratuit, toutes les fonctionnalites</h2>
-      <div class="early-access">
-        <h3>Early Access</h3>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:2.4rem;font-weight:700;margin:12px 0;">
-          <span class="en">Free</span>
-          <span class="fr">Gratuit</span>
-        </div>
-        <ul class="expert">
-          <li class="en">substrat learn — unlimited</li><li class="fr">substrat learn — illimite</li>
-          <li class="en">substrat anomaly — unlimited</li><li class="fr">substrat anomaly — illimite</li>
-          <li class="en">substrat re — grammar + anomalies</li><li class="fr">substrat re — grammaire + anomalies</li>
-          <li>Wireshark .lua export</li>
-          <li class="en">Fuzz corpus generation</li><li class="fr">Generation de corpus de fuzz</li>
-        </ul>
-        <ul class="simple">
-          <li class="en">Understand any communication format</li><li class="fr">Comprendre n'importe quel format de communication</li>
-          <li class="en">Detect abnormal messages automatically</li><li class="fr">Detecter les messages anormaux automatiquement</li>
-          <li class="en">Analyze network capture files</li><li class="fr">Analyser les fichiers de capture reseau</li>
-          <li class="en">Generate a plugin for Wireshark</li><li class="fr">Generer un plugin pour Wireshark</li>
-          <li class="en">Create security test packets</li><li class="fr">Creer des paquets de test de securite</li>
-        </ul>
-        <a href="#download" class="cta-btn primary" style="width:100%;">
-          <span class="en">Download now</span>
-          <span class="fr">Telecharger maintenant</span>
-        </a>
-        <p style="margin-top:16px;font-size:0.8rem;color:var(--text-dim);text-align:center;">
-          <span class="en">Commercial licensing coming soon. <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20interested&amp;body=Hi%20Nicolas%2C%0A%0AI%27m%20interested%20in%20Substrat.%0A%0AName%3A%20%0ACompany%3A%20%0AUse%20case%3A%20%0A%0AThanks" style="color:var(--accent);">Contact us for enterprise needs.</a></span>
-          <span class="fr">Licence commerciale a venir. <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20interesse&amp;body=Bonjour%20Nicolas%2C%0A%0AJe%20suis%20interesse%20par%20Substrat.%0A%0ANom%3A%20%0AEntreprise%3A%20%0ACas%20d%27usage%3A%20%0A%0AMerci" style="color:var(--accent);">Contactez-nous pour les besoins entreprise.</a></span>
-        </p>
-      </div>
-    </section>
+<!-- ===================== COMPARISON ===================== -->
+<section>
+  <h2 data-lang="en" data-mode="tech">How it <em>compares</em></h2>
+  <h2 data-lang="fr" data-mode="tech">Face a la <em>concurrence</em></h2>
+  <h2 data-lang="en" data-mode="simple">Why Substrat is <em>different</em></h2>
+  <h2 data-lang="fr" data-mode="simple">Pourquoi Substrat est <em>different</em></h2>
 
-    <!-- Bug report -->
-    <section style="padding:40px 0 50px;">
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:36px;text-align:center;max-width:640px;margin:0 auto;">
-        <h3 class="en" style="font-size:1.2rem;margin-bottom:12px;">Help us improve Substrat</h3>
-        <h3 class="fr" style="font-size:1.2rem;margin-bottom:12px;">Aidez-nous a ameliorer Substrat</h3>
-        <p class="en" style="color:var(--text-dim);font-size:0.95rem;margin-bottom:20px;">Found a bug or a protocol that Substrat doesn't handle well? <span style="color:var(--text);">Send us the pcap file</span> and a short description. Every report makes the tool better for everyone.</p>
-        <p class="fr" style="color:var(--text-dim);font-size:0.95rem;margin-bottom:20px;">Vous avez trouve un bug ou un protocole mal gere ? <span style="color:var(--text);">Envoyez-nous le fichier pcap</span> et une courte description. Chaque retour ameliore l'outil pour tout le monde.</p>
-        <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20bug%20report&amp;body=%0ADescribe%20the%20issue%3A%0A%0A%0APlease%20attach%20the%20pcap%20file%20that%20caused%20the%20problem." class="cta-btn primary en" style="width:auto;padding:12px 28px;">Send a report with your pcap</a>
-        <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20rapport%20de%20bug&amp;body=%0ADecrivez%20le%20probleme%20%3A%0A%0A%0AMerci%20de%20joindre%20le%20fichier%20pcap%20qui%20a%20cause%20le%20probleme." class="cta-btn primary fr" style="width:auto;padding:12px 28px;">Envoyer un rapport avec votre pcap</a>
-      </div>
-    </section>
-
-    <!-- Roadmap + Enterprise -->
-    <section>
-      <h2 class="en" style="text-align:center;">What's <span>coming next</span></h2>
-      <h2 class="fr" style="text-align:center;">La <span>suite</span></h2>
-      <p class="subtitle en" style="text-align:center;">Substrat is actively developed. Here's where we're headed.</p>
-      <p class="subtitle fr" style="text-align:center;">Substrat est en developpement actif. Voici ce qui arrive.</p>
-
-      <div class="features">
-        <div class="feature">
-          <h3 class="en expert">Real-time dashboard</h3>
-          <h3 class="fr expert">Dashboard temps reel</h3>
-          <h3 class="en simple">Live monitoring screen</h3>
-          <h3 class="fr simple">Ecran de surveillance en direct</h3>
-          <p class="en expert">Web interface to visualize traffic, grammars and anomalies live. Monitor your infrastructure from a browser.</p>
-          <p class="fr expert">Interface web pour visualiser le trafic, les grammaires et les anomalies en direct. Surveillez votre infrastructure depuis un navigateur.</p>
-          <p class="en simple">A visual dashboard to monitor your network in real time from any web browser. See alerts the moment they happen.</p>
-          <p class="fr simple">Un tableau de bord visuel pour surveiller votre reseau en temps reel depuis n'importe quel navigateur. Voyez les alertes au moment ou elles arrivent.</p>
-        </div>
-        <div class="feature">
-          <h3 class="en expert">REST API</h3>
-          <h3 class="fr expert">API REST</h3>
-          <h3 class="en simple">Connect to your other tools</h3>
-          <h3 class="fr simple">Connexion a vos autres outils</h3>
-          <p class="en expert">Integrate Substrat into your pipeline. POST a pcap, GET the grammar. Plug it into your SIEM, your CI, your SOC toolchain.</p>
-          <p class="fr expert">Integrez Substrat dans votre pipeline. POST un pcap, GET la grammaire. Branchez-le sur votre SIEM, votre CI, votre SOC.</p>
-          <p class="en simple">Let Substrat work automatically with your existing software. Send it a file, get back the analysis — no human intervention needed.</p>
-          <p class="fr simple">Laissez Substrat travailler automatiquement avec vos logiciels existants. Envoyez-lui un fichier, recevez l'analyse — aucune intervention humaine necessaire.</p>
-        </div>
-        <div class="feature">
-          <h3 class="en expert">Burp Suite plugin</h3>
-          <h3 class="fr expert">Plugin Burp Suite</h3>
-          <h3 class="en simple">Built into security testing tools</h3>
-          <h3 class="fr simple">Integre aux outils de test de securite</h3>
-          <p class="en expert">Automatic protocol analysis directly inside Burp. Discover structure, generate fuzz payloads, detect anomalies during a pentest.</p>
-          <p class="fr expert">Analyse automatique de protocoles directement dans Burp. Decouvrez la structure, generez des payloads de fuzz, detectez les anomalies pendant un pentest.</p>
-          <p class="en simple">Substrat will plug directly into the tools that security professionals already use every day.</p>
-          <p class="fr simple">Substrat s'integrera directement dans les outils que les professionnels de la securite utilisent au quotidien.</p>
-        </div>
-        <div class="feature">
-          <h3 class="en expert">Team & enterprise</h3>
-          <h3 class="fr expert">Equipes & entreprises</h3>
-          <h3 class="en simple">For companies and teams</h3>
-          <h3 class="fr simple">Pour les entreprises et les equipes</h3>
-          <p class="en expert">Multi-user licenses, on-premise deployment, SCADA/IoT monitoring at scale, custom protocol support, SLA.</p>
-          <p class="fr expert">Licences multi-utilisateurs, deploiement on-premise, monitoring SCADA/IoT a grande echelle, support de protocoles custom, SLA.</p>
-          <p class="en simple">Licenses for entire teams, installation on your own servers, large-scale monitoring, dedicated support and service guarantees.</p>
-          <p class="fr simple">Licences pour des equipes entieres, installation sur vos propres serveurs, surveillance a grande echelle, support dedie et garanties de service.</p>
-        </div>
-      </div>
-
-      <div style="text-align:center;margin-top:40px;">
-        <p class="en" style="color:var(--text-dim);font-size:1rem;margin-bottom:16px;">Need something specific? Let's talk.</p>
-        <p class="fr" style="color:var(--text-dim);font-size:1rem;margin-bottom:16px;">Un besoin specifique ? Parlons-en.</p>
-        <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20enterprise%20inquiry&amp;body=Hi%20Nicolas%2C%0A%0AWe%27re%20interested%20in%20Substrat%20for%20our%20team.%0A%0ACompany%3A%20%0ATeam%20size%3A%20%0AUse%20case%3A%20%0ATimeline%3A%20%0A%0AThanks" class="cta-btn primary en" style="width:auto;padding:12px 28px;">Contact us</a>
-        <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20demande%20entreprise&amp;body=Bonjour%20Nicolas%2C%0A%0ANous%20sommes%20interesses%20par%20Substrat%20pour%20notre%20equipe.%0A%0AEntreprise%3A%20%0ATaille%20equipe%3A%20%0ACas%20d%27usage%3A%20%0ADelai%3A%20%0A%0AMerci" class="cta-btn primary fr" style="width:auto;padding:12px 28px;">Nous contacter</a>
-      </div>
-    </section>
-
-    <!-- Download -->
-    <section id="download">
-      <h2 class="en">Get <span>started</span></h2>
-      <h2 class="fr"><span>Commencer</span></h2>
-      <p class="subtitle en">Download the binary. No Python, no dependencies, no install. Just run it.</p>
-      <p class="subtitle fr">Telechargez le binaire. Pas de Python, pas de dependances, pas d'installation. Lancez-le.</p>
-
-      <div class="features">
-        <div class="feature" style="text-align:center;">
-          <h3>macOS (Apple Silicon)</h3>
-          <p style="margin-bottom:16px;">M1 / M2 / M3 / M4 — 21 MB</p>
-          <a href="releases/substrat-macos-arm64" class="cta-btn primary" style="padding:10px 24px;" download>Download</a>
-        </div>
-        <div class="feature" style="text-align:center;">
-          <h3>Linux (x86_64)</h3>
-          <p style="margin-bottom:16px;">Ubuntu, Debian, Fedora, Arch — 22 MB</p>
-          <a href="releases/substrat-linux-x86_64" class="cta-btn primary" style="padding:10px 24px;" download>Download</a>
-        </div>
-      </div>
-
-      <div class="terminal" style="margin-top:32px;">
-        <div class="terminal-bar">
-          <div class="terminal-dot r"></div>
-          <div class="terminal-dot y"></div>
-          <div class="terminal-dot g"></div>
-        </div>
-        <pre>
-<span class="dim"># macOS: remove quarantine flag (unsigned binary)</span>
-<span class="cmd">$ xattr -d com.apple.quarantine substrat-macos-arm64</span>
-
-<span class="dim"># Make it executable</span>
-<span class="cmd">$ chmod +x substrat-macos-arm64</span>
-
-<span class="dim"># Reverse-engineer a protocol from a pcap</span>
-<span class="cmd">$ ./substrat-macos-arm64 re your_capture.pcap --wireshark ./dissectors</span>
-
-<span class="dim"># Learn the grammar of structured data</span>
-<span class="cmd">$ ./substrat-macos-arm64 learn your_logs.txt</span>
-
-<span class="dim"># Detect anomalies without signatures</span>
-<span class="cmd">$ ./substrat-macos-arm64 anomaly your_logs.txt</span>
-        </pre>
-      </div>
-    </section>
+  <!-- Simple mode: paragraph -->
+  <div data-mode="simple" style="max-width:640px;margin:0 auto">
+    <div class="card">
+      <p data-lang="en" style="color:var(--text-dim);font-size:1rem;line-height:1.8">Most security tools need you to <span class="hl">describe each attack in advance</span>. Substrat works the other way around: it learns what's normal, and <span class="hl">anything abnormal is caught automatically</span>, even attacks never seen before.<br><br>Other tools that do this require <span class="hl">expensive GPU hardware</span> and produce opaque scores. Substrat runs on a <span class="hl">regular laptop</span> and produces <span class="hl">readable rules</span> your team can audit.</p>
+      <p data-lang="fr" style="color:var(--text-dim);font-size:1rem;line-height:1.8">La plupart des outils de securite demandent de <span class="hl">decrire chaque attaque a l'avance</span>. Substrat fonctionne a l'envers : il apprend ce qui est normal, et <span class="hl">tout ce qui est anormal est detecte automatiquement</span>, meme les attaques jamais vues.<br><br>D'autres outils font ca mais necessitent du <span class="hl">materiel GPU couteux</span> et produisent des scores opaques. Substrat tourne sur un <span class="hl">ordinateur portable ordinaire</span> et produit des <span class="hl">regles lisibles</span> que votre equipe peut auditer.</p>
+    </div>
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>Substrat — built by Nicolas Hedoire</p>
-      <p style="margin-top: 8px;">
-        <a href="docs.html">Documentation</a> &middot;
-        <a href="https://github.com/nicolashedoire">GitHub</a> &middot;
-        <a href="mailto:nicolashedoire@hotmail.com">Contact</a>
-      </p>
-      <p style="margin-top: 16px; font-size: 0.75rem;">
-        <span class="en">Proprietary software. Free during early access.</span>
-        <span class="fr">Logiciel proprietaire. Gratuit pendant l'acces anticipe.</span>
-      </p>
-    </div>
-  </footer>
+  <!-- Technical mode: table -->
+  <table class="comparison">
+    <thead><tr><th></th><th>Substrat</th><th>Snort/Suricata</th><th>Darktrace</th><th>Netzob</th></tr></thead>
+    <tbody>
+      <tr><td data-lang="en">No signatures needed</td><td data-lang="fr">Sans signatures</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td></tr>
+      <tr><td data-lang="en">Readable output</td><td data-lang="fr">Sortie lisible</td><td class="y"><span data-lang="en">Formal grammar</span><span data-lang="fr">Grammaire formelle</span></td><td class="n"><span data-lang="en">Binary alert</span><span data-lang="fr">Alerte binaire</span></td><td class="n"><span data-lang="en">Opaque score</span><span data-lang="fr">Score opaque</span></td><td class="n"><span data-lang="en">Partial</span><span data-lang="fr">Partiel</span></td></tr>
+      <tr><td>Wireshark export</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
+      <tr><td data-lang="en">Built-in fuzzing</td><td data-lang="fr">Fuzzing integre</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td></tr>
+      <tr><td>GPU</td><td class="y"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="y"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">Required</span><span data-lang="fr">Requis</span></td><td class="y"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
+      <tr><td data-lang="en">Real-time</td><td data-lang="fr">Temps reel</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
+    </tbody>
+  </table>
+</section>
 
-  <script>
-    function setLang(lang) {
-      document.body.classList.toggle('lang-fr', lang === 'fr');
-      const btns = document.querySelectorAll('#lang-toggle button');
-      btns.forEach(b => b.classList.remove('active'));
-      btns[lang === 'fr' ? 1 : 0].classList.add('active');
-      localStorage.setItem('substrat-lang', lang);
-    }
-    function setMode(mode) {
-      document.body.classList.toggle('mode-simple', mode === 'simple');
-      const btns = document.querySelectorAll('#mode-toggle button');
-      btns.forEach(b => b.classList.remove('active'));
-      btns[mode === 'simple' ? 1 : 0].classList.add('active');
-      localStorage.setItem('substrat-mode', mode);
-    }
-    // Restore saved preferences
-    if (localStorage.getItem('substrat-lang') === 'fr') setLang('fr');
-    if (localStorage.getItem('substrat-mode') === 'simple') setMode('simple');
-  </script>
+<!-- ===================== EARLY ACCESS ===================== -->
+<section>
+  <h2 data-lang="en" style="text-align:center"><em>Early access</em> — free, full features</h2>
+  <h2 data-lang="fr" style="text-align:center"><em>Acces anticipe</em> — gratuit, toutes les fonctionnalites</h2>
+  <div class="ea">
+    <h3 data-lang="en">Early Access</h3>
+    <h3 data-lang="fr">Acces anticipe</h3>
+    <div class="price" data-lang="en">Free</div>
+    <div class="price" data-lang="fr">Gratuit</div>
+    <ul data-mode="tech">
+      <li>substrat learn</li>
+      <li>substrat anomaly</li>
+      <li>substrat re — grammar + anomalies</li>
+      <li>Wireshark .lua export</li>
+      <li data-lang="en">Fuzz corpus generation</li><li data-lang="fr">Generation de corpus de fuzz</li>
+    </ul>
+    <ul data-mode="simple">
+      <li data-lang="en">Understand any communication format</li><li data-lang="fr">Comprendre n'importe quel format</li>
+      <li data-lang="en">Detect abnormal messages automatically</li><li data-lang="fr">Detecter les messages anormaux</li>
+      <li data-lang="en">Analyze network capture files</li><li data-lang="fr">Analyser les captures reseau</li>
+      <li data-lang="en">Generate a plugin for Wireshark</li><li data-lang="fr">Generer un plugin Wireshark</li>
+      <li data-lang="en">Create security test packets</li><li data-lang="fr">Creer des paquets de test</li>
+    </ul>
+    <a href="#download" class="btn p" style="width:100%">
+      <span data-lang="en">Download now</span><span data-lang="fr">Telecharger maintenant</span>
+    </a>
+    <p style="margin-top:16px;font-size:.8rem;color:var(--text-dim);text-align:center">
+      <span data-lang="en">Commercial licensing coming soon. <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20interested" style="color:var(--accent)">Contact us for enterprise needs.</a></span>
+      <span data-lang="fr">Licence commerciale a venir. <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20interesse" style="color:var(--accent)">Contactez-nous pour les besoins entreprise.</a></span>
+    </p>
+  </div>
+</section>
+
+<!-- ===================== BUG REPORT ===================== -->
+<section style="padding:40px 0 50px">
+  <div class="card" style="text-align:center;max-width:640px;margin:0 auto">
+    <h3 data-lang="en">Help us improve Substrat</h3>
+    <h3 data-lang="fr">Aidez-nous a ameliorer Substrat</h3>
+    <p data-lang="en" style="margin-top:12px">Found a bug or a protocol that Substrat doesn't handle well? <span class="hl">Send us the pcap file</span> and a short description. Every report makes the tool better for everyone.</p>
+    <p data-lang="fr" style="margin-top:12px">Vous avez trouve un bug ou un protocole mal gere ? <span class="hl">Envoyez-nous le fichier pcap</span> et une courte description. Chaque retour ameliore l'outil pour tout le monde.</p>
+    <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20bug%20report&amp;body=%0ADescribe%20the%20issue%3A%0A%0APlease%20attach%20the%20pcap%20file." class="btn p" data-lang="en" style="margin-top:16px">Send a report with your pcap</a>
+    <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20rapport%20de%20bug&amp;body=%0ADecrivez%20le%20probleme%3A%0A%0AMerci%20de%20joindre%20le%20pcap." class="btn p" data-lang="fr" style="margin-top:16px">Envoyer un rapport avec votre pcap</a>
+  </div>
+</section>
+
+<!-- ===================== ROADMAP ===================== -->
+<section>
+  <h2 data-lang="en" style="text-align:center">What's <em>coming next</em></h2>
+  <h2 data-lang="fr" style="text-align:center">La <em>suite</em></h2>
+  <p class="sub" data-lang="en" style="text-align:center">Substrat is actively developed. Here's where we're headed.</p>
+  <p class="sub" data-lang="fr" style="text-align:center">Substrat est en developpement actif. Voici ce qui arrive.</p>
+  <div class="grid">
+    <div class="card">
+      <h3 data-lang="en" data-mode="tech">Real-time dashboard</h3>
+      <h3 data-lang="fr" data-mode="tech">Dashboard temps reel</h3>
+      <h3 data-lang="en" data-mode="simple">Live monitoring screen</h3>
+      <h3 data-lang="fr" data-mode="simple">Ecran de surveillance en direct</h3>
+      <p data-lang="en" data-mode="tech">Web interface to visualize traffic, grammars and anomalies live.</p>
+      <p data-lang="fr" data-mode="tech">Interface web pour visualiser le trafic, les grammaires et les anomalies en direct.</p>
+      <p data-lang="en" data-mode="simple">A visual dashboard to monitor your network in real time from any browser.</p>
+      <p data-lang="fr" data-mode="simple">Un tableau de bord visuel pour surveiller votre reseau depuis n'importe quel navigateur.</p>
+    </div>
+    <div class="card">
+      <h3 data-lang="en" data-mode="tech">REST API</h3>
+      <h3 data-lang="fr" data-mode="tech">API REST</h3>
+      <h3 data-lang="en" data-mode="simple">Connect to your other tools</h3>
+      <h3 data-lang="fr" data-mode="simple">Connexion a vos autres outils</h3>
+      <p data-lang="en" data-mode="tech">Integrate Substrat into your pipeline. Plug it into your SIEM, your CI, your SOC toolchain.</p>
+      <p data-lang="fr" data-mode="tech">Integrez Substrat dans votre pipeline. Branchez-le sur votre SIEM, votre CI, votre SOC.</p>
+      <p data-lang="en" data-mode="simple">Let Substrat work automatically with your existing software — no human intervention needed.</p>
+      <p data-lang="fr" data-mode="simple">Laissez Substrat travailler automatiquement avec vos logiciels existants.</p>
+    </div>
+    <div class="card">
+      <h3 data-lang="en" data-mode="tech">Burp Suite plugin</h3>
+      <h3 data-lang="fr" data-mode="tech">Plugin Burp Suite</h3>
+      <h3 data-lang="en" data-mode="simple">Built into security testing tools</h3>
+      <h3 data-lang="fr" data-mode="simple">Integre aux outils de test</h3>
+      <p data-lang="en" data-mode="tech">Automatic protocol analysis directly inside Burp during a pentest.</p>
+      <p data-lang="fr" data-mode="tech">Analyse automatique de protocoles directement dans Burp pendant un pentest.</p>
+      <p data-lang="en" data-mode="simple">Substrat will plug directly into the tools security professionals use every day.</p>
+      <p data-lang="fr" data-mode="simple">Substrat s'integrera dans les outils que les professionnels utilisent au quotidien.</p>
+    </div>
+    <div class="card">
+      <h3 data-lang="en" data-mode="tech">Team & enterprise</h3>
+      <h3 data-lang="fr" data-mode="tech">Equipes & entreprises</h3>
+      <h3 data-lang="en" data-mode="simple">For companies and teams</h3>
+      <h3 data-lang="fr" data-mode="simple">Pour les entreprises et equipes</h3>
+      <p data-lang="en" data-mode="tech">Multi-user licenses, on-premise deployment, SCADA/IoT monitoring at scale, SLA.</p>
+      <p data-lang="fr" data-mode="tech">Licences multi-utilisateurs, deploiement on-premise, monitoring a grande echelle, SLA.</p>
+      <p data-lang="en" data-mode="simple">Licenses for entire teams, installation on your own servers, large-scale monitoring, dedicated support.</p>
+      <p data-lang="fr" data-mode="simple">Licences pour des equipes entieres, installation sur vos serveurs, surveillance a grande echelle, support dedie.</p>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:40px">
+    <p data-lang="en" style="color:var(--text-dim);margin-bottom:16px">Need something specific? Let's talk.</p>
+    <p data-lang="fr" style="color:var(--text-dim);margin-bottom:16px">Un besoin specifique ? Parlons-en.</p>
+    <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20enterprise" class="btn p" data-lang="en">Contact us</a>
+    <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20entreprise" class="btn p" data-lang="fr">Nous contacter</a>
+  </div>
+</section>
+
+<!-- ===================== DOWNLOAD ===================== -->
+<section id="download">
+  <h2 data-lang="en">Get <em>started</em></h2>
+  <h2 data-lang="fr"><em>Commencer</em></h2>
+  <p class="sub" data-lang="en">Download the binary. No Python, no dependencies, no install. Just run it.</p>
+  <p class="sub" data-lang="fr">Telechargez le binaire. Pas de Python, pas de dependances, pas d'installation. Lancez-le.</p>
+  <div class="grid">
+    <div class="card" style="text-align:center">
+      <h3>macOS (Apple Silicon)</h3>
+      <p style="margin-bottom:16px">M1 / M2 / M3 / M4 — 21 MB</p>
+      <a href="releases/substrat-macos-arm64" class="btn p" style="padding:10px 24px" download>Download</a>
+    </div>
+    <div class="card" style="text-align:center">
+      <h3>Linux (x86_64)</h3>
+      <p style="margin-bottom:16px">Ubuntu, Debian, Fedora, Arch — 22 MB</p>
+      <a href="releases/substrat-linux-x86_64" class="btn p" style="padding:10px 24px" download>Download</a>
+    </div>
+  </div>
+  <div class="terminal" style="margin-top:32px">
+    <div class="tbar"><div class="td r"></div><div class="td y"></div><div class="td g"></div></div>
+    <pre>
+<span class="d"># macOS: remove quarantine flag</span>
+<span class="c">$ xattr -d com.apple.quarantine substrat-macos-arm64</span>
+
+<span class="d"># Make it executable</span>
+<span class="c">$ chmod +x substrat-macos-arm64</span>
+
+<span class="d"># Reverse-engineer a protocol</span>
+<span class="c">$ ./substrat-macos-arm64 re capture.pcap --wireshark ./dissectors</span>
+
+<span class="d"># Detect anomalies</span>
+<span class="c">$ ./substrat-macos-arm64 anomaly logs.txt</span>
+    </pre>
+  </div>
+</section>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p data-lang="en">Substrat — built by Nicolas Hedoire</p>
+    <p data-lang="fr">Substrat — cree par Nicolas Hedoire</p>
+    <p style="margin-top:8px">
+      <a href="docs.html">Documentation</a> &middot;
+      <a href="https://github.com/nicolashedoire">GitHub</a> &middot;
+      <a href="mailto:nicolashedoire@hotmail.com">Contact</a>
+    </p>
+    <p style="margin-top:16px;font-size:.75rem">
+      <span data-lang="en">Proprietary software. Free during early access.</span>
+      <span data-lang="fr">Logiciel proprietaire. Gratuit pendant l'acces anticipe.</span>
+    </p>
+  </div>
+</footer>
+
+<script>
+function setLang(l){
+  document.body.classList.toggle('fr',l==='fr');
+  document.querySelectorAll('#tg-lang button').forEach((b,i)=>{b.classList.toggle('on',i===(l==='fr'?1:0))});
+  localStorage.setItem('s-lang',l);
+}
+function setMode(m){
+  document.body.classList.toggle('simple',m==='simple');
+  document.querySelectorAll('#tg-mode button').forEach((b,i)=>{b.classList.toggle('on',i===(m==='simple'?1:0))});
+  localStorage.setItem('s-mode',m);
+}
+if(localStorage.getItem('s-lang')==='fr')setLang('fr');
+if(localStorage.getItem('s-mode')==='simple')setMode('simple');
+</script>
 
 </body>
 </html>
