@@ -10,9 +10,15 @@
   <meta property="og:description" content="Give it a pcap, get the protocol grammar, anomalies, a Wireshark dissector and a fuzz corpus. Deterministic, auditable, runs on a laptop.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://nicolashedoire.github.io/substrat-landing/">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://nicolashedoire.github.io/substrat-landing/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@hedoire10384">
+  <meta name="twitter:creator" content="@hedoire10384">
   <meta name="twitter:title" content="Substrat — Reverse-engineer any protocol from a pcap">
   <meta name="twitter:description" content="Automatic protocol analysis from pcap. Grammar discovery, anomaly detection, Wireshark export, fuzzing. Deterministic, auditable.">
+  <meta name="twitter:image" content="https://nicolashedoire.github.io/substrat-landing/images/og-image.png">
   <link rel="canonical" href="https://nicolashedoire.github.io/substrat-landing/">
   <link rel="icon" type="image/png" href="images/substrat-logo.png">
   <link rel="apple-touch-icon" href="images/substrat-logo.png">
@@ -118,7 +124,7 @@
     body.fr.simple [data-lang="fr"][data-mode="simple"] { display: block !important }
     body.fr.simple span[data-lang="fr"][data-mode="simple"] { display: inline !important }
     body.fr.simple li[data-lang="fr"][data-mode="simple"] { display: list-item !important }
-    body.simple .terminal, body.simple table.cmp { display: none !important }
+    body.simple .terminal-demo, body.simple table.cmp { display: none !important }
   </style>
 </head>
 <body class="bg-bg text-text font-sans">
@@ -201,7 +207,7 @@
     </div>
   </div>
 
-  <div class="terminal">
+  <div class="terminal terminal-demo">
     <div class="tbar"><div class="tdot bg-[#ff5f57]"></div><div class="tdot bg-[#febc2e]"></div><div class="tdot bg-[#28c840]"></div></div>
     <pre class="term-pre">
 <span class="term-c">$ substrat re capture.pcap --wireshark ./dissectors</span>
@@ -525,6 +531,50 @@ Total CPU: <span class="term-o">0.19s</span>
     </div>
   </section>
 
+  <section class="py-12">
+    <h2 class="text-[1.7rem] font-bold mb-8 text-center" data-lang="en">Frequently asked <em>questions</em></h2>
+    <h2 class="text-[1.7rem] font-bold mb-8 text-center" data-lang="fr">Questions <em>fréquentes</em></h2>
+    <div class="max-w-[720px] mx-auto space-y-3">
+
+      <details class="card !p-5 cursor-pointer">
+        <summary class="font-semibold text-text list-none flex justify-between items-center"><span data-lang="en">Does it work on encrypted (TLS) traffic?</span><span data-lang="fr">Est-ce que ça fonctionne sur du trafic chiffré (TLS) ?</span><span class="text-accent">+</span></summary>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="en">No. Grammar inference needs cleartext. Use Substrat upstream (on the plaintext side: server logs, decrypted captures) or on unencrypted protocols — MODBUS/TCP, many SCADA/IoT protocols, internal service-to-service traffic.</p>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="fr">Non. L'inférence de grammaire a besoin de cleartext. Utilisez Substrat en amont (côté plaintext : logs serveur, captures déchiffrées) ou sur des protocoles non chiffrés — MODBUS/TCP, beaucoup de protocoles SCADA/IoT, trafic interne service-à-service.</p>
+      </details>
+
+      <details class="card !p-5 cursor-pointer">
+        <summary class="font-semibold text-text list-none flex justify-between items-center"><span data-lang="en">How is this different from JA3/JA4 fingerprinting?</span><span data-lang="fr">Quelle différence avec JA3/JA4 fingerprinting ?</span><span class="text-accent">+</span></summary>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="en">JA3/JA4 fingerprint the <strong>TLS handshake</strong> — they identify <em>who</em> is talking. Substrat reverse-engineers the <strong>application protocol</strong> — it describes <em>what</em> is being said. Complementary, not competing.</p>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="fr">JA3/JA4 fingerprintent le <strong>handshake TLS</strong> — ils identifient <em>qui</em> parle. Substrat reverse-engineerise le <strong>protocole applicatif</strong> — il décrit <em>ce qui</em> est dit. Complémentaires, pas concurrents.</p>
+      </details>
+
+      <details class="card !p-5 cursor-pointer">
+        <summary class="font-semibold text-text list-none flex justify-between items-center"><span data-lang="en">Is Substrat replacing Wireshark?</span><span data-lang="fr">Substrat remplace-t-il Wireshark ?</span><span class="text-accent">+</span></summary>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="en">No — they work together. Substrat discovers the grammar of an unknown protocol and generates a <code>.lua</code> dissector that you load into Wireshark. You still use Wireshark to inspect packets; Substrat just teaches it a new language.</p>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="fr">Non — ils fonctionnent ensemble. Substrat découvre la grammaire d'un protocole inconnu et génère un dissecteur <code>.lua</code> que vous chargez dans Wireshark. Vous continuez d'utiliser Wireshark pour inspecter les paquets ; Substrat lui apprend juste une nouvelle langue.</p>
+      </details>
+
+      <details class="card !p-5 cursor-pointer">
+        <summary class="font-semibold text-text list-none flex justify-between items-center"><span data-lang="en">Why no AI or machine learning?</span><span data-lang="fr">Pourquoi pas d'IA ou de machine learning ?</span><span class="text-accent">+</span></summary>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="en">Protocol reverse-engineering requires output that is <strong>correct</strong>, not <strong>plausible</strong>. Substrat uses deterministic algorithms (CYK parsing + MDL-driven grammar induction). Every rule is human-readable, every detection is explainable, no GPU needed, no training data leaks. LLMs are a bad fit here.</p>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="fr">Le reverse-engineering de protocoles demande une sortie <strong>correcte</strong>, pas <strong>plausible</strong>. Substrat utilise des algorithmes déterministes (parsing CYK + induction de grammaire basée MDL). Chaque règle est lisible, chaque détection est explicable, pas besoin de GPU, aucune fuite de données d'entraînement. Les LLM sont mal placés ici.</p>
+      </details>
+
+      <details class="card !p-5 cursor-pointer">
+        <summary class="font-semibold text-text list-none flex justify-between items-center"><span data-lang="en">What happens when the protocol evolves?</span><span data-lang="fr">Que se passe-t-il quand le protocole évolue ?</span><span class="text-accent">+</span></summary>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="en">The grammar is re-learned from a fresh pcap — takes seconds. New message types show up as anomalies on the old grammar, which is useful: you know something changed. Incremental learning (update-in-place) is planned for v1.4.</p>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="fr">La grammaire est ré-apprise depuis un nouveau pcap — quelques secondes. Les nouveaux types de messages apparaissent comme anomalies sur l'ancienne grammaire, ce qui est utile : vous savez que quelque chose a changé. L'apprentissage incrémental (update-in-place) est prévu pour la v1.4.</p>
+      </details>
+
+      <details class="card !p-5 cursor-pointer">
+        <summary class="font-semibold text-text list-none flex justify-between items-center"><span data-lang="en">Pricing for commercial use?</span><span data-lang="fr">Tarifs pour usage commercial ?</span><span class="text-accent">+</span></summary>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="en">Early access is free during active development. Commercial licensing will land before v2.0 — per-seat for pentesters/SOC analysts, site license for SCADA/industrial deployments, enterprise SLA available. <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20pricing%20inquiry" class="text-accent">Contact us</a> for a quote based on your use case.</p>
+        <p class="text-text-dim text-[0.95rem] mt-3" data-lang="fr">L'accès anticipé est gratuit pendant le développement actif. La licence commerciale arrivera avant la v2.0 — par utilisateur pour les pentesters/analystes SOC, licence site pour les déploiements SCADA/industriels, SLA entreprise dispo. <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20demande%20de%20tarif" class="text-accent">Contactez-nous</a> pour un devis.</p>
+      </details>
+
+    </div>
+  </section>
+
   <section id="download" class="py-12">
     <h2 class="text-[1.7rem] font-bold mb-3" data-lang="en">Get <em>started</em></h2>
     <h2 class="text-[1.7rem] font-bold mb-3" data-lang="fr"><em>Commencer</em></h2>
@@ -580,6 +630,7 @@ Total CPU: <span class="term-o">0.19s</span>
       <a href="benchmarks.html" class="text-accent no-underline hover:underline">Benchmarks</a> &middot;
       <a href="https://github.com/nicolashedoire" class="text-accent no-underline hover:underline">GitHub</a> &middot;
       <a href="https://www.linkedin.com/in/nicolas-hedoire-1734775b/" class="text-accent no-underline hover:underline">LinkedIn</a> &middot;
+      <a href="https://x.com/hedoire10384" class="text-accent no-underline hover:underline">X</a> &middot;
       <a href="mailto:nicolashedoire@hotmail.com" class="text-accent no-underline hover:underline">Contact</a> &middot;
       <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20co-founder%20interest" class="text-accent no-underline hover:underline" data-lang="en">Co-founder enquiries</a><a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20%E2%80%94%20interet%20associe" class="text-accent no-underline hover:underline" data-lang="fr">Rejoindre comme associé</a>
     </p>
