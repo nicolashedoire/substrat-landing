@@ -29,20 +29,26 @@
     .tg button.on{background:var(--accent);color:var(--bg)}
     @media(max-width:640px){.toggles{top:8px;right:8px;gap:6px}.tg button{padding:5px 8px;font-size:.72rem}}
 
-    /* --- Visibility: 4 states (lang x mode) --- */
-    [data-lang="fr"]{display:none!important}
-    [data-mode="simple"]{display:none!important}
+    /* --- Visibility: JS sets body class to one of: en-tech en-simple fr-tech fr-simple --- */
+    /* Hide everything by default, then show only the active state */
+    [data-lang]{visibility:visible} /* reset */
 
-    body.fr [data-lang="fr"]{display:block!important}
+    /* Lang: hide wrong language */
+    [data-lang="fr"]{display:none!important}
+    body.fr [data-lang="fr"]{display:revert!important}
     body.fr span[data-lang="fr"]{display:inline!important}
     body.fr a[data-lang="fr"]{display:inline-block!important}
-    body.fr div[data-lang="fr"]{display:block!important}
+    body.fr td[data-lang="fr"]{display:table-cell!important}
+    body.fr li[data-lang="fr"]{display:list-item!important}
     body.fr [data-lang="en"]{display:none!important}
 
-    body.simple [data-mode="simple"]{display:block!important}
+    /* Mode: hide wrong mode */
+    [data-mode="simple"]{display:none!important}
+    body.simple [data-mode="simple"]{display:revert!important}
     body.simple span[data-mode="simple"]{display:inline!important}
     body.simple a[data-mode="simple"]{display:inline-block!important}
-    body.simple div[data-mode="simple"]{display:block!important}
+    body.simple td[data-mode="simple"]{display:table-cell!important}
+    body.simple li[data-mode="simple"]{display:list-item!important}
     body.simple [data-mode="tech"]{display:none!important}
 
     body.simple .terminal{display:none!important}
@@ -228,7 +234,8 @@ Total CPU: <span class="o">0.03s</span>
   <h2 data-lang="fr" style="text-align:center">A qui s'adresse <em>Substrat</em></h2>
   <div class="grid" style="margin-top:28px">
     <div class="card">
-      <div class="icon-row"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><path d="M15 11l2 2 4-4"/></svg><h3 data-lang="en" data-mode="tech">Pentesters & forensics analysts</h3>
+      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><path d="M15 11l2 2 4-4"/></svg>
+      <h3 data-lang="en" data-mode="tech">Pentesters & forensics analysts</h3>
       <h3 data-lang="fr" data-mode="tech">Pentesters & analystes forensics</h3>
       <h3 data-lang="en" data-mode="simple">Security testers</h3>
       <h3 data-lang="fr" data-mode="simple">Testeurs de securite</h3>
@@ -418,7 +425,7 @@ Total CPU: <span class="o">0.03s</span>
     <tbody>
       <tr><td data-lang="en">No signatures needed</td><td data-lang="fr">Sans signatures</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td></tr>
       <tr><td data-lang="en">Readable output</td><td data-lang="fr">Sortie lisible</td><td class="y"><span data-lang="en">Formal grammar</span><span data-lang="fr">Grammaire formelle</span></td><td class="n"><span data-lang="en">Binary alert</span><span data-lang="fr">Alerte binaire</span></td><td class="n"><span data-lang="en">Opaque score</span><span data-lang="fr">Score opaque</span></td><td class="n"><span data-lang="en">Partial</span><span data-lang="fr">Partiel</span></td></tr>
-      <tr><td>Wireshark export</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
+      <tr><td data-lang="en">Wireshark export</td><td data-lang="fr">Export Wireshark</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
       <tr><td data-lang="en">Built-in fuzzing</td><td data-lang="fr">Fuzzing integre</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td></tr>
       <tr><td>GPU</td><td class="y"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="y"><span data-lang="en">No</span><span data-lang="fr">Non</span></td><td class="n"><span data-lang="en">Required</span><span data-lang="fr">Requis</span></td><td class="y"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
       <tr><td data-lang="en">Real-time</td><td data-lang="fr">Temps reel</td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="y"><span data-lang="en">Yes</span><span data-lang="fr">Oui</span></td><td class="n"><span data-lang="en">No</span><span data-lang="fr">Non</span></td></tr>
@@ -537,12 +544,12 @@ Total CPU: <span class="o">0.03s</span>
     <div class="card" style="text-align:center">
       <h3>macOS (Apple Silicon)</h3>
       <p style="margin-bottom:16px">M1 / M2 / M3 / M4 — 21 MB</p>
-      <a href="releases/substrat-macos-arm64" class="btn p" style="padding:10px 24px" download>Download</a>
+      <a href="releases/substrat-macos-arm64" class="btn p" style="padding:10px 24px" download><span data-lang="en">Download</span><span data-lang="fr">Telecharger</span></a>
     </div>
     <div class="card" style="text-align:center">
       <h3>Linux (x86_64)</h3>
       <p style="margin-bottom:16px">Ubuntu, Debian, Fedora, Arch — 22 MB</p>
-      <a href="releases/substrat-linux-x86_64" class="btn p" style="padding:10px 24px" download>Download</a>
+      <a href="releases/substrat-linux-x86_64" class="btn p" style="padding:10px 24px" download><span data-lang="en">Download</span><span data-lang="fr">Telecharger</span></a>
     </div>
   </div>
   <div class="terminal" style="margin-top:32px">
