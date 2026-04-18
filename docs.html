@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Substrat — Documentation</title>
+  <meta name="description" content="How to use Substrat: installation, commands, protocol reverse-engineering, anomaly detection, Wireshark export, fuzzing.">
+  <link rel="canonical" href="https://nicolashedoire.github.io/substrat-landing/docs.html">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #0a0a0f; --bg-card: #12121a; --border: #1e1e2e; --text: #e0e0e8; --text-dim: #8888a0; --accent: #00d4aa; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    .container { max-width: 780px; margin: 0 auto; padding: 40px 24px 80px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1 { font-size: 2.4rem; margin-bottom: 8px; }
+    h1 span { color: var(--accent); }
+    .back { display: inline-block; margin-bottom: 32px; color: var(--text-dim); font-size: 0.9rem; }
+    h2 { font-size: 1.5rem; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--accent); }
+    h3 { font-size: 1.15rem; margin: 28px 0 12px; }
+    p { color: var(--text-dim); margin-bottom: 14px; }
+    ul, ol { color: var(--text-dim); margin: 12px 0 20px 24px; }
+    li { margin-bottom: 6px; }
+    strong { color: var(--text); }
+    pre { background: #0d0d14; border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 14px 0 20px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.6; color: var(--text-dim); }
+    code { font-family: 'JetBrains Mono', monospace; font-size: 0.88em; background: var(--bg-card); padding: 2px 6px; border-radius: 4px; }
+    pre code { background: none; padding: 0; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 0.9rem; }
+    th { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-dim); font-weight: 500; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-dim); }
+    .note { background: var(--bg-card); border-left: 3px solid var(--accent); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0 24px; }
+    .note p { margin: 0; }
+    footer { text-align: center; padding: 32px 0; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 60px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <a href="index.html" class="back">&larr; Back to Substrat</a>
+
+    <h1>Substrat <span>Documentation</span></h1>
+    <p style="font-size:1.1rem;">Everything you need to use Substrat.</p>
+
+    <!-- TOC -->
+    <h2>Table of contents</h2>
+    <ol>
+      <li><a href="#install">Installation</a></li>
+      <li><a href="#quickstart">Quick start</a></li>
+      <li><a href="#re">substrat re — Protocol reverse-engineering</a></li>
+      <li><a href="#learn">substrat learn — Grammar discovery</a></li>
+      <li><a href="#anomaly">substrat anomaly — Anomaly detection</a></li>
+      <li><a href="#compress">substrat compress — Compression</a></li>
+      <li><a href="#generate">substrat generate — Data generation</a></li>
+      <li><a href="#wireshark">Wireshark integration</a></li>
+      <li><a href="#fuzz">Using the fuzz corpus</a></li>
+      <li><a href="#protocols">Supported protocols</a></li>
+    </ol>
+
+    <!-- Install -->
+    <h2 id="install">1. Installation</h2>
+    <p>Download the binary for your platform from the <a href="index.html#download">download page</a>.</p>
+    <pre><code># macOS: remove quarantine flag
+xattr -d com.apple.quarantine substrat-macos-arm64
+
+# Make executable
+chmod +x substrat-macos-arm64
+
+# Verify
+./substrat-macos-arm64 info</code></pre>
+    <p>You should see:</p>
+    <pre><code>Substrat Algorithmique v1.1
+CYK backend: Rust (cyk_fast)
+Capabilities: learn, compress, anomaly, generate, re</code></pre>
+
+    <!-- Quick start -->
+    <h2 id="quickstart">2. Quick start</h2>
+    <p>The most common use case: analyze a network capture file.</p>
+    <pre><code># Analyze a pcap — get grammar + anomalies + Wireshark plugin + fuzz corpus
+./substrat-macos-arm64 re capture.pcap --wireshark ./dissectors --fuzz ./fuzz</code></pre>
+    <p>That's it. Substrat reads the pcap, discovers the protocol structure, flags anomalies, generates a Wireshark dissector and 500 test packets.</p>
+
+    <!-- substrat re -->
+    <h2 id="re">3. substrat re — Protocol reverse-engineering</h2>
+    <p>The main command for pentest and forensics.</p>
+    <pre><code># Basic: grammar + anomalies
+./substrat re capture.pcap
+
+# With Wireshark dissector export
+./substrat re capture.pcap --wireshark ./dissectors
+
+# With fuzz corpus generation
+./substrat re capture.pcap --fuzz ./fuzz_output
+
+# Everything together, 1000 fuzz samples
+./substrat re capture.pcap --wireshark ./dissectors --fuzz ./fuzz --fuzz-count 1000
+
+# Limit to 50000 packets (for very large pcaps)
+./substrat re capture.pcap --max-packets 50000</code></pre>
+
+    <h3>What it does, step by step</h3>
+    <ol>
+      <li><strong>Reads the pcap</strong> (pcap or pcapng, TCP/UDP/ICMP, IPv4/IPv6)</li>
+      <li><strong>Groups packets</strong> by flow or by service port (auto-selected)</li>
+      <li><strong>Detects the mode</strong> for each group:
+        <ul>
+          <li><strong>Text</strong> (HTTP, FTP, SMTP...): token discovery + template matching</li>
+          <li><strong>Binary</strong> (DNS, MODBUS, proprietary...): magic bytes, length fields, type fields, variable zones</li>
+          <li><strong>Mixed</strong> (Telnet...): automatic binary/text split within the same flow</li>
+        </ul>
+      </li>
+      <li><strong>Produces the grammar</strong> of the protocol</li>
+      <li><strong>Detects anomalies</strong> (corrupted magic bytes, unknown types, truncated packets)</li>
+      <li><strong>Generates a fuzz corpus</strong> (3 strategies: field_flip, boundary, structural)</li>
+      <li><strong>Exports a Wireshark dissector</strong> (.lua) for each binary flow</li>
+    </ol>
+
+    <h3>Example output (MODBUS/TCP)</h3>
+    <pre><code>Pcap: 85 packets, 1 services (1 analyzable)
+
+--- Flow: TCP|192.168.1.10:502 (85 packets, BINARY mode) ---
+Coverage: 94%
+
+Protocol grammar discovered:
+  MSG -> MAGIC_0 DATA_1 FIXED_2 TYPE_3 DATA_4 FIXED_5 DATA_6
+  MAGIC_0 -> 0x00
+  DATA_1 -> &lt;bytes[1]&gt;
+  FIXED_2 -> 0x00000006
+  TYPE_3 -> 0x01 | 0x02 | 0x03
+  DATA_4 -> &lt;bytes[1]&gt;
+  FIXED_5 -> 0x00
+  DATA_6 -> &lt;bytes[3]&gt;
+
+Anomalies found: 5/85 packets
+  #80: FIXED_2 mismatch: expected 0x00000006, got 0x00010006
+  #81: FIXED_5 mismatch: expected 0x00, got 0xde
+
+Wireshark dissector: ./dissectors/TCP_192.168.1.10_502.lua
+Fuzz corpus: 500 samples -> ./fuzz/TCP_192.168.1.10_502/
+
+Total CPU: 0.03s</code></pre>
+
+    <!-- substrat learn -->
+    <h2 id="learn">4. substrat learn — Grammar discovery</h2>
+    <p>Discover the grammar of any structured text file (one sample per line).</p>
+    <pre><code>./substrat learn data.txt</code></pre>
+    <pre><code>Corpus: 100 lines, alphabet=6 chars
+Strategy: wrap
+Grammar (3 productions):
+  S->(S)
+  S->()
+  S->SS
+bpc: 1.6030
+Parse failures: 0/34
+CPU: 0.04s</code></pre>
+
+    <!-- substrat anomaly -->
+    <h2 id="anomaly">5. substrat anomaly — Anomaly detection</h2>
+    <pre><code># Auto split: train on 2/3, test on 1/3
+./substrat anomaly data.txt
+
+# Separate train and test files
+./substrat anomaly test.txt --train train.txt</code></pre>
+    <p>Two types of anomalies:</p>
+    <ul>
+      <li><strong>Structural</strong>: the line doesn't parse at all (broken format)</li>
+      <li><strong>Statistical</strong>: the line parses but has unusual values (NLL z-score &gt; 2.5)</li>
+    </ul>
+
+    <!-- substrat compress -->
+    <h2 id="compress">6. substrat compress — Compression</h2>
+    <pre><code>./substrat compress data.txt</code></pre>
+    <pre><code>Raw: 2720 bits (340 chars x 8)
+Compressed: 545 bits (1.6030 bpc)
+Ratio: 20.0%</code></pre>
+
+    <!-- substrat generate -->
+    <h2 id="generate">7. substrat generate — Data generation</h2>
+    <pre><code>./substrat generate data.txt --n 20</code></pre>
+    <p>Learns the grammar and generates N valid samples with controlled depth.</p>
+
+    <!-- Wireshark -->
+    <h2 id="wireshark">8. Wireshark integration</h2>
+    <h3>Install the dissector</h3>
+    <pre><code># macOS
+cp ./dissectors/*.lua ~/.config/wireshark/plugins/
+
+# Linux
+cp ./dissectors/*.lua ~/.local/lib/wireshark/plugins/
+
+# Windows
+copy dissectors\*.lua %APPDATA%\Wireshark\plugins\</code></pre>
+    <p>Then reload in Wireshark: <code>Ctrl+Shift+L</code> or restart.</p>
+
+    <h3>What the dissector does</h3>
+    <ul>
+      <li>Names each field in the <strong>Packet Detail pane</strong> (MAGIC, TYPE, DATA, FIXED...)</li>
+      <li>Displays values in hex/decimal</li>
+      <li>Marks <strong>anomalies</strong> in Expert Info (yellow triangle): corrupted magic bytes, modified fixed fields, unknown type values</li>
+      <li>Auto-registers on the discovered port (502 for MODBUS, 53 for DNS...)</li>
+    </ul>
+
+    <!-- Fuzz -->
+    <h2 id="fuzz">9. Using the fuzz corpus</h2>
+    <p>The <code>.bin</code> files in the fuzz directory are raw binary packets, ready to send:</p>
+    <pre><code># With ncat
+for f in ./fuzz/TCP_192.168.1.10_502/*.bin; do
+  ncat 192.168.1.10 502 &lt; "$f"
+done</code></pre>
+    <p>Three mutation strategies:</p>
+    <ul>
+      <li><strong>field_flip</strong>: replaces a field with an out-of-spec value</li>
+      <li><strong>boundary</strong>: extreme values on length fields (0, 127, 128, 255)</li>
+      <li><strong>structural</strong>: truncation, duplication, extension of fields</li>
+    </ul>
+
+    <!-- Protocols -->
+    <h2 id="protocols">10. Supported protocols</h2>
+    <table>
+      <thead><tr><th>Protocol</th><th>Type</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>DNS</td><td>Binary (real)</td><td>Transaction ID, Flags, Questions, Authority detected</td></tr>
+        <tr><td>MODBUS/TCP</td><td>Binary (SCADA)</td><td>Proto ID, Unit ID, Length. 5/5 anomalies detected</td></tr>
+        <tr><td>Telnet</td><td>Mixed (real)</td><td>Auto-split IAC binary + text commands</td></tr>
+        <tr><td>FTP</td><td>Text (real)</td><td>Token \r\n, FTP commands, 0 parse failures</td></tr>
+        <tr><td>HTTP</td><td>Text</td><td>Tokens HTTP, GET. Requests/responses separated</td></tr>
+        <tr><td>DHCP</td><td>Binary (real)</td><td>4 packets (too few to analyze)</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <p>Substrat works on <strong>any protocol</strong> — not just the ones listed above. If your protocol has a repeating structure, Substrat will find it. If you find a protocol that doesn't work well, <a href="mailto:nicolashedoire@hotmail.com?subject=Substrat%20bug%20report">send us the pcap</a>.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Substrat — built by Nicolas Hedoire &middot; <a href="index.html">Home</a> &middot; <a href="mailto:nicolashedoire@hotmail.com">Contact</a></p>
+  </footer>
+</body>
+</html>
