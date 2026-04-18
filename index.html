@@ -376,15 +376,13 @@
       <h1>Your traffic has a grammar.<br><span>Substrat finds it.</span></h1>
       <p class="tagline">Protocol reverse-engineering, anomaly detection, Wireshark export and fuzzing. In seconds. No AI, no GPU.</p>
 
-      <div class="hero-install" onclick="navigator.clipboard.writeText('pip install substrat')">
-        <span class="dollar">$ </span>pip install substrat
-      </div>
+      <a href="#download" class="cta-btn primary" style="display:inline-block;width:auto;padding:14px 36px;font-size:1.1rem;border-radius:8px;text-decoration:none;">Download for free</a>
 
       <div class="hero-badges">
+        <span>macOS / Linux / Windows</span>
         <span>Zero GPU</span>
         <span>Rust backend</span>
-        <span>96 tests</span>
-        <span>BSL 1.1</span>
+        <span>21 MB standalone</span>
       </div>
     </section>
 
@@ -557,7 +555,7 @@ Total CPU: <span class="ok">0.03s</span>
     <!-- Pricing -->
     <section>
       <h2><span>Pricing</span></h2>
-      <p class="subtitle">Start free. Upgrade when you need the full toolkit.</p>
+      <p class="subtitle">Download the free version. Upgrade when you need the full pentest toolkit.</p>
       <div class="pricing">
         <div class="plan">
           <h3>Free</h3>
@@ -565,12 +563,12 @@ Total CPU: <span class="ok">0.03s</span>
           <ul>
             <li>substrat learn (3/day)</li>
             <li>substrat anomaly (3/day)</li>
-            <li>substrat re — grammar only (3/day)</li>
-            <li class="no">Wireshark export</li>
-            <li class="no">Fuzz generation</li>
+            <li>substrat re — grammar + anomalies (3/day)</li>
+            <li class="no">Wireshark .lua export</li>
+            <li class="no">Fuzz corpus generation</li>
             <li class="no">Priority support</li>
           </ul>
-          <a href="#install" class="cta-btn secondary">Install free</a>
+          <a href="#download" class="cta-btn secondary">Download free</a>
         </div>
         <div class="plan pro">
           <h3>Pro</h3>
@@ -587,27 +585,42 @@ Total CPU: <span class="ok">0.03s</span>
       </div>
     </section>
 
-    <!-- Install -->
-    <section id="install">
+    <!-- Download -->
+    <section id="download">
       <h2>Get <span>started</span></h2>
-      <div class="terminal">
+      <p class="subtitle">Download the binary. No Python, no dependencies, no install. Just run it.</p>
+
+      <div class="features">
+        <div class="feature" style="text-align:center;">
+          <h3>macOS (Apple Silicon)</h3>
+          <p style="margin-bottom:16px;">M1 / M2 / M3 / M4 — 21 MB</p>
+          <a href="https://github.com/nicolashedoire/substrat/releases/latest/download/substrat-macos-arm64" class="cta-btn primary" style="display:inline-block;width:auto;padding:10px 24px;">Download .bin</a>
+        </div>
+        <div class="feature" style="text-align:center;">
+          <h3>Linux (x86_64)</h3>
+          <p style="margin-bottom:16px;">Ubuntu, Debian, Fedora, Arch — 21 MB</p>
+          <a href="https://github.com/nicolashedoire/substrat/releases/latest/download/substrat-linux-x86_64" class="cta-btn primary" style="display:inline-block;width:auto;padding:10px 24px;">Download .bin</a>
+        </div>
+      </div>
+
+      <div class="terminal" style="margin-top:32px;">
         <div class="terminal-bar">
           <div class="terminal-dot r"></div>
           <div class="terminal-dot y"></div>
           <div class="terminal-dot g"></div>
         </div>
         <pre>
-<span class="dim"># Install</span>
-<span class="cmd">$ pip install substrat</span>
+<span class="dim"># Make it executable</span>
+<span class="cmd">$ chmod +x substrat</span>
 
 <span class="dim"># Reverse-engineer a protocol from a pcap</span>
-<span class="cmd">$ substrat re your_capture.pcap --wireshark ./dissectors --fuzz ./fuzz</span>
+<span class="cmd">$ ./substrat re your_capture.pcap --wireshark ./dissectors</span>
 
 <span class="dim"># Learn the grammar of structured data</span>
-<span class="cmd">$ substrat learn your_logs.txt</span>
+<span class="cmd">$ ./substrat learn your_logs.txt</span>
 
 <span class="dim"># Detect anomalies without signatures</span>
-<span class="cmd">$ substrat anomaly your_logs.txt</span>
+<span class="cmd">$ ./substrat anomaly your_logs.txt</span>
         </pre>
       </div>
     </section>
@@ -618,11 +631,10 @@ Total CPU: <span class="ok">0.03s</span>
     <div class="container">
       <p>Substrat &mdash; built by Nicolas Hedoire</p>
       <p style="margin-top: 8px;">
-        <a href="https://github.com/nicolashedoire/substrat">GitHub</a> &middot;
-        <a href="https://github.com/nicolashedoire/substrat/blob/main/docs/USAGE.md">Documentation</a> &middot;
-        <a href="mailto:nicolas.hedoire@gmail.com">Contact</a>
+        <a href="mailto:nicolas.hedoire@gmail.com">Contact</a> &middot;
+        <a href="mailto:nicolas.hedoire@gmail.com?subject=Substrat Pro license">Get Pro license</a>
       </p>
-      <p style="margin-top: 16px; font-size: 0.75rem;">BSL 1.1 &mdash; Free for non-commercial use. Apache 2.0 in 2029.</p>
+      <p style="margin-top: 16px; font-size: 0.75rem;">Proprietary software. Free for non-commercial use.</p>
     </div>
   </footer>
 
