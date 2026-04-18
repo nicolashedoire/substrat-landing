@@ -55,11 +55,11 @@
   </div>
 
   <div class="badges" data-mode="tech">
-    <span>macOS / Linux</span><span>Zero GPU</span><span>Rust backend</span><span>21 MB</span>
+    <span>macOS / Linux / Windows</span><span>Zero GPU</span><span>Rust backend</span>
   </div>
   <div class="badges" data-mode="simple">
     <span data-lang="en">No expensive hardware</span><span data-lang="fr">Pas de materiel couteux</span>
-    <span data-lang="en">Works on Mac & Linux</span><span data-lang="fr">Mac & Linux</span>
+    <span data-lang="en">Works on Mac, Linux & Windows</span><span data-lang="fr">Mac, Linux & Windows</span>
     <span data-lang="en">Fast & lightweight</span><span data-lang="fr">Rapide & leger</span>
   </div>
 </section>
@@ -422,7 +422,7 @@ Total CPU: <span class="o">0.03s</span>
   <h2 data-lang="fr"><em>Commencer</em></h2>
   <p class="sub" data-lang="en">Download the binary. No Python, no dependencies, no install. Just run it.</p>
   <p class="sub" data-lang="fr">Telechargez le binaire. Pas de Python, pas de dependances, pas d'installation. Lancez-le.</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+  <div class="grid" style="grid-template-columns:1fr 1fr 1fr">
     <div class="card" style="text-align:center">
       <h3>macOS (Apple Silicon)</h3>
       <p style="margin-bottom:16px">M1 / M2 / M3 / M4</p>
@@ -444,15 +444,19 @@ Total CPU: <span class="o">0.03s</span>
     <pre>
 <span class="d"># macOS: remove quarantine flag</span>
 <span class="c">$ xattr -d com.apple.quarantine substrat-macos-arm64</span>
-
-<span class="d"># Make it executable</span>
 <span class="c">$ chmod +x substrat-macos-arm64</span>
 
+<span class="d"># Linux: make executable</span>
+<span class="c">$ chmod +x substrat-linux-x86_64</span>
+
+<span class="d"># Windows: just double-click or run from cmd</span>
+<span class="c">&gt; substrat-windows-x86_64.exe info</span>
+
 <span class="d"># Reverse-engineer a protocol</span>
-<span class="c">$ ./substrat-macos-arm64 re capture.pcap --wireshark ./dissectors</span>
+<span class="c">$ ./substrat re capture.pcap --wireshark ./dissectors</span>
 
 <span class="d"># Detect anomalies</span>
-<span class="c">$ ./substrat-macos-arm64 anomaly logs.txt</span>
+<span class="c">$ ./substrat anomaly logs.txt</span>
     </pre>
   </div>
 </section>
