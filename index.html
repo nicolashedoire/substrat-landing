@@ -562,10 +562,15 @@ Total CPU: <span class="term-o">0.034s</span>
 
     <div class="terminal max-w-[820px] mx-auto">
       <pre class="m-0 leading-[1.55]">
-<span class="term-d"># One-time registration (Claude Code)</span>
-<span class="term-c">$ claude mcp add --scope user substrat \
-    /path/to/substrat/.venv/bin/python3 \
-    /path/to/substrat/code/substrate/mcp_server.py</span>
+<span class="term-d"># 1. Download the binary (see Download section below)</span>
+<span class="term-d"># 2. Register it as an MCP server — one command, no Python, no clone:</span>
+<span class="term-c">$ claude mcp add --scope user substrat /path/to/substrat-macos-arm64 mcp</span>
+
+<span class="term-d"># Same idea for Linux / Windows binaries:</span>
+<span class="term-c">$ claude mcp add --scope user substrat /path/to/substrat-linux-x86_64 mcp</span>
+<span class="term-c">$ claude mcp add --scope user substrat C:\path\to\substrat-windows-x86_64.exe mcp</span>
+
+<span class="term-d"># Cursor / other clients : same command, point them at the binary with arg "mcp".</span>
 
 <span class="term-d"># Then, from any conversation, the agent can call:</span>
 <span class="term-c">&gt; analyse anomalies in /var/log/app.log</span>
