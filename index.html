@@ -536,6 +536,49 @@ Total CPU: <span class="term-o">0.034s</span>
     </div>
   </section>
 
+  <section id="mcp" class="py-12">
+    <h2 class="text-[1.7rem] font-bold mb-3 text-center" data-lang="en">Substrat as an <em>MCP server</em></h2>
+    <h2 class="text-[1.7rem] font-bold mb-3 text-center" data-lang="fr">Substrat en <em>serveur MCP</em></h2>
+    <p class="text-text-dim text-center mb-8 max-w-[680px] mx-auto" data-lang="en">Plug Substrat into Claude Code, Cursor, or any MCP-compatible LLM client — the agent calls grammar induction, compression, and anomaly detection as native tools, not as shell wrappers.</p>
+    <p class="text-text-dim text-center mb-8 max-w-[680px] mx-auto" data-lang="fr">Branchez Substrat sur Claude Code, Cursor ou n'importe quel client LLM compatible MCP — l'agent appelle l'induction de grammaire, la compression et la détection d'anomalies comme des outils natifs, pas comme du wrapping shell.</p>
+
+    <div class="grid grid-cols-2 max-[640px]:grid-cols-1 gap-5 mb-8">
+      <div class="card">
+        <h3 class="text-[1.1rem] font-semibold mb-2"><i data-lucide="plug" class="ico"></i><span data-lang="en">5 tools exposed</span><span data-lang="fr">5 outils exposés</span></h3>
+        <ul class="text-text-dim text-[0.92rem] space-y-1 list-none pl-0">
+          <li><code class="text-accent">substrat_learn</code> <span data-lang="en">— induce a grammar + bpc</span><span data-lang="fr">— induit une grammaire + bpc</span></li>
+          <li><code class="text-accent">substrat_compress</code> <span data-lang="en">— compression ratio via learned grammar</span><span data-lang="fr">— ratio de compression via grammaire apprise</span></li>
+          <li><code class="text-accent">substrat_anomaly</code> <span data-lang="en">— structural + statistical anomalies</span><span data-lang="fr">— anomalies structurelles + statistiques</span></li>
+          <li><code class="text-accent">substrat_generate</code> <span data-lang="en">— sample valid strings from the grammar</span><span data-lang="fr">— échantillons valides de la grammaire</span></li>
+          <li><code class="text-accent">substrat_re</code> <span data-lang="en">— reverse-engineer pcap text flows</span><span data-lang="fr">— reverse engineering de flux pcap texte</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="text-[1.1rem] font-semibold mb-2"><i data-lucide="shield-check" class="ico"></i><span data-lang="en">Deterministic by design</span><span data-lang="fr">Déterministe par construction</span></h3>
+        <p class="text-text-dim text-[0.92rem]" data-lang="en">The MCP server exposes the same deterministic engine as the CLI — no neural net, no GPU, same output every run. The LLM orchestrates; Substrat stays auditable. Every returned grammar is human-readable, every flagged anomaly has an explicit reason (<code>nll</code>, <code>len</code>, <code>div</code>, <code>structural</code>).</p>
+        <p class="text-text-dim text-[0.92rem]" data-lang="fr">Le serveur MCP expose le même moteur déterministe que le CLI — pas de réseau neuronal, pas de GPU, même sortie à chaque run. Le LLM orchestre, Substrat reste auditable. Chaque grammaire est lisible, chaque anomalie porte une raison explicite (<code>nll</code>, <code>len</code>, <code>div</code>, <code>structural</code>).</p>
+      </div>
+    </div>
+
+    <div class="terminal max-w-[820px] mx-auto">
+      <pre class="m-0 leading-[1.55]">
+<span class="term-d"># One-time registration (Claude Code)</span>
+<span class="term-c">$ claude mcp add --scope user substrat \
+    /path/to/substrat/.venv/bin/python3 \
+    /path/to/substrat/code/substrate/mcp_server.py</span>
+
+<span class="term-d"># Then, from any conversation, the agent can call:</span>
+<span class="term-c">&gt; analyse anomalies in /var/log/app.log</span>
+<span class="term-d">  → substrat_anomaly(file=..., top_k=20)</span>
+<span class="term-d">  → returns: { grammar, baseline, top-K anomalies by severity, reason_counts }</span>
+
+<span class="term-c">&gt; compress this MQTT corpus</span>
+<span class="term-d">  → substrat_learn(file=mqtt.txt)</span>
+<span class="term-d">  → strategy: template, 5 slots, bpc=0.498, ratio=6.2% (16× smaller)</span>
+      </pre>
+    </div>
+  </section>
+
   <section class="py-12">
     <h2 class="text-[1.7rem] font-bold mb-8 text-center" data-lang="en">Frequently asked <em>questions</em></h2>
     <h2 class="text-[1.7rem] font-bold mb-8 text-center" data-lang="fr">Questions <em>fréquentes</em></h2>
@@ -639,6 +682,7 @@ Total CPU: <span class="term-o">0.034s</span>
     <p class="mt-2">
       <a href="docs.html" class="text-accent no-underline hover:underline">Documentation</a> &middot;
       <a href="benchmarks.html" class="text-accent no-underline hover:underline">Benchmarks</a> &middot;
+      <a href="#mcp" class="text-accent no-underline hover:underline">MCP</a> &middot;
       <a href="https://github.com/nicolashedoire" class="text-accent no-underline hover:underline">GitHub</a> &middot;
       <a href="https://www.linkedin.com/in/nicolas-hedoire-1734775b/" class="text-accent no-underline hover:underline">LinkedIn</a> &middot;
       <a href="https://x.com/hedoire10384" class="text-accent no-underline hover:underline">X</a> &middot;
